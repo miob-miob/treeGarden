@@ -1,16 +1,31 @@
 /* eslint-disable no-underscore-dangle,no-param-reassign */
 
-export const getEntropyOfDataSet = (dataSetObj) => {
-  const classes = Array.from(new Set(dataSetObj.map((item) => item._class)));
+/**
+ * calculates entropy
+ * @param frequenciesOfClasses number[]
+ * @returns {number}
+ */
+export const getEntropy = (frequenciesOfClasses) => {
+  const numberOfAllSamples = frequenciesOfClasses.reduce((sum, currentClassCount) => sum + currentClassCount, 0);
+  return frequenciesOfClasses.reduce(
+    (entropy, currentClassCount) => {
+      const probability = currentClassCount / numberOfAllSamples;
+      if (probability > 0) {
+        return entropy - (probability) * Math.log2(probability);
+      }
+      return entropy;
+    },
+    0
+  );
+};
 
-  const classesFrequencies = dataSetObj.reduce((result, currentItem) => {
-    const itemClass = currentItem._class;
-    result[itemClass] = result[itemClass] ? result[itemClass] += 1 : result[itemClass] = 1;
-    return result;
-  }, {});
 
-  return classes.reduce((result, currentClass) => {
-    const classProbability = classesFrequencies[currentClass] / dataSetObj.length;
-    return result - classProbability * (Math.log2(classProbability));
-  }, 0);
+export const getEntropyOfDataSet = (dataSet, knownClasses) => {
+  // zero counts as initial state
+  let counts = Object.fromEntries(knownClasses.map((classId) => ([classId, 0])));
+  counts = dataSet.reduce((overallCounts, currentSample) => {
+    overallCounts[currentSample._class] += 1;
+    return overallCounts;
+  }, counts);
+  return getEntropy(Object.values(counts));
 };

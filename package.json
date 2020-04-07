@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "transpile": "npx babel src -d dist -w",
-    "start": "node ./dist/index.js"
+
+    "start": "node -r esm ./src/index.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "@babel/preset-env": "^7.6.3",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "esm": "^3.2.25"
   }
 }
