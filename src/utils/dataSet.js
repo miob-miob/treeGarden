@@ -1,5 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
+// todo implement metadata around set
+// todo for data types in columns description
 
 export const getClassesOfDataSet = (dataSet, alreadyKnownClasses = null) => {
   const classesSet = dataSet
