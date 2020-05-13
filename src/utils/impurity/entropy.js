@@ -41,6 +41,7 @@ export const getInformationGain = (frequenciesOfClasses, frequenciesOfClassesChi
 
 // todo jsdoc
 export const getEntropyOfDataSet = (dataSet, knownClasses) => {
+  // todo extract counts to separate function
   // zero counts as initial state
   let counts = Object.fromEntries(knownClasses.map((classId) => ([classId, 0])));
   counts = dataSet.reduce((overallCounts, currentSample) => {
