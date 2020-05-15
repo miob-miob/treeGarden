@@ -1,5 +1,8 @@
 /* eslint-disable no-underscore-dangle,no-param-reassign */
 
+import { getFrequenciesOfClasses } from '../dataSet/set';
+import { splitDataSet } from '../dataSet/split';
+
 /**
  * calculates entropy
  * @param {Array<number>} frequenciesOfClasses number[]
@@ -19,6 +22,11 @@ export const getEntropy = (frequenciesOfClasses) => {
   );
 };
 
+// todo jsdoc
+export const getEntropyOfDataSet = (dataSet, knownClasses) => {
+  const frequencies = getFrequenciesOfClasses(dataSet, knownClasses);
+  return getEntropy(Object.values(frequencies));
+};
 
 // todo write tests
 /**
@@ -39,14 +47,10 @@ export const getInformationGain = (frequenciesOfClasses, frequenciesOfClassesChi
   return parentEntropy - childEntropy;
 };
 
-// todo jsdoc
-export const getEntropyOfDataSet = (dataSet, knownClasses) => {
-  // todo extract counts to separate function
-  // zero counts as initial state
-  let counts = Object.fromEntries(knownClasses.map((classId) => ([classId, 0])));
-  counts = dataSet.reduce((overallCounts, currentSample) => {
-    overallCounts[currentSample._class] += 1;
-    return overallCounts;
-  }, counts);
-  return getEntropy(Object.values(counts));
+export const getInformationGainForSplitCriteria = (dataSet, splitCriteriaFn, knownClasses) => {
+  const parentFrequencies = Object.values(getFrequenciesOfClasses(dataSet, knownClasses));
+  const childDataSets = splitDataSet(dataSet, splitCriteriaFn);
+  const childFrequencies = Object.values(childDataSets)
+    .map((childSet) => Object.values(getFrequenciesOfClasses(childSet, knownClasses)));
+  return getInformationGain(parentFrequencies, childFrequencies);
 };

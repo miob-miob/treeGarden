@@ -19,14 +19,13 @@ const supportedOperators = new Set(['customFn', ...supportedMathOperators]);
  * @param value {Array<string|number>|string|function|number} depends on operator
  * @return {function(object): string|boolean}
  */
-export const getSplitTagFnByRule = (attributeId, operator, value) => {
+export const getSplitCriteriaFn = (attributeId, operator, value = undefined) => {
   if (operator === '==') {
     return (currentSample) => {
       // value is present ==> boolean - binary split
       if (value) {
         return Array.isArray(value) ? value.includes(currentSample[attributeId]) : currentSample[attributeId] === value;
       }
-
       // no value => value of given sample
       existingValueGuard(currentSample, attributeId);
       return currentSample[attributeId];
@@ -69,4 +68,24 @@ export const getSplitTagFnByRule = (attributeId, operator, value) => {
 };
 
 // todo implement we have needed helpers
-const splitDataSet = '';
+/**
+ * function that splits data set according given criteria;
+ * @param {Array<object>} dataSet
+ * @param {function(object):string|boolean} splitCriteriaFn function that produces tag of given sample
+ * @return {*}
+ */
+export const splitDataSet = (dataSet, splitCriteriaFn) => {
+  const tagsAndSamples = dataSet.reduce(
+    (result, currentSample) => {
+      const tagOfSample = splitCriteriaFn(currentSample).toString();
+      if (!result[tagOfSample]) {
+        // eslint-disable-next-line no-param-reassign
+        result[tagOfSample] = [];
+      }
+      result[tagOfSample].push(currentSample);
+      return result;
+    },
+    {}
+  );
+  return tagsAndSamples;
+};

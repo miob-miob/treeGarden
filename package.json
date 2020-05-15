@@ -4,9 +4,8 @@
   "description": "experiments wth decision trees",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node ./node_modules/jest/bin/jest.js --config=jest.config.js",
     "transpile": "npx babel src -d dist -w",
-
     "start": "node -r esm ./src/index.js"
   },
   "repository": {
@@ -28,9 +27,12 @@
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
+    "@types/jest": "^25.2.2",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
-    "esm": "^3.2.25"
-  }
+    "esm": "^3.2.25",
+    "jest": "^26.0.1"
+  },
+  "dependencies": {}
 }
