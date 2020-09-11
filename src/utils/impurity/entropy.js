@@ -28,7 +28,6 @@ export const getEntropyOfDataSet = (dataSet, knownClasses) => {
   return getEntropy(Object.values(frequencies));
 };
 
-// todo write tests
 /**
  *
  * @param {Array<number>} frequenciesOfClasses frequency of occurrence in given classes
