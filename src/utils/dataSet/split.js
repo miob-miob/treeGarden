@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { existingValueGuard } from './sample';
+import { getFrequenciesOfClasses } from './set';
 
 const supportedMathOperators = new Set([
   '==',
@@ -88,4 +89,20 @@ export const splitDataSet = (dataSet, splitCriteriaFn) => {
     {}
   );
   return tagsAndSamples;
+};
+
+/**
+ *
+ * @param {Array<Object>} dataSet
+ * @param {function(Object):string|Boolean} splitCreiteriaFn
+ * @param {Array<string>} knownClasses
+ * @param {function(Array<number>,Array<Array<number>>):number} scoringFunction
+ * @return {number}
+ */
+export const getScoreForGivenSplitCriteria = (dataSet, splitCreiteriaFn, knownClasses, scoringFunction) => {
+  const parentFrequencies = Object.values(getFrequenciesOfClasses(dataSet, knownClasses));
+  const childDataSets = splitDataSet(dataSet, splitCreiteriaFn);
+  const childFrequencies = Object.values(childDataSets)
+    .map((childSet) => Object.values(getFrequenciesOfClasses(childSet, knownClasses)));
+  return scoringFunction(parentFrequencies, childFrequencies);
 };

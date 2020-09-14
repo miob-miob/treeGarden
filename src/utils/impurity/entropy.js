@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle,no-param-reassign */
-
+import { getScoreForGivenSplitCriteria } from '../dataSet/split';
 import { getFrequenciesOfClasses } from '../dataSet/set';
-import { splitDataSet } from '../dataSet/split';
+
 
 /**
  * calculates entropy
@@ -22,8 +22,13 @@ export const getEntropy = (frequenciesOfClasses) => {
   );
 };
 
-// todo jsdoc
-export const getEntropyOfDataSet = (dataSet, knownClasses) => {
+/**
+ *
+ * @param {Array<Object>} dataSet whole data set
+ * @param {Array<string>} knownClasses
+ * @return {number}
+ */
+export const getEntropyForDataSet = (dataSet, knownClasses) => {
   const frequencies = getFrequenciesOfClasses(dataSet, knownClasses);
   return getEntropy(Object.values(frequencies));
 };
@@ -46,10 +51,15 @@ export const getInformationGain = (frequenciesOfClasses, frequenciesOfClassesChi
   return parentEntropy - childEntropy;
 };
 
-export const getInformationGainForSplitCriteria = (dataSet, splitCriteriaFn, knownClasses) => {
-  const parentFrequencies = Object.values(getFrequenciesOfClasses(dataSet, knownClasses));
-  const childDataSets = splitDataSet(dataSet, splitCriteriaFn);
-  const childFrequencies = Object.values(childDataSets)
-    .map((childSet) => Object.values(getFrequenciesOfClasses(childSet, knownClasses)));
-  return getInformationGain(parentFrequencies, childFrequencies);
-};
+/**
+ *
+ * @param {Array<Object>} dataSet
+ * @param {function(object):string|boolean} splitCriteriaFn function that produces tag of given sample
+ * @param {Array<string>} knownClasses
+ * @return {number}
+ */
+export const getInformationGainForSplitCriteria = (
+  dataSet,
+  splitCriteriaFn,
+  knownClasses
+) => getScoreForGivenSplitCriteria(dataSet, splitCriteriaFn, knownClasses, getInformationGain);
