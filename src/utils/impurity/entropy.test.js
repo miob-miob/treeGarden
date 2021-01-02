@@ -1,6 +1,6 @@
 import { simple } from '../../sampleDataSets';
 import {
-  getInformationGainForSplitCriteria, getEntropyForDataSet, getInformationGain, getEntropy
+  getInformationGainForSplitCriteria, getEntropyForDataSet, getInformationGainForSplit, getEntropy
 } from './entropy';
 import { getClassesOfDataSet } from '../dataSet/set';
 import { getSplitCriteriaFn } from '../dataSet/split';
@@ -21,7 +21,7 @@ test('getInformationGain', () => {
   const rootEntropy = getEntropy(rootFrequencies);
   const branchAEntropy = getEntropy(branchA);
   const branchBEntropy = getEntropy(branchB);
-  expect(getInformationGain(rootFrequencies, [branchA, branchB]))
+  expect(getInformationGainForSplit(rootFrequencies, [branchA, branchB]))
     .toBeCloseTo(rootEntropy - ((5 / 20) * branchAEntropy + (15 / 20) * branchBEntropy));
 });
 

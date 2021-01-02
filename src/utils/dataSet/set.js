@@ -1,7 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 
-// todo implement metadata around set
-// todo for data types in columns description
 
 export const getClassesOfDataSet = (dataSet, alreadyKnownClasses = null) => {
   const classesSet = dataSet
@@ -17,17 +15,27 @@ export const getClassesOfDataSet = (dataSet, alreadyKnownClasses = null) => {
   return Array.from(classesSet);
 };
 
-/**
- *
- * @param {Array<object>} dataSet
- * @param {Array<string>} knownClasses all known classes in data set
- * @return {Object} @example {playTennis:7:dontPlayTennis:3} frequencies of classes in dataset
- */
-export const getFrequenciesOfClasses = (dataSet, knownClasses) => {
-  const counts = Object.fromEntries(knownClasses.map((classId) => ([classId, 0])));
-  return dataSet.reduce((overallCounts, currentSample) => {
-    // eslint-disable-next-line no-param-reassign
-    overallCounts[currentSample._class] += 1;
-    return overallCounts;
-  }, counts);
+
+export const getAllAttributeIds = (dataSet) => {
+  const resultSet = new Set();
+  dataSet.forEach((sample) => {
+    Object.keys(sample)
+      .filter((key) => key[0] !== '_') // filter out _label and _class
+      .forEach((key) => {
+        if (!resultSet.has(key)) {
+          resultSet.add(key);
+        }
+      });
+  });
+
+  return [...resultSet];
 };
+
+// decide if values under given attributeId of dataset are continuous or discrete
+export const getTypeOfAttribute = (dataSet, attributeId, missingValue = undefined) => {
+  const allValuesAreNumbers = dataSet.map((sample) => sample[attributeId])
+    .filter((value) => value !== missingValue) // filter out missing values
+    .every((value) => typeof value === 'number');
+  return allValuesAreNumbers ? 'continuous' : 'discrete';
+};
+

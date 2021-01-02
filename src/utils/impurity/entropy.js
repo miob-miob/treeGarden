@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle,no-param-reassign */
 import { getScoreForGivenSplitCriteria } from '../dataSet/split';
-import { getFrequenciesOfClasses } from '../dataSet/set';
+import { getFrequenciesOfClasses } from '../statistic/frequencies';
 
 
 /**
@@ -40,7 +40,7 @@ export const getEntropyForDataSet = (dataSet, knownClasses) => {
  * that means array of arrays of frequencies for binary split you will have two arrays one for left node second for right node
  * @returns {number}
  */
-export const getInformationGain = (frequenciesOfClasses, frequenciesOfClassesChildren) => {
+export const getInformationGainForSplit = (frequenciesOfClasses, frequenciesOfClassesChildren) => {
   const nItems = frequenciesOfClasses.reduce((sum, current) => sum + current, 0);
   const parentEntropy = getEntropy(frequenciesOfClasses);
   const childEntropy = frequenciesOfClassesChildren.reduce((entropy, currentFrequencies) => {
@@ -62,4 +62,4 @@ export const getInformationGainForSplitCriteria = (
   dataSet,
   splitCriteriaFn,
   knownClasses
-) => getScoreForGivenSplitCriteria(dataSet, splitCriteriaFn, knownClasses, getInformationGain);
+) => getScoreForGivenSplitCriteria(dataSet, splitCriteriaFn, knownClasses, getInformationGainForSplit);

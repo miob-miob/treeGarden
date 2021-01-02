@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { existingValueGuard } from './sample';
-import { getFrequenciesOfClasses } from './set';
+import { getFrequenciesOfClasses } from '../statistic/frequencies';
 
 const supportedMathOperators = new Set([
   '==',

@@ -1,4 +1,3 @@
-import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
 
 export const attributeMetaDefault = {
   // 'automatic'|'continuous'|'discrete'
@@ -9,5 +8,8 @@ export const attributeMetaDefault = {
   mapper: undefined,
 
   // replace missing values - by default most common value for given attribute is used.
-  missingValueReplacement: getMostCommonValueFF
+  missingValueReplacement: undefined,
+
+  // which value is considered as missing (by default sample[attributeId] === undefined)
+  missingValue: undefined
 };

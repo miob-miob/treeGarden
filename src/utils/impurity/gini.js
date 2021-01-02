@@ -1,4 +1,4 @@
-import { getFrequenciesOfClasses } from '../dataSet/set';
+import { getFrequenciesOfClasses } from '../statistic/frequencies';
 import { getScoreForGivenSplitCriteria } from '../dataSet/split';
 
 
