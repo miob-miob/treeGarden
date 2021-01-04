@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle,no-param-reassign */
-import { getScoreForGivenSplitCriteria } from '../dataSet/split';
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
 
 
@@ -51,15 +49,23 @@ export const getInformationGainForSplit = (frequenciesOfClasses, frequenciesOfCl
   return parentEntropy - childEntropy;
 };
 
+
 /**
+ * gain ratio is similar like information gain, but  penalizes  splits that have many distinct values (like dates, IDs or names)
  *
- * @param {Array<Object>} dataSet
- * @param {function(object):string|boolean} splitCriteriaFn function that produces tag of given sample
- * @param {Array<string>} knownClasses
- * @return {number}
+ * @param {Array<number>} frequenciesOfClasses frequency of occurrence in given classes
+ * @param {Array<Array<number>>} frequenciesOfClassesChildren same as frequenciesOfClasses but after split
+ * that means array of arrays of frequencies for binary split you will have two arrays one for left node second for right node
+ * @returns {number}
  */
-export const getInformationGainForSplitCriteria = (
-  dataSet,
-  splitCriteriaFn,
-  knownClasses
-) => getScoreForGivenSplitCriteria(dataSet, splitCriteriaFn, knownClasses, getInformationGainForSplit);
+export const getInformationGainRatioForSplit = (frequenciesOfClasses, frequenciesOfClassesChildren) => {
+  const splitSizes = frequenciesOfClassesChildren.reduce((result, currentSplit) => {
+    result.push(currentSplit.reduce((all, item) => all + item, 0));
+    return result;
+  }, []);
+  // split information is calculates like entropy of split sizes and is used for normalization of informationGain
+  // split information is large when there is big number of small subsets
+  const splitInformation = getEntropy(splitSizes);
+
+  return getInformationGainForSplit(frequenciesOfClasses, frequenciesOfClassesChildren) / splitInformation;
+};

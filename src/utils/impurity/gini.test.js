@@ -1,9 +1,7 @@
-import {
-  getGiniIndex, getGiniIndexForDataSet, getGiniIndexForSplit, getGiniIndexForSplitCriteria
-} from './gini';
+import { getGiniIndex, getGiniIndexForDataSet, getGiniIndexForSplit } from './gini';
 import { simple } from '../../sampleDataSets';
 import { getClassesOfDataSet } from '../dataSet/set';
-import { getSplitCriteriaFn } from '../dataSet/split';
+import { getScoreForGivenSplitCriteria, getSplitCriteriaFn } from '../dataSet/split';
 
 
 const knownClasses = getClassesOfDataSet(simple);
@@ -24,6 +22,12 @@ test('getGiniIndexForSplit', () => {
 });
 
 test('getGiniIndexForSplitCriteria', () => {
-  expect(getGiniIndexForSplitCriteria(simple, getSplitCriteriaFn('color', '=='), knownClasses))
+  const splitFn = getSplitCriteriaFn('color', '==');
+  expect(getScoreForGivenSplitCriteria(
+    simple,
+    splitFn,
+    knownClasses,
+    getGiniIndexForSplit
+  ))
     .toBeCloseTo(0);
 });

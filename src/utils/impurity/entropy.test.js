@@ -1,9 +1,9 @@
 import { simple } from '../../sampleDataSets';
 import {
-  getInformationGainForSplitCriteria, getEntropyForDataSet, getInformationGainForSplit, getEntropy
+  getEntropyForDataSet, getInformationGainForSplit, getEntropy, getInformationGainRatioForSplit
 } from './entropy';
 import { getClassesOfDataSet } from '../dataSet/set';
-import { getSplitCriteriaFn } from '../dataSet/split';
+import { getScoreForGivenSplitCriteria, getSplitCriteriaFn } from '../dataSet/split';
 
 
 const knownClasses = getClassesOfDataSet(simple);
@@ -27,5 +27,17 @@ test('getInformationGain', () => {
 
 test('getInformationGainForSplitCriteria', () => {
   const splitCriteriaFn = getSplitCriteriaFn('color', '==');
-  expect(getInformationGainForSplitCriteria(simple, splitCriteriaFn, knownClasses)).toBeCloseTo(entropyOfSimpleDataSet);
+  expect(getScoreForGivenSplitCriteria(simple, splitCriteriaFn, knownClasses, getInformationGainForSplit)).toBeCloseTo(entropyOfSimpleDataSet);
+});
+
+
+test('getInformationGainRatio', () => {
+  const rootFrequencies = [10, 10];
+  const branchA = [1, 4];
+  const branchB = [7, 8];
+
+  const infoGain = getInformationGainForSplit(rootFrequencies, [branchA, branchB]);
+  const splitInfo = getEntropy([5, 15]);
+  expect(getInformationGainRatioForSplit(rootFrequencies, [branchA, branchB]))
+    .toBeCloseTo(infoGain / splitInfo);
 });

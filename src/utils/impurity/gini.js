@@ -1,5 +1,4 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
-import { getScoreForGivenSplitCriteria } from '../dataSet/split';
 
 
 /**
@@ -43,16 +42,3 @@ export const getGiniIndexForSplit = (frequenciesOfClasses, frequenciesOfClassesC
     return weightedSum + (totalSamplesInPartition / totalSamples) * giniForPartition;
   }, 0);
 };
-
-/**
- *
- * @param {Array<Object>} dataSet
- * @param {function(object):string|boolean} splitCriteriaFn function that produces tag of given sample
- * @param {Array<string>} knownClasses
- * @return {number}
- */
-export const getGiniIndexForSplitCriteria = (
-  dataSet,
-  splitCriteriaFn,
-  knownClasses
-) => getScoreForGivenSplitCriteria(dataSet, splitCriteriaFn, knownClasses, getGiniIndexForSplit);
