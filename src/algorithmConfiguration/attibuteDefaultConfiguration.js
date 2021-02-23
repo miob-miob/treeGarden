@@ -1,5 +1,5 @@
 // configuration for particular attribute
-export const attributeMetaDefault = {
+export const defaultAttributeConfiguration = {
   // 'automatic'|'continuous'|'discrete'
   dataType: 'automatic',
 

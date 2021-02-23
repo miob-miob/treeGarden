@@ -4,13 +4,13 @@ import { getInformationGainForSplit } from '../utils/impurity/entropy';
 // todo generate metadata and thing node data structure
 export const defaultConfiguration = {
   // key is attributeId, value is attributeMeta object
-  attributesMeta: {},
+  attributes: {},
 
   // arrayOfAttributeIds if defined only these attributes re considered for building decision tree
-  includedAttributes: null,
+  includedAttributes: [],
 
   // arrayOfAttributeIds if defined  these attributes are not considered for building decision tree
-  excludedAttributes: null,
+  excludedAttributes: [],
 
   // impurity scoring function see default for more information
   impurityScoringForSplit: getInformationGainForSplit,
