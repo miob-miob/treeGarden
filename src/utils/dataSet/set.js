@@ -39,3 +39,6 @@ export const getTypeOfAttribute = (dataSet, attributeId, missingValue = undefine
   return allValuesAreNumbers ? 'continuous' : 'discrete';
 };
 
+
+export const getAllValuesOfAttribute = (attributeId, dataSet) => dataSet.map((sample) => sample[attributeId]);
+export const getAllUniqueValuesOfAttribute = (attributeId, dataSet) => [...new Set(getAllValuesOfAttribute(attributeId, dataSet))];

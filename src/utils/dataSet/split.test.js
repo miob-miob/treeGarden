@@ -1,4 +1,4 @@
-import { getCombinationsWithoutRepeats, getAllPossibleSplitCriteriaForCategoricalValues, getAllPossibleSplitCriteriaForNumericalValues } from './split';
+import { getCombinationsWithoutRepeats, getAllPossibleSplitCriteriaForCategoricalValues, getAllPossibleSplitCriteriaForContinuousValues } from './split';
 
 
 test('getCombinationsWithoutRepeats', () => {
@@ -39,7 +39,7 @@ test('getAllPossibleSplitCriteriaForNumericalValues', () => {
     [attrId, '>', 8],
     [attrId, '>', 11.25]
   ];
-  const result = getAllPossibleSplitCriteriaForNumericalValues(attrId, values);
+  const result = getAllPossibleSplitCriteriaForContinuousValues(attrId, values);
   expect(result).toEqual(expect.arrayContaining(expectedResult));
   expect(result.length).toBe(expectedResult.length);
 });

@@ -22,6 +22,7 @@ module.exports = {
     'import/no-default-export':2,
     'import/prefer-default-export':0,
     "comma-dangle": ["error", "never"],
-    "max-len": ["error", { "code": 160 }]
+    "max-len": ["error", { "code": 160 }],
+    'no-unused-vars': ["error", { "args": "none" }]
   },
 };

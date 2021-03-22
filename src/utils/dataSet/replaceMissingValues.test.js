@@ -1,13 +1,73 @@
-import { getMostCommonValueFF, getMostCommonValueAmongSameClassFF } from './replaceMissingValues';
+import {
+  getMostCommonValueFF,
+  getMostCommonValueAmongSameClassFF,
+  getDataSetWithReplacedValues
+} from './replaceMissingValues';
 import { simple } from '../../sampleDataSets';
+import { buildAlgorithmConfiguration } from '../../algorithmConfiguration/buildAlgorithmConfiguration';
 
-test('get most common value for entire set', () => {
-  const replacer = getMostCommonValueFF(simple, 'color');
-  expect(replacer({ _class: 'left' })).toBe('white');
+
+const configuration = buildAlgorithmConfiguration({}, simple);
+test('getMostCommonValueFF continuous', () => {
+  const replacer = getMostCommonValueFF(simple, 'size', configuration);
+  expect(replacer({ _class: 'left' })).toBe(3);
 });
 
-test('get most common value for entire set', () => {
-  const replacer = getMostCommonValueAmongSameClassFF(simple, 'color');
+test('getMostCommonValueFF discrete', () => {
+  const replacer = getMostCommonValueFF(simple, 'color', configuration);
+  expect(replacer({ _class: 'left' })).toBe('white');
+  expect(replacer({ _class: 'right' })).toBe('white');
+});
+
+
+test('getMostCommonValueAmongSameClassFF continuous', () => {
+  const replacer = getMostCommonValueAmongSameClassFF(simple, 'size', configuration);
+  expect(replacer({ _class: 'left' })).toBeCloseTo(3.5);
+  expect(replacer({ _class: 'right' })).toBeCloseTo(2);
+});
+
+test('getMostCommonValueAmongSameClassFF discrete', () => {
+  const replacer = getMostCommonValueAmongSameClassFF(simple, 'color', configuration);
   expect(replacer({ _class: 'left' })).toBe('black');
   expect(replacer({ _class: 'right' })).toBe('white');
+});
+
+test('getDataSetWithReplacedValues', () => {
+  const dataSet = [
+    { _class: 'one', weight: 55, color: 'blue' },
+    { _class: 'one', weight: 40, color: 'blue' },
+    { _class: 'one', weight: 33, color: 'red' },
+    { _class: 'one', weight: 20, color: 'x' },
+    { _class: 'one', weight: 60, color: 'x' },
+    { _class: 'one', weight: 'z', color: 'x' }
+  ];
+  const config = buildAlgorithmConfiguration({ missingValue: 'x', attributes: { weight: { missingValue: 'z' } } }, dataSet);
+  expect(getDataSetWithReplacedValues(dataSet, config)).toStrictEqual([
+    { _class: 'one', weight: 55, color: 'blue' },
+    { _class: 'one', weight: 40, color: 'blue' },
+    { _class: 'one', weight: 33, color: 'red' },
+    { _class: 'one', weight: 20, color: 'blue' },
+    { _class: 'one', weight: 60, color: 'blue' },
+    { _class: 'one', weight: 40, color: 'blue' }
+  ]);
+});
+
+
+test('getDataSetWithReplacedValues with undefined missing values', () => {
+  const dataSet = [
+    { _class: 'one', weight: 55, color: 'blue' },
+    { _class: 'one', weight: 40, color: 'blue' },
+    { _class: 'one', weight: 33, color: 'red' },
+    { _class: 'one', weight: 20 },
+    { _class: 'one', weight: 60 },
+    { _class: 'one' }
+  ];
+  expect(getDataSetWithReplacedValues(dataSet, buildAlgorithmConfiguration(undefined, dataSet))).toStrictEqual([
+    { _class: 'one', weight: 55, color: 'blue' },
+    { _class: 'one', weight: 40, color: 'blue' },
+    { _class: 'one', weight: 33, color: 'red' },
+    { _class: 'one', weight: 20, color: 'blue' },
+    { _class: 'one', weight: 60, color: 'blue' },
+    { _class: 'one', weight: 40, color: 'blue' }
+  ]);
 });

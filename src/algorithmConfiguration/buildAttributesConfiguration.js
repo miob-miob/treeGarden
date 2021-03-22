@@ -1,16 +1,33 @@
-import { getAllAttributeIds } from '../utils/dataSet/set';
+import { getAllAttributeIds, getTypeOfAttribute } from '../utils/dataSet/set';
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 
-export const buildAttributesConfiguration = (fullConfiguration, dataSet) => {
-  const consideredAttributes = fullConfiguration.includedAttributes.length > 0 ? fullConfiguration.includedAttributes : getAllAttributeIds(dataSet)
-    .filter((attributeId) => !fullConfiguration.excludedAttributes.includes(attributeId));
+export const keysInheritedFromAlgorithmConfigurationIfNotDefined = [
+  'learnMissingValueReplacement',
+  'evaluateMissingValueReplacement',
+  'missingValue',
+  'mapper',
+  'getAllPossibleSplitCriteriaForDiscreteAttribute',
+  'getAllPossibleSplitCriteriaForContinuousAttribute'
+];
 
+export const buildAttributesConfiguration = (configuration, dataSet) => {
+  const consideredAttributes = configuration.includedAttributes.length > 0 ? configuration.includedAttributes : getAllAttributeIds(dataSet)
+    .filter((attributeId) => !configuration.excludedAttributes.includes(attributeId));
   return consideredAttributes.reduce((result, currentAttributeId) => {
-    const attributeFromConfig = fullConfiguration.attributes[currentAttributeId];
+    const attributeFromConfig = configuration.attributes[currentAttributeId];
 
-    // eslint-disable-next-line no-param-reassign
-    result[currentAttributeId] = attributeFromConfig ? { ...defaultAttributeConfiguration, ...attributeFromConfig }
+    const resultAttrConfig = attributeFromConfig ? { ...defaultAttributeConfiguration, ...attributeFromConfig }
       : { ...defaultAttributeConfiguration };
+    if (resultAttrConfig.dataType === 'automatic') {
+      resultAttrConfig.dataType = getTypeOfAttribute(dataSet, currentAttributeId, resultAttrConfig.missingValue);
+    }
+    keysInheritedFromAlgorithmConfigurationIfNotDefined.forEach((configKey) => {
+      if (resultAttrConfig[configKey] === undefined) {
+        resultAttrConfig[configKey] = configuration[configKey];
+      }
+    });
+    // eslint-disable-next-line no-param-reassign
+    result[currentAttributeId] = resultAttrConfig;
     return result;
   }, {});
 };

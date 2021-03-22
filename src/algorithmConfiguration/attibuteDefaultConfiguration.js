@@ -1,3 +1,4 @@
+
 // configuration for particular attribute
 export const defaultAttributeConfiguration = {
   // 'automatic'|'continuous'|'discrete'
@@ -15,5 +16,10 @@ export const defaultAttributeConfiguration = {
   evaluateMissingValueReplacement: undefined,
 
   // which value is considered as missing (by default sample[attributeId] === undefined)
-  missingValue: undefined
+  missingValue: undefined,
+
+  // way how to generate all possible split points from numerical attribute - place for using some heuristics instead
+  // of investigation all possibilities
+  getAllPossibleSplitCriteriaForDiscreteAttribute: undefined,
+  getAllPossibleSplitCriteriaForContinuousAttribute: undefined
 };

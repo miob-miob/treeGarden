@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { existingValueGuard } from './sample';
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
+import { getAllUniqueValuesOfAttribute } from './set';
 
 const supportedMathOperators = new Set([
   '==',
@@ -155,7 +156,7 @@ export const getCombinationsWithoutRepeats = (values, maxElements, combinationsF
 export const getAllPossibleSplitCriteriaForCategoricalValues = (attributeId, values) => getCombinationsWithoutRepeats(values, values.length - 1)
   .map((combination) => [attributeId, '==', combination]);
 
-export const getAllPossibleSplitCriteriaForNumericalValues = (attributeId, values) => {
+export const getAllPossibleSplitCriteriaForContinuousValues = (attributeId, values) => {
   const valuesCopy = [...values];
   valuesCopy.sort((a, b) => a - b);
   const result = [];
@@ -169,4 +170,26 @@ export const getAllPossibleSplitCriteriaForNumericalValues = (attributeId, value
     }
   }
   return result;
+};
+
+
+export const getPossibleSpitCriteriaForDiscreteAttribute = (attributeId, dataSet, configuration) => {
+  const uniqueValues = getAllUniqueValuesOfAttribute(attributeId, dataSet);
+  if (configuration.onlyBinarySplits) {
+    return getAllPossibleSplitCriteriaForCategoricalValues(attributeId, uniqueValues);
+  }
+  return [attributeId, '==', uniqueValues];
+};
+
+// eslint-disable-next-line no-unused-vars
+export const getPossibleSpitCriteriaForContinuousAttribute = (attributeId, dataSet, configuration) => {
+  const uniqueValues = getAllUniqueValuesOfAttribute(attributeId, dataSet);
+  return getAllPossibleSplitCriteriaForContinuousValues(attributeId, uniqueValues);
+};
+
+
+// todo will calculate on every split => because splitting is expensive and this can decrease number of
+// todo numerical split points to consider and calculate impuruty
+export const getAllPossibleSplitCriteriaForDataSet = (algorithmConfiguration, dataSet) => {
+
 };

@@ -1,5 +1,6 @@
 import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
 import { getInformationGainForSplit } from '../utils/impurity/entropy';
+import { getPossibleSpitCriteriaForContinuousAttribute, getPossibleSpitCriteriaForDiscreteAttribute } from '../utils/dataSet/split';
 
 // todo generate metadata and thing node data structure
 export const defaultConfiguration = {
@@ -18,6 +19,8 @@ export const defaultConfiguration = {
   // for information gain bigger score means better split, but for gini, opposite is true
   biggerImpurityBetterSplit: true,
 
+
+  // todo this clusures should be revalidated - it looks ugly
   // used if attribute does not define its own
   // strategy used during tree induction (learning phase)
   // replace missing values - by default most common value for given attribute is used.
@@ -34,6 +37,12 @@ export const defaultConfiguration = {
   missingValue: undefined,
 
   // used if attribute does not define its own
-  mapper: undefined
+  mapper: undefined,
 
+  // todo propagate it to attribute configuration
+  // used if attribute does not define its own
+  // way how to generate all possible split points from numerical attribute - place for using some heuristics instead
+  // of investigation all possibilities
+  getAllPossibleSplitCriteriaForDiscreteAttribute: getPossibleSpitCriteriaForDiscreteAttribute,
+  getAllPossibleSplitCriteriaForContinuousAttribute: getPossibleSpitCriteriaForContinuousAttribute
 };
