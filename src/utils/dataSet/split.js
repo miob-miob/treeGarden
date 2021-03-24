@@ -94,6 +94,7 @@ export const splitDataSet = (dataSet, splitCriteriaFn, onlyBinarySplits) => {
  * @param {function(Object):string|Boolean} splitCreiteriaFn
  * @param {Array<string>} knownClasses
  * @param {function(Array<number>,Array<Array<number>>):number} scoringFunction
+ * @param {Boolean} onlyBinarySplits
  * @return {number}
  */
 export const getScoreForGivenSplitCriteria = (dataSet, splitCreiteriaFn, knownClasses, scoringFunction, onlyBinarySplits) => {
@@ -172,7 +173,7 @@ export const getPossibleSpitCriteriaForDiscreteAttribute = (attributeId, dataSet
   if (configuration.onlyBinarySplits) {
     return getAllPossibleSplitCriteriaForCategoricalValues(attributeId, uniqueValues);
   }
-  return [attributeId, '==', uniqueValues];
+  return [[attributeId, '==', uniqueValues]];
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -201,7 +202,7 @@ const areSplitCriteriaSame = (splitCriteriaOne, splitCriteriaTwo) => {
 };
 
 // todo TESTS!!!
-// splitCriteriaAlreadyUsed - array of splits - which is array like ['color', '==', ['green','red','blue]]
+// splitCriteriaAlreadyUsed - array of splits - which is array like [['color', '==', ['green','red','blue],[next...]]
 export const getAllPossibleSplitCriteriaForDataSet = (dataSet, configuration, splitCriteriaAlreadyUsed) => {
   const possibleSplitCriteria = Object.entries(configuration.attributes).flatMap(
     ([attributeId, {

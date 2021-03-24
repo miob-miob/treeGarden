@@ -1,4 +1,11 @@
-import { getCombinationsWithoutRepeats, getAllPossibleSplitCriteriaForCategoricalValues, getAllPossibleSplitCriteriaForContinuousValues } from './split';
+import {
+  getCombinationsWithoutRepeats,
+  getAllPossibleSplitCriteriaForCategoricalValues,
+  getAllPossibleSplitCriteriaForContinuousValues, getAllPossibleSplitCriteriaForDataSet
+} from './split';
+
+import { simple } from '../../sampleDataSets';
+import { buildAlgorithmConfiguration } from '../../algorithmConfiguration/buildAlgorithmConfiguration';
 
 
 test('getCombinationsWithoutRepeats', () => {
@@ -42,4 +49,23 @@ test('getAllPossibleSplitCriteriaForNumericalValues', () => {
   const result = getAllPossibleSplitCriteriaForContinuousValues(attrId, values);
   expect(result).toEqual(expect.arrayContaining(expectedResult));
   expect(result.length).toBe(expectedResult.length);
+});
+
+
+test('getAllPossibleSplitCriteriaForDataSet', () => {
+  const dataSet = simple;
+  const defaultConffig = buildAlgorithmConfiguration({}, dataSet);
+  const expectedPossibleSplits = [
+    ['size', '>', 2.5],
+    ['size', '>', 3.5],
+    ['color', '==', ['black', 'white']]
+  ];
+  const expectedSPlitsWithIgnoredOne = expectedPossibleSplits.slice();
+  expectedSPlitsWithIgnoredOne.splice(1, 1);
+  const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, defaultConffig, []);
+  possibleSplits.sort();
+  const possibleSplitsIgnoreUsed = getAllPossibleSplitCriteriaForDataSet(dataSet, defaultConffig, [['size', '>', 3.5]]);
+  possibleSplitsIgnoreUsed.sort();
+  expect(possibleSplits).toEqual(expectedPossibleSplits.sort());
+  expect(possibleSplitsIgnoreUsed).toEqual(expectedSPlitsWithIgnoredOne.sort());
 });
