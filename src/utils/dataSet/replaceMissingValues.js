@@ -66,7 +66,7 @@ export const getDataSetWithReplacedValues = (dataSet, algorithmConfiguration) =>
   const replacerHash = {};
   const getReplacer = (attributeId) => {
     if (!replacerHash[attributeId]) {
-      replacerHash[attributeId] = algorithmConfiguration.attributes[attributeId].learnMissingValueReplacement(dataSet, attributeId, algorithmConfiguration);
+      replacerHash[attributeId] = algorithmConfiguration.attributes[attributeId].induceMissingValueReplacement(dataSet, attributeId, algorithmConfiguration);
     }
     return replacerHash[attributeId];
   };

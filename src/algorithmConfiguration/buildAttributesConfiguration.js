@@ -2,7 +2,7 @@ import { getAllAttributeIds, getTypeOfAttribute } from '../utils/dataSet/set';
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 
 export const keysInheritedFromAlgorithmConfigurationIfNotDefined = [
-  'learnMissingValueReplacement',
+  'induceMissingValueReplacement',
   'evaluateMissingValueReplacement',
   'missingValue',
   'mapper',

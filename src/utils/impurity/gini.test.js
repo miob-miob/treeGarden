@@ -27,7 +27,8 @@ test('getGiniIndexForSplitCriteria', () => {
     simple,
     splitFn,
     knownClasses,
-    getGiniIndexForSplit
+    getGiniIndexForSplit,
+    false
   ))
     .toBeCloseTo(0);
 });

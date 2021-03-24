@@ -68,14 +68,8 @@ export const getSplitCriteriaFn = (attributeId, operator, value = undefined) => 
   throw new Error(`Used unknown operator, supported operators are: ${supportedOperators}, got '${operator}'!`);
 };
 
-/**
- * function that splits data set according given criteria;
- * @param {Array<object>} dataSet
- * @param {function(object):string|boolean} splitCriteriaFn function that produces tag of given sample
- * @param {boolean} onlyBinarySplits throws error if split ends with more than two partitions
- * @return {*}
- */
-export const splitDataSet = (dataSet, splitCriteriaFn, onlyBinarySplits = false) => {
+
+export const splitDataSet = (dataSet, splitCriteriaFn, onlyBinarySplits) => {
   const tagsAndSamples = dataSet.reduce(
     (result, currentSample) => {
       const tagOfSample = splitCriteriaFn(currentSample).toString();
@@ -102,9 +96,9 @@ export const splitDataSet = (dataSet, splitCriteriaFn, onlyBinarySplits = false)
  * @param {function(Array<number>,Array<Array<number>>):number} scoringFunction
  * @return {number}
  */
-export const getScoreForGivenSplitCriteria = (dataSet, splitCreiteriaFn, knownClasses, scoringFunction) => {
+export const getScoreForGivenSplitCriteria = (dataSet, splitCreiteriaFn, knownClasses, scoringFunction, onlyBinarySplits) => {
   const parentFrequencies = Object.values(getFrequenciesOfClasses(dataSet, knownClasses));
-  const childDataSets = splitDataSet(dataSet, splitCreiteriaFn);
+  const childDataSets = splitDataSet(dataSet, splitCreiteriaFn, onlyBinarySplits);
   const childFrequencies = Object.values(childDataSets)
     .map((childSet) => Object.values(getFrequenciesOfClasses(childSet, knownClasses)));
   return scoringFunction(parentFrequencies, childFrequencies);
@@ -188,8 +182,44 @@ export const getPossibleSpitCriteriaForContinuousAttribute = (attributeId, dataS
 };
 
 
-// todo will calculate on every split => because splitting is expensive and this can decrease number of
-// todo numerical split points to consider and calculate impuruty
-export const getAllPossibleSplitCriteriaForDataSet = (algorithmConfiguration, dataSet) => {
+const areSplitCriteriaSame = (splitCriteriaOne, splitCriteriaTwo) => {
+  if (splitCriteriaOne[0] !== splitCriteriaTwo[0] || splitCriteriaOne[1] !== splitCriteriaTwo[1]) {
+    return false;
+  }
+  const lastMemberOne = splitCriteriaOne[2];
+  const lastMemberTwo = splitCriteriaTwo[2];
+  if (typeof lastMemberOne !== typeof lastMemberTwo) {
+    return false;
+  }
 
+  // eslint-disable-next-line no-unused-expressions
+  lastMemberTwo.sort?.();
+  // eslint-disable-next-line no-unused-expressions
+  lastMemberOne.sort?.();
+
+  return lastMemberOne.toString() === lastMemberTwo.toString();
+};
+
+// todo TESTS!!!
+// splitCriteriaAlreadyUsed - array of splits - which is array like ['color', '==', ['green','red','blue]]
+export const getAllPossibleSplitCriteriaForDataSet = (dataSet, configuration, splitCriteriaAlreadyUsed) => {
+  const possibleSplitCriteria = Object.entries(configuration.attributes).flatMap(
+    ([attributeId, {
+      dataType,
+      getAllPossibleSplitCriteriaForDiscreteAttribute,
+      getAllPossibleSplitCriteriaForContinuousAttribute
+    }]) => ((dataType === 'discrete') ? getAllPossibleSplitCriteriaForDiscreteAttribute(attributeId, dataSet, configuration)
+      : getAllPossibleSplitCriteriaForContinuousAttribute(attributeId, dataSet, configuration))
+  );
+  return possibleSplitCriteria
+    .filter((splitCriteria) => {
+      let isNotAmongUsed = true;
+      splitCriteriaAlreadyUsed
+        .forEach((alreadyUsedSplit) => {
+          if (areSplitCriteriaSame(splitCriteria, alreadyUsedSplit)) {
+            isNotAmongUsed = false;
+          }
+        });
+      return isNotAmongUsed;
+    });
 };

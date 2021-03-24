@@ -27,7 +27,7 @@ test('getInformationGain', () => {
 
 test('getInformationGainForSplitCriteria', () => {
   const splitCriteriaFn = getSplitCriteriaFn('color', '==');
-  expect(getScoreForGivenSplitCriteria(simple, splitCriteriaFn, knownClasses, getInformationGainForSplit)).toBeCloseTo(entropyOfSimpleDataSet);
+  expect(getScoreForGivenSplitCriteria(simple, splitCriteriaFn, knownClasses, getInformationGainForSplit,false)).toBeCloseTo(entropyOfSimpleDataSet);
 });
 
 

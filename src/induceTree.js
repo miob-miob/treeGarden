@@ -12,6 +12,8 @@ const induceTree = (configuration, dataSet) => {
 };
 
 
-//const dataSetIntoTreeNodes = ()=>{}
+const dataSetToTreeNode = (dataSet, configuration) => {
+
+};
 
 

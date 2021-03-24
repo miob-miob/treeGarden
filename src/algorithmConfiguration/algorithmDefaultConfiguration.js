@@ -17,14 +17,12 @@ export const defaultConfiguration = {
   impurityScoringForSplit: getInformationGainForSplit,
 
   // for information gain bigger score means better split, but for gini, opposite is true
-  biggerImpurityBetterSplit: true,
+  biggerImpurityScoreBetterSplit: true,
 
-
-  // todo this clusures should be revalidated - it looks ugly
   // used if attribute does not define its own
   // strategy used during tree induction (learning phase)
   // replace missing values - by default most common value for given attribute is used.
-  learnMissingValueReplacement: getMostCommonValueFF,
+  induceMissingValueReplacement: getMostCommonValueFF,
 
   // used if attribute does not define its own
   // strategy used during evaluation of unknown samples (classification of instances)
@@ -38,6 +36,9 @@ export const defaultConfiguration = {
 
   // used if attribute does not define its own
   mapper: undefined,
+
+  // keep data partitions in tree nodes do not remove them during training
+  keepFullLearningData: true,
 
   // todo propagate it to attribute configuration
   // used if attribute does not define its own

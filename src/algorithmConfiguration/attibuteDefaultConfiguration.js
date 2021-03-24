@@ -10,7 +10,7 @@ export const defaultAttributeConfiguration = {
 
   // strategy used during tree induction (learning phase)
   // replace missing values - by default most common value for given attribute is used.
-  learnMissingValueReplacement: undefined,
+  induceMissingValueReplacement: undefined,
 
   // strategy used during evaluation of unknown samples (classification of instances)
   evaluateMissingValueReplacement: undefined,

@@ -4,8 +4,8 @@ const defaultTreeNode = {
   parentNode: undefined,
   childrenNodes: undefined,
   chosenSplitCriteria: undefined, // best scoring split criteria
-  inputDataSet: undefined, // portion of data came to this node
-  partitions: undefined, // split outcome,
+  dataPartitions: undefined, // split outcome - {tag:[sample,sample,sample]}
+  dataPartitionsCounts: undefined, // split outcome - just numbers {tag:number,tag:number}
   score: undefined // winning score
 };
 
