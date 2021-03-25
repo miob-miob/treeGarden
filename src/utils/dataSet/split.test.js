@@ -58,7 +58,7 @@ test('getAllPossibleSplitCriteriaForDataSet', () => {
   const expectedPossibleSplits = [
     ['size', '>', 2.5],
     ['size', '>', 3.5],
-    ['color', '==', ['black', 'white']]
+    ['color', '==']
   ];
   const expectedSPlitsWithIgnoredOne = expectedPossibleSplits.slice();
   expectedSPlitsWithIgnoredOne.splice(1, 1);
@@ -68,4 +68,17 @@ test('getAllPossibleSplitCriteriaForDataSet', () => {
   possibleSplitsIgnoreUsed.sort();
   expect(possibleSplits).toEqual(expectedPossibleSplits.sort());
   expect(possibleSplitsIgnoreUsed).toEqual(expectedSPlitsWithIgnoredOne.sort());
+});
+
+test('getAllPossibleSplitCriteriaForDataSet for only binary splits ', () => {
+  const dataSet = simple;
+  const conf = buildAlgorithmConfiguration({ onlyBinarySplits: true }, dataSet);
+  const expectedSplits = [
+    ['size', '>', 2.5],
+    ['size', '>', 3.5],
+    ['color', '==', ['black']],
+    ['color', '==', ['white']]
+  ];
+  const producedSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, conf, []).sort();
+  expect(producedSplits).toEqual(expectedSplits.sort());
 });

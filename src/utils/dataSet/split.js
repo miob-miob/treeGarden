@@ -173,7 +173,7 @@ export const getPossibleSpitCriteriaForDiscreteAttribute = (attributeId, dataSet
   if (configuration.onlyBinarySplits) {
     return getAllPossibleSplitCriteriaForCategoricalValues(attributeId, uniqueValues);
   }
-  return [[attributeId, '==', uniqueValues]];
+  return [[attributeId, '==']];
 };
 
 // eslint-disable-next-line no-unused-vars
