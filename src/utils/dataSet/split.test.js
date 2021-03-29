@@ -1,7 +1,7 @@
 import {
   getCombinationsWithoutRepeats,
   getAllPossibleSplitCriteriaForCategoricalValues,
-  getAllPossibleSplitCriteriaForContinuousValues, getAllPossibleSplitCriteriaForDataSet
+  getAllPossibleSplitCriteriaForContinuousValues, getAllPossibleSplitCriteriaForDataSet, getBestScoringSplits
 } from './split';
 
 import { simple } from '../../sampleDataSets';
@@ -67,7 +67,7 @@ test('getAllPossibleSplitCriteriaForDataSet', () => {
   const possibleSplitsIgnoreUsed = getAllPossibleSplitCriteriaForDataSet(dataSet, defaultConffig, [['size', '>', 3.5]]);
   possibleSplitsIgnoreUsed.sort();
   expect(possibleSplits).toEqual(expectedPossibleSplits.sort());
-  expect(possibleSplitsIgnoreUsed).toEqual(expectedSPlitsWithIgnoredOne.sort());
+  expect(possibleSplitsIgnoreUsed).toStrictEqual(expectedSPlitsWithIgnoredOne.sort());
 });
 
 test('getAllPossibleSplitCriteriaForDataSet for only binary splits ', () => {
@@ -80,5 +80,27 @@ test('getAllPossibleSplitCriteriaForDataSet for only binary splits ', () => {
     ['color', '==', ['white']]
   ];
   const producedSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, conf, []).sort();
-  expect(producedSplits).toEqual(expectedSplits.sort());
+  expect(producedSplits).toStrictEqual(expectedSplits.sort());
+});
+
+
+test('getBestScoringSplits', () => {
+  const dataSet = simple;
+  const conf = buildAlgorithmConfiguration({ bestSplitsKept: 5 }, dataSet);
+  const possibleSplits = [
+    ['size', '>', 3.5],
+    ['color', '=='],
+    ['size', '>', 2.5]
+  ];
+  const expectedBestSplits = [
+    ['color', '=='],
+    ['size', '>', 2.5],
+    ['size', '>', 3.5]
+  ];
+  const result = getBestScoringSplits(dataSet, possibleSplits, conf).map((item) => item.split);
+  expect(result).toStrictEqual(expectedBestSplits);
+  conf.biggerImpurityScoreBetterSplit = false;
+  const reversedResult = getBestScoringSplits(dataSet, possibleSplits, conf).map((item) => item.split);
+  expectedBestSplits.reverse();
+  expect(reversedResult).toStrictEqual(expectedBestSplits);
 });

@@ -1,5 +1,6 @@
 import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 import { getDataSetWithReplacedValues } from './utils/dataSet/replaceMissingValues';
+import { getAllPossibleSplitCriteriaForDataSet } from './utils/dataSet/split';
 
 
 const induceTree = (configuration, dataSet) => {
@@ -11,9 +12,10 @@ const induceTree = (configuration, dataSet) => {
   // todo get possible split criteria ;)  and gooo :)
 };
 
-
-const dataSetToTreeNode = (dataSet, configuration) => {
-
+// move this to treeNode
+const dataSetToTreeNode = (dataSet, configuration, parentNode) => {
+  // todo already used splits
+  const possibleSplits = getAllPossibleSplitCriteriaForDataSet();
 };
 
 

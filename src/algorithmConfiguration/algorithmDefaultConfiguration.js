@@ -19,6 +19,9 @@ export const defaultConfiguration = {
   // for information gain bigger score means better split, but for gini, opposite is true
   biggerImpurityScoreBetterSplit: true,
 
+  // how many splits will be stored on each node
+  numberOfSplitsKept: 3,
+
   // used if attribute does not define its own
   // strategy used during tree induction (learning phase)
   // replace missing values - by default most common value for given attribute is used.
@@ -45,5 +48,9 @@ export const defaultConfiguration = {
   // way how to generate all possible split points from numerical attribute - place for using some heuristics instead
   // of investigation all possibilities
   getAllPossibleSplitCriteriaForDiscreteAttribute: getPossibleSpitCriteriaForDiscreteAttribute,
-  getAllPossibleSplitCriteriaForContinuousAttribute: getPossibleSpitCriteriaForContinuousAttribute
+  getAllPossibleSplitCriteriaForContinuousAttribute: getPossibleSpitCriteriaForContinuousAttribute,
+
+  // below are runtime configs
+  // all classes of initial data set (will be populated automatically)
+  allClasses: undefined
 };

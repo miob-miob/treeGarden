@@ -44,10 +44,10 @@ export const getSplitCriteriaFn = (attributeId, operator, value = undefined) => 
     return (currentSample) => {
       existingValueGuard(currentSample, attributeId);
       const attributeValue = currentSample[attributeId];
-      if (typeof (attributeValue) === 'number') {
-        throw new Error(`${currentSample._label} value for attribute ${attributeId} should be number, got '${attributeValue}'!`);
+      if (typeof (attributeValue) !== 'number') {
+        throw new Error(`${currentSample._label} value for attribute '${attributeId}' should be number, got '${attributeValue}'!`);
       }
-      if (typeof (value) === 'number') {
+      if (typeof (value) !== 'number') {
         throw new Error(`'value' for math operators should be number, got '${value}'!`);
       }
       switch (operator) {
@@ -223,4 +223,23 @@ export const getAllPossibleSplitCriteriaForDataSet = (dataSet, configuration, sp
         });
       return isNotAmongUsed;
     });
+};
+
+export const getBestScoringSplits = (dataSet, possibleSplits, algorithmConfig) => {
+  const splitsWithScore = possibleSplits.map((splitDefinition) => {
+    const splitter = getSplitCriteriaFn(...splitDefinition);
+    const score = getScoreForGivenSplitCriteria(
+      dataSet,
+      splitter,
+      algorithmConfig.allClasses,
+      algorithmConfig.impurityScoringForSplit,
+      algorithmConfig.onlyBinarySplits
+    );
+    return { split: splitDefinition, score };
+  });
+
+  const comparator = algorithmConfig.biggerImpurityScoreBetterSplit ? (a, b) => b.score - a.score : (a, b) => a.score - b.score;
+  return splitsWithScore
+    .sort(comparator)
+    .slice(0, algorithmConfig.numberOfSplitsKept);
 };
