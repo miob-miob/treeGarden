@@ -51,6 +51,7 @@ test('dataSetToTreeNode', () => {
   const expectedNewTreeNode = {
     parentNode: null,
     childrenNodes: null,
+    isLeaf: false,
     chosenSplitCriteria: ['color', '=='],
     impurityScore: 0,
     bestSplits: [
