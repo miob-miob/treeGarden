@@ -1,6 +1,7 @@
 import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
 import { getInformationGainForSplit } from '../utils/impurity/entropy';
 import { getPossibleSpitCriteriaForContinuousAttribute, getPossibleSpitCriteriaForDiscreteAttribute } from '../utils/dataSet/split';
+import { willTreeGrowFurther } from '../utils/treeNode';
 
 // todo generate metadata and thing node data structure
 export const defaultConfiguration = {
@@ -18,6 +19,9 @@ export const defaultConfiguration = {
 
   // for information gain bigger score means better split, but for gini, opposite is true
   biggerImpurityScoreBetterSplit: true,
+
+  // when this function evaluates to to true then next split will be made if false grow is stopped and node is leaf one
+  willTreeGrow: willTreeGrowFurther,
 
   // how many splits will be stored on each node
   numberOfSplitsKept: 3,
@@ -41,7 +45,7 @@ export const defaultConfiguration = {
   mapper: undefined,
 
   // keep data partitions in tree nodes do not remove them during training
-  keepFullLearningData: true,
+  keepFullLearningData: false,
 
   // todo propagate it to attribute configuration
   // used if attribute does not define its own
@@ -52,5 +56,8 @@ export const defaultConfiguration = {
 
   // below are runtime configs
   // all classes of initial data set (will be populated automatically)
-  allClasses: undefined
+  allClasses: undefined,
+
+  // check if was not already build
+  buildTime: undefined
 };
