@@ -2,7 +2,7 @@ import { defaultConfiguration } from './algorithmDefaultConfiguration';
 import { buildAttributesConfiguration } from './buildAttributesConfiguration';
 import { getClassesOfDataSet } from '../utils/dataSet/set';
 
-export const buildAlgorithmConfiguration = (configuration = {}, dataSet) => {
+export const buildAlgorithmConfiguration = (dataSet, configuration = {}) => {
   if (configuration.buildTime) {
     throw new Error(`This configuration was already build! ${JSON.stringify(configuration)}`);
   }

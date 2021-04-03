@@ -1,7 +1,7 @@
 import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
 import { getInformationGainForSplit } from '../utils/impurity/entropy';
 import { getPossibleSpitCriteriaForContinuousAttribute, getPossibleSpitCriteriaForDiscreteAttribute } from '../utils/dataSet/split';
-import { willTreeGrowFurther } from '../utils/treeNode';
+import { stopIfPure } from '../utils/treeNode';
 
 // todo generate metadata and thing node data structure
 export const defaultConfiguration = {
@@ -21,7 +21,7 @@ export const defaultConfiguration = {
   biggerImpurityScoreBetterSplit: true,
 
   // when this function evaluates to to true then next split will be made if false grow is stopped and node is leaf one
-  willTreeGrow: willTreeGrowFurther,
+  shouldWeStopGrowth: stopIfPure,
 
   // how many splits will be stored on each node
   numberOfSplitsKept: 3,

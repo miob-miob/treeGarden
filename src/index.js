@@ -1,13 +1,16 @@
 
 import { tennisSet } from './sampleDataSets';
-import { getEntropyForDataSet } from './utils/impurity/entropy';
-import { getAllAttributeIds, getClassesOfDataSet } from './utils/dataSet/set';
-import { getGiniIndexForDataSet } from './utils/impurity/gini';
-
-const classesOfDataSet = getClassesOfDataSet(tennisSet);
-console.log(classesOfDataSet);
-console.log(`Entropy of tennis dataset is: ${getEntropyForDataSet(tennisSet, classesOfDataSet)}`);
-console.log(`Gini of tennis dataset is: ${getGiniIndexForDataSet(tennisSet, classesOfDataSet)}`);
+import { induceTree } from './induceTree';
+import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
+import { getGiniIndexForSplit } from './utils/impurity/gini';
 
 
-console.log(`AttributeIds of tennis dataSet: ${getAllAttributeIds(tennisSet)}`);
+const algorithmConfig = buildAlgorithmConfiguration(tennisSet, {
+  impurityScoringForSplit: getGiniIndexForSplit,
+  biggerImpurityScoreBetterSplit: false
+});
+
+
+const tree = induceTree(algorithmConfig, tennisSet);
+
+console.log(JSON.stringify(tree));

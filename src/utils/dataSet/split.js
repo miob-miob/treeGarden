@@ -187,16 +187,18 @@ const areSplitCriteriaSame = (splitCriteriaOne, splitCriteriaTwo) => {
   if (splitCriteriaOne[0] !== splitCriteriaTwo[0] || splitCriteriaOne[1] !== splitCriteriaTwo[1]) {
     return false;
   }
-  const lastMemberOne = splitCriteriaOne[2];
-  const lastMemberTwo = splitCriteriaTwo[2];
+
+  // in case of undefined
+  const lastMemberOne = splitCriteriaOne[2] ?? '';
+  const lastMemberTwo = splitCriteriaTwo[2] ?? '';
   if (typeof lastMemberOne !== typeof lastMemberTwo) {
     return false;
   }
 
   // eslint-disable-next-line no-unused-expressions
-  lastMemberTwo.sort?.();
+  lastMemberTwo?.sort?.();
   // eslint-disable-next-line no-unused-expressions
-  lastMemberOne.sort?.();
+  lastMemberOne?.sort?.();
 
   return lastMemberOne.toString() === lastMemberTwo.toString();
 };

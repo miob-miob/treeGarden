@@ -54,7 +54,7 @@ test('getAllPossibleSplitCriteriaForNumericalValues', () => {
 
 test('getAllPossibleSplitCriteriaForDataSet', () => {
   const dataSet = simple;
-  const defaultConffig = buildAlgorithmConfiguration({}, dataSet);
+  const defaultConffig = buildAlgorithmConfiguration(dataSet, {});
   const expectedPossibleSplits = [
     ['size', '>', 2.5],
     ['size', '>', 3.5],
@@ -72,7 +72,7 @@ test('getAllPossibleSplitCriteriaForDataSet', () => {
 
 test('getAllPossibleSplitCriteriaForDataSet for only binary splits ', () => {
   const dataSet = simple;
-  const conf = buildAlgorithmConfiguration({ onlyBinarySplits: true }, dataSet);
+  const conf = buildAlgorithmConfiguration(dataSet, { onlyBinarySplits: true });
   const expectedSplits = [
     ['size', '>', 2.5],
     ['size', '>', 3.5],
@@ -86,7 +86,7 @@ test('getAllPossibleSplitCriteriaForDataSet for only binary splits ', () => {
 
 test('getBestScoringSplits', () => {
   const dataSet = simple;
-  const conf = buildAlgorithmConfiguration({ bestSplitsKept: 5 }, dataSet);
+  const conf = buildAlgorithmConfiguration(dataSet, { bestSplitsKept: 5 });
   const possibleSplits = [
     ['size', '>', 3.5],
     ['color', '=='],

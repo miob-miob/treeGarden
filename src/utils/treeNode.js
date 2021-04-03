@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {
   getAllPossibleSplitCriteriaForDataSet,
   getBestScoringSplits,
@@ -8,34 +9,47 @@ import { getClassesOfDataSet } from './dataSet/set';
 
 
 const defaultTreeNode = {
-  parentNode: null,
-  childrenNodes: null, // {"value":treeNode, "anotherValue":treeNode}
+  childNodes: null, // {"value":treeNode, "anotherValue":treeNode}
   isLeaf: false,
+  depth: null,
+  alreadyUsedSplits: null, // array of split definitions
   chosenSplitCriteria: null, // best scoring split criteria
   impurityScore: null, // score of best split
   bestSplits: null, // splits and scores
-  dataPartitions: null // split outcome - {tag:[sample,sample,sample]}
-
-  // todo lets keeps whole partitions - memory usage will be optimized later
-  // todo dataPartitionsCounts: undefined, // split outcome - just numbers {tag:{classOne:number,classTwo:number},tag:{...}}}
+  dataPartitions: null, // split outcome - {tag:[sample,sample,sample]}
+  dataPartitionsCounts: null, // {tag:{classOne:3, classTwo:3}, anotherTag:{classOne:1, classTwo:6}}
+  classCounts: null // {classOne:8, classTwo:7}
 };
 
 export const createTreeNode = (node = {}) => ({ ...defaultTreeNode, ...node });
 
+export const dataPartitionsToDataPartitionCounts = (dataPartitions) => Object.fromEntries(Object.entries(dataPartitions)
+  .map(([tag, subset]) => {
+    const resultForSubset = {};
+    subset.forEach(({ _class }) => {
+      if (!resultForSubset[_class]) {
+        resultForSubset[_class] = 0;
+      }
+      resultForSubset[_class] += 1;
+    });
+    return [tag, resultForSubset];
+  }));
 
-export const getAlreadyUsedCriteria = (treeNode) => {
-  const result = [];
-  let currentNode = treeNode;
-  while (currentNode) {
-    result.push(currentNode.chosenSplitCriteria);
-    currentNode = currentNode.parentNode;
-  }
+export const dataPartitionsToClassCounts = (dataPartitions) => {
+  const wholeSet = Object.values(dataPartitions).flat(1);
+  const result = {};
+  wholeSet.forEach(({ _class }) => {
+    if (!result[_class]) {
+      result[_class] = 0;
+    }
+    result[_class] += 1;
+  });
   return result;
 };
 
 
 export const dataSetToTreeNode = (dataSet, configuration, parentNode) => {
-  const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, configuration, getAlreadyUsedCriteria(parentNode));
+  const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, configuration, parentNode?.alreadyUsedSplits ?? []);
   const bestScoringCriteria = getBestScoringSplits(dataSet, possibleSplits, configuration);
   if (bestScoringCriteria.length === 0) {
     throw new Error("No best scroring criteria in 'dataSetToTreeNode' function call!");
@@ -47,23 +61,18 @@ export const dataSetToTreeNode = (dataSet, configuration, parentNode) => {
     chosenSplitCriteria: winnerCriteria,
     impurityScore: winnerScore,
     bestSplits: bestScoringCriteria,
-    dataPartitions: partitions
+    dataPartitions: partitions,
+    dataPartitionsCounts: dataPartitionsToDataPartitionCounts(partitions),
+    classCounts: dataPartitionsToClassCounts(partitions),
+    depth: parentNode ? parentNode.depth + 1 : 0,
+    alreadyUsedSplits: parentNode ? [...parentNode.alreadyUsedSplits, winnerCriteria] : [winnerCriteria]
   });
 };
 
-// todo unit test
-export const willTreeGrowFurther = (currentNode, configuration) => {
+// tree must be pruned ;)
+export const stopIfPure = (currentNode, configuration) => {
   const wholeIncomingSet = Object.values(currentNode.dataPartitions).flat(1);
-
-  // small number of items to split
-  if (wholeIncomingSet.length <= 3) {
-    return false;
-  }
-
   // incoming data are pure
-  if (getClassesOfDataSet(wholeIncomingSet).length === 1) {
-    return false;
-  }
-
-  return true;
+  return getClassesOfDataSet(wholeIncomingSet).length === 1;
 };
+
