@@ -52,7 +52,7 @@ export const getMostCommonValueAmongSameClassFF = (dataSet, attributeId, configu
   return (sampleWithMissingValue) => {
     if (!classesAndCommonValuesForGivenAttributeId[sampleWithMissingValue._class]) {
       throw new Error(`
-      There are no value for attribute '${attributeId}' among samples with class: '${sampleWithMissingValue._class}'!
+      There is no value for attribute '${attributeId}' among samples with class: '${sampleWithMissingValue._class}'!
       Use different method for replacement of missing values or discard sample entirely!
       `);
     }

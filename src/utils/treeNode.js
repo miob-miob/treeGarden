@@ -51,6 +51,7 @@ export const dataPartitionsToClassCounts = (dataPartitions) => {
 export const dataSetToTreeNode = (dataSet, configuration, parentNode) => {
   const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, configuration, parentNode?.alreadyUsedSplits ?? []);
   const bestScoringCriteria = getBestScoringSplits(dataSet, possibleSplits, configuration);
+  //   todo solve no criteria (should stop)
   if (bestScoringCriteria.length === 0) {
     throw new Error("No best scroring criteria in 'dataSetToTreeNode' function call!");
   }
@@ -69,10 +70,25 @@ export const dataSetToTreeNode = (dataSet, configuration, parentNode) => {
   });
 };
 
-// tree must be pruned ;)
+// stopping  - pre-pruning
+
+export const composeStopFunctions = (...stopFunctions) => (currentNode, configuration) => {
+  for (let index = 0; index < stopFunctions.length; index += 1) {
+    const stopper = stopFunctions[index];
+    if (stopper(currentNode, configuration)) {
+      return true;
+    }
+  }
+  return false;
+};
+
 export const stopIfPure = (currentNode, configuration) => {
+  // todo stop if there are no possible splits (unused)
   const wholeIncomingSet = Object.values(currentNode.dataPartitions).flat(1);
   // incoming data are pure
   return getClassesOfDataSet(wholeIncomingSet).length === 1;
 };
+
+export const stopIfNoSplitsAvailable = (currentNode, configuration) => currentNode.bestSplits.length === 1;
+
 

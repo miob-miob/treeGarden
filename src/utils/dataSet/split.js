@@ -203,7 +203,6 @@ const areSplitCriteriaSame = (splitCriteriaOne, splitCriteriaTwo) => {
   return lastMemberOne.toString() === lastMemberTwo.toString();
 };
 
-// todo TESTS!!!
 // splitCriteriaAlreadyUsed - array of splits - which is array like [['color', '==', ['green','red','blue],[next...]]
 export const getAllPossibleSplitCriteriaForDataSet = (dataSet, configuration, splitCriteriaAlreadyUsed) => {
   const possibleSplitCriteria = Object.entries(configuration.attributes).flatMap(

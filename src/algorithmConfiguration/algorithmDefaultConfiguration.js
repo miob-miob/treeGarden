@@ -1,9 +1,10 @@
 import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
 import { getInformationGainForSplit } from '../utils/impurity/entropy';
 import { getPossibleSpitCriteriaForContinuousAttribute, getPossibleSpitCriteriaForDiscreteAttribute } from '../utils/dataSet/split';
-import { stopIfPure } from '../utils/treeNode';
+import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../utils/treeNode';
 
-// todo generate metadata and thing node data structure
+// todo implement expansivnes of splits derived from given attribute
+// todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
 export const defaultConfiguration = {
   // key is attributeId, value is attributeMeta object
   attributes: {},
@@ -21,7 +22,7 @@ export const defaultConfiguration = {
   biggerImpurityScoreBetterSplit: true,
 
   // when this function evaluates to to true then next split will be made if false grow is stopped and node is leaf one
-  shouldWeStopGrowth: stopIfPure,
+  shouldWeStopGrowth: composeStopFunctions(stopIfPure, stopIfNoSplitsAvailable),
 
   // how many splits will be stored on each node
   numberOfSplitsKept: 3,
@@ -47,14 +48,13 @@ export const defaultConfiguration = {
   // keep data partitions in tree nodes do not remove them during training
   keepFullLearningData: false,
 
-  // todo propagate it to attribute configuration
   // used if attribute does not define its own
   // way how to generate all possible split points from numerical attribute - place for using some heuristics instead
   // of investigation all possibilities
   getAllPossibleSplitCriteriaForDiscreteAttribute: getPossibleSpitCriteriaForDiscreteAttribute,
   getAllPossibleSplitCriteriaForContinuousAttribute: getPossibleSpitCriteriaForContinuousAttribute,
 
-  // below are runtime configs
+  // below are runtime configs !!!
   // all classes of initial data set (will be populated automatically)
   allClasses: undefined,
 

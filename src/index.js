@@ -8,6 +8,7 @@ import { getGiniIndexForSplit } from './utils/impurity/gini';
 const algorithmConfig = buildAlgorithmConfiguration(tennisSet, {
   impurityScoringForSplit: getGiniIndexForSplit,
   biggerImpurityScoreBetterSplit: false
+//  onlyBinarySplits: true
 });
 
 

@@ -4,7 +4,7 @@ import {
   dataSetToTreeNode,
   stopIfPure,
   dataPartitionsToDataPartitionCounts,
-  dataPartitionsToClassCounts
+  dataPartitionsToClassCounts, composeStopFunctions
 } from './treeNode';
 import { simple } from '../sampleDataSets';
 
@@ -167,4 +167,22 @@ test('dataPartitionsToDataPartitionCounts and classCounts', () => {
   };
   expect(dataPartitionsToDataPartitionCounts(dataPartitions)).toStrictEqual(expectedCounts);
   expect(dataPartitionsToClassCounts(dataPartitions)).toStrictEqual({ left: 2, right: 3 });
+});
+
+
+test('composeStopFunctions', () => {
+  const stoppedOne = jest.fn(() => true);
+  const notStoppedOne = jest.fn(() => false);
+  const composedStopper = composeStopFunctions(stoppedOne, notStoppedOne);
+  expect(composedStopper({}, {})).toBeTruthy();
+  expect(stoppedOne.mock.calls.length).toBe(1);
+  expect(notStoppedOne.mock.calls.length).toBe(0);
+
+  const notStoppedTwo = jest.fn(() => false);
+  const anotherNotStoppedTwo = jest.fn(() => false);
+
+  const anotherComposedStopper = composeStopFunctions(notStoppedTwo, anotherNotStoppedTwo);
+  expect(anotherComposedStopper({}, {})).toBeFalsy();
+  expect(notStoppedTwo.mock.calls.length).toBe(1);
+  expect(anotherNotStoppedTwo.mock.calls.length).toBe(1);
 });
