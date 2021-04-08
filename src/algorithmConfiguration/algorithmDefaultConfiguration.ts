@@ -2,18 +2,20 @@ import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
 import { getInformationGainForSplit } from '../utils/impurity/entropy';
 import { getPossibleSpitCriteriaForContinuousAttribute, getPossibleSpitCriteriaForDiscreteAttribute } from '../utils/dataSet/split';
 import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../utils/treeNode';
+import {defaultAttributeConfiguration} from "./attibuteDefaultConfiguration";
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
+
 export const defaultConfiguration = {
   // key is attributeId, value is attributeMeta object
-  attributes: {},
+  attributes: {} as {[key:string]:typeof defaultAttributeConfiguration},
 
   // arrayOfAttributeIds if defined only these attributes re considered for building decision tree
-  includedAttributes: [],
+  includedAttributes: [] as string[],
 
   // arrayOfAttributeIds if defined  these attributes are not considered for building decision tree
-  excludedAttributes: [],
+  excludedAttributes: [] as string[],
 
   // impurity scoring function see default for more information
   impurityScoringForSplit: getInformationGainForSplit,
@@ -34,16 +36,13 @@ export const defaultConfiguration = {
 
   // used if attribute does not define its own
   // strategy used during evaluation of unknown samples (classification of instances)
-  evaluateMissingValueReplacement: undefined,
+  evaluateMissingValueReplacement: getMostCommonValueFF,
 
   // every node in decision tree can have maximal two branches (true/false) - CART uses usually this condition
   onlyBinarySplits: false,
 
   // used if attribute does not define its own value which is considered as missing value
-  missingValue: undefined,
-
-  // used if attribute does not define its own
-  mapper: undefined,
+  missingValue: undefined as any,
 
   // keep data partitions in tree nodes do not remove them during training
   keepFullLearningData: false,
@@ -56,8 +55,8 @@ export const defaultConfiguration = {
 
   // below are runtime configs !!!
   // all classes of initial data set (will be populated automatically)
-  allClasses: undefined,
+  allClasses: undefined as undefined | (string|number)[],
 
   // check if was not already build
-  buildTime: undefined
+  buildTime: undefined as undefined | number
 };

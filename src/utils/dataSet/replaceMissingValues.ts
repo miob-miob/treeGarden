@@ -1,14 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 import { getMostCommonValues } from '../statistic/getMostCommonValue';
 import { chooseOne } from '../randomization';
-import { getClassesOfDataSet } from './set';
+import {DataSetSample, getClassesOfDataSet} from './set';
 import { getMedian } from '../statistic/getMedian';
 
 
 // closure WARNING :D FF stands for Function Factory - on algorithm start it is called
 // and replacer is created (just once) than used for every sample with missing value
 // eslint-disable-next-line no-unused-vars
-export const getMostCommonValueFF = (dataSet, attributeId, configuration) => {
+export const getMostCommonValueFF = (dataSet:DataSetSample, attributeId:string, configuration) => {
   const typeOfAttribute = configuration.attributes[attributeId].dataType;
   const { missingValue } = configuration.attributes[attributeId];
   const valuesForGivenAttribute = dataSet

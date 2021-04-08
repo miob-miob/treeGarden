@@ -1,17 +1,25 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
     "target": "ES2020",
-    "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "allowJs": true,
     "checkJs": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false
   },
   "include": [
     "src/**/*"
   ],
-  "exclude": ["dist"]
+  "exclude": ["dist", "node_modules"]
 }

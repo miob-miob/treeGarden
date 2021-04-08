@@ -5,7 +5,6 @@ export const keysInheritedFromAlgorithmConfigurationIfNotDefined = [
   'induceMissingValueReplacement',
   'evaluateMissingValueReplacement',
   'missingValue',
-  'mapper',
   'getAllPossibleSplitCriteriaForDiscreteAttribute',
   'getAllPossibleSplitCriteriaForContinuousAttribute'
 ];

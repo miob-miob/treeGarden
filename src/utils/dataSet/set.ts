@@ -1,7 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 
+export type DataSetSample = {
+  _class:string,
+  _label?:string|number,
+  [key:string]:any
+};
 
-export const getClassesOfDataSet = (dataSet, alreadyKnownClasses = null) => {
+
+export const getClassesOfDataSet = (dataSet:DataSetSample[], alreadyKnownClasses :string[]|null = null) => {
   const classesSet = dataSet
     .reduce(
       (allKnownClasses, currentSample) => {
@@ -16,7 +22,7 @@ export const getClassesOfDataSet = (dataSet, alreadyKnownClasses = null) => {
 };
 
 
-export const getAllAttributeIds = (dataSet) => {
+export const getAllAttributeIds = (dataSet : DataSetSample[]) => {
   const resultSet = new Set();
   dataSet.forEach((sample) => {
     Object.keys(sample)
@@ -32,7 +38,7 @@ export const getAllAttributeIds = (dataSet) => {
 };
 
 // decide if values under given attributeId of dataset are continuous or discrete
-export const getTypeOfAttribute = (dataSet, attributeId, missingValue = undefined) => {
+export const getTypeOfAttribute = (dataSet:DataSetSample[], attributeId:string, missingValue:any = undefined) => {
   const allValuesAreNumbers = dataSet.map((sample) => sample[attributeId])
     .filter((value) => value !== missingValue) // filter out missing values
     .every((value) => typeof value === 'number');
@@ -40,5 +46,5 @@ export const getTypeOfAttribute = (dataSet, attributeId, missingValue = undefine
 };
 
 
-export const getAllValuesOfAttribute = (attributeId, dataSet) => dataSet.map((sample) => sample[attributeId]);
-export const getAllUniqueValuesOfAttribute = (attributeId, dataSet) => [...new Set(getAllValuesOfAttribute(attributeId, dataSet))];
+export const getAllValuesOfAttribute = (attributeId:string, dataSet:DataSetSample[]) => dataSet.map((sample) => sample[attributeId]);
+export const getAllUniqueValuesOfAttribute = (attributeId:string, dataSet:DataSetSample[]) => [...new Set(getAllValuesOfAttribute(attributeId, dataSet))];

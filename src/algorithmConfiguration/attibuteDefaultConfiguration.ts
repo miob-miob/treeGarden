@@ -1,3 +1,4 @@
+import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
 
 // configuration for particular attribute
 export const defaultAttributeConfiguration = {
@@ -10,7 +11,7 @@ export const defaultAttributeConfiguration = {
 
   // strategy used during tree induction (learning phase)
   // replace missing values - by default most common value for given attribute is used.
-  induceMissingValueReplacement: undefined,
+  induceMissingValueReplacement: undefined as typeof getMostCommonValueFF | undefined,
 
   // strategy used during evaluation of unknown samples (classification of instances)
   evaluateMissingValueReplacement: undefined,

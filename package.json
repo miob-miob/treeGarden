@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/jest/bin/jest.js --config=jest.config.js",
-    "transpile": "npx babel src -d dist",
+    "build": "tsc",
     "start": "node dist/index.js",
-    "transpileAndRun": "npm run transpile && npm run start"
+    "lint": "eslint --ext .js,.jsx,.es6,.ts,.tsx ./src/",
+    "buildAndRun": "npm run build && npm run start"
   },
   "repository": {
     "type": "git",
@@ -25,15 +26,12 @@
   },
   "homepage": "https://github.com/miob-miob/treeGarden#readme",
   "devDependencies": {
-    "@babel/cli": "^7.11.6",
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
     "@types/jest": "^26.0.13",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
     "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0",
-    "esm": "^3.2.25",
-    "jest": "^26.4.2"
-  },
-  "dependencies": {}
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.4.2",
+    "typescript": "^4.2.4"
+  }
 }
