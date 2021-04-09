@@ -2,14 +2,14 @@ import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
 import { getInformationGainForSplit } from '../utils/impurity/entropy';
 import { getPossibleSpitCriteriaForContinuousAttribute, getPossibleSpitCriteriaForDiscreteAttribute } from '../utils/dataSet/split';
 import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../utils/treeNode';
-import {defaultAttributeConfiguration} from "./attibuteDefaultConfiguration";
+import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
 
 export const defaultConfiguration = {
   // key is attributeId, value is attributeMeta object
-  attributes: {} as {[key:string]:typeof defaultAttributeConfiguration},
+  attributes: {} as { [key:string]:typeof defaultAttributeConfiguration },
 
   // arrayOfAttributeIds if defined only these attributes re considered for building decision tree
   includedAttributes: [] as string[],
