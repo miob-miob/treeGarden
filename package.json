@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/jest/bin/jest.js",
-    "build": "tsc",
+    "build": "tsc --noEmit false",
     "start": "node dist/index.js",
     "lint": "eslint --ext .js,.jsx,.es6,.ts,.tsx ./src/",
     "buildAndRun": "npm run build && npm run start"
