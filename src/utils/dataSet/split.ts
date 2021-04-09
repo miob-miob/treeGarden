@@ -1,17 +1,25 @@
 /* eslint-disable no-underscore-dangle */
 import { existingValueGuard } from './sample';
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
-import { getAllUniqueValuesOfAttribute } from './set';
+import { DataSetSample, getAllUniqueValuesOfAttribute } from './set';
 
-const supportedMathOperators = new Set([
+const mathOperators = [
   '==',
   '>=',
   '<=',
   '>',
   '<'
-]);
+] as const;
+const supportedMathOperators = new Set(mathOperators);
 
-const supportedOperators = new Set(['customFn', ...supportedMathOperators]);
+const allOperators = [
+  ...mathOperators,
+  'customFn'
+] as const;
+
+const supportedOperators = new Set(allOperators);
+
+export type SplitOperator = typeof allOperators[number];
 
 /**
  * Factory function that returns function that accepts sample and decides what is its tag for splitting
@@ -20,9 +28,9 @@ const supportedOperators = new Set(['customFn', ...supportedMathOperators]);
  * @param value {Array<string|number>|string|function|number} depends on operator
  * @return {function(object): string|boolean}
  */
-export const getSplitCriteriaFn = (attributeId, operator, value = undefined) => {
+export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, value:any = undefined) => {
   if (operator === '==') {
-    return (currentSample) => {
+    return (currentSample:DataSetSample) => {
       // value is present ==> boolean - binary split
       if (value) {
         return Array.isArray(value) ? value.includes(currentSample[attributeId]) : currentSample[attributeId] === value;
@@ -38,10 +46,10 @@ export const getSplitCriteriaFn = (attributeId, operator, value = undefined) => 
     }
     // value is custom function, which is provided with sample and attributeId
     // should return split tag
-    return (currentSample) => value(currentSample, attributeId);
+    return (currentSample:DataSetSample) => value(currentSample, attributeId);
   }
   if (supportedMathOperators.has(operator)) {
-    return (currentSample) => {
+    return (currentSample:DataSetSample) => {
       existingValueGuard(currentSample, attributeId);
       const attributeValue = currentSample[attributeId];
       if (typeof (attributeValue) !== 'number') {
@@ -68,8 +76,8 @@ export const getSplitCriteriaFn = (attributeId, operator, value = undefined) => 
   throw new Error(`Used unknown operator, supported operators are: ${supportedOperators}, got '${operator}'!`);
 };
 
-
-export const splitDataSet = (dataSet, splitCriteriaFn, onlyBinarySplits) => {
+// todo continue here ;)
+export const splitDataSet = (dataSet:DataSetSample[], splitCriteriaFn:(sample:DataSetSample)=>any, onlyBinarySplits:boolean) => {
   const tagsAndSamples = dataSet.reduce(
     (result, currentSample) => {
       const tagOfSample = splitCriteriaFn(currentSample).toString();
