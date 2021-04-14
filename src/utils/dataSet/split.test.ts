@@ -89,7 +89,7 @@ test('getAllPossibleSplitCriteriaForDataSet for only binary splits ', () => {
 
 test('getBestScoringSplits', () => {
   const dataSet = simple;
-  const conf = buildAlgorithmConfiguration(dataSet, { bestSplitsKept: 5 });
+  const conf = buildAlgorithmConfiguration(dataSet, { numberOfSplitsKept: 5 });
   const possibleSplits = [
     ['size', '>', 3.5],
     ['color', '=='],

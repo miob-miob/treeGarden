@@ -1,4 +1,3 @@
-
 import { tennisSet } from './sampleDataSets';
 import { induceTree } from './induceTree';
 import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';

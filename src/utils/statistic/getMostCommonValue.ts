@@ -3,9 +3,9 @@
  * @param {Array<string>} values
  * @return {string[]}
  */
-export const getMostCommonValues = (values) => {
-  const calculatedCounts = values.reduce((counts, currentValue) => {
-    if (typeof currentValue !== 'string' || currentValue.trim().length === 0) {
+export const getMostCommonValues = (values:string[]) => {
+  const calculatedCounts = values.reduce((counts:{ [key:string]:number }, currentValue) => {
+    if (currentValue.trim().length === 0) {
       throw new Error('During call of \'getMostCommonValues\' one of value has other type then string!');
     }
     const trimmedValue = currentValue.trim();
@@ -20,8 +20,7 @@ export const getMostCommonValues = (values) => {
 
   const largestCount = Math.max(...Object.values(calculatedCounts));
   return Object.entries(calculatedCounts)
-    // eslint-disable-next-line no-unused-vars
-    .filter(([value, count]) => count === largestCount)
-    // eslint-disable-next-line no-unused-vars
-    .map(([value, count]) => value);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .filter(([, count]) => count === largestCount)
+    .map(([value]) => value);
 };

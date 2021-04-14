@@ -1,4 +1,5 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
+import { DataSetSample } from '../dataSet/set';
 
 
 /**
@@ -6,7 +7,7 @@ import { getFrequenciesOfClasses } from '../statistic/frequencies';
  * @param {Array<number>} frequenciesOfClasses number[]
  * @returns {number}
  */
-export const getGiniIndex = (frequenciesOfClasses) => {
+export const getGiniIndex = (frequenciesOfClasses:number[]) => {
   const numberOfAllSamples = frequenciesOfClasses.reduce((sum, currentClassCount) => sum + currentClassCount, 0);
   const squaredProbabilities = frequenciesOfClasses.reduce(
     (sumOfProbabilities, currentFrequency) => sumOfProbabilities + (currentFrequency / numberOfAllSamples) ** 2,
@@ -22,7 +23,7 @@ export const getGiniIndex = (frequenciesOfClasses) => {
  * @return {number}
  */
 
-export const getGiniIndexForDataSet = (dataSet, knownClasses) => {
+export const getGiniIndexForDataSet = (dataSet:DataSetSample[], knownClasses:string[]) => {
   const frequencies = getFrequenciesOfClasses(dataSet, knownClasses);
   return getGiniIndex(Object.values(frequencies));
 };
@@ -34,7 +35,7 @@ export const getGiniIndexForDataSet = (dataSet, knownClasses) => {
  * that means array of arrays of frequencies for binary split you will have two arrays one for left node second for right node
  * @returns {number}
  */
-export const getGiniIndexForSplit = (frequenciesOfClasses, frequenciesOfClassesChildren) => {
+export const getGiniIndexForSplit = (frequenciesOfClasses:number[], frequenciesOfClassesChildren:number[][]) => {
   const totalSamples = frequenciesOfClasses.reduce((sum, current) => current + sum, 0);
   return frequenciesOfClassesChildren.reduce((weightedSum, currentFrequencies) => {
     const totalSamplesInPartition = currentFrequencies.reduce((sum, current) => current + sum, 0);

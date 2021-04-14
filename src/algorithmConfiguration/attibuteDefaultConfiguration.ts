@@ -13,7 +13,7 @@ export const defaultAttributeConfiguration = {
   evaluateMissingValueReplacement: undefined,
 
   // which value is considered as missing (by default sample[attributeId] === undefined)
-  missingValue: undefined,
+  missingValue: undefined as any,
 
   // way how to generate all possible split points from numerical attribute - place for using some heuristics instead
   // of investigation all possibilities

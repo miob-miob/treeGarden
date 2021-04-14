@@ -40,7 +40,6 @@ test('dataSetToTreeNode', () => {
     impurityScoringForSplit: getGiniIndexForSplit
   });
   const expectedNewTreeNode = {
-    childNodes: null,
     isLeaf: false,
     chosenSplitCriteria: ['color', '=='],
     alreadyUsedSplits: [

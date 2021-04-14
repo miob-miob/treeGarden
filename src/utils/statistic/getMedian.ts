@@ -1,6 +1,6 @@
 
 
-export const getMedian = (numbers) => {
+export const getMedian = (numbers:number[]) => {
   if (numbers.length === 0) {
     throw new Error('\'getMedian\' - cannot calculate median of empty array!');
   }

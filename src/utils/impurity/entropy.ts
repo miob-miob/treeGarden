@@ -1,12 +1,8 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
+import { DataSetSample } from '../dataSet/set';
 
 
-/**
- * calculates entropy
- * @param {Array<number>} frequenciesOfClasses number[]
- * @returns {number}
- */
-export const getEntropy = (frequenciesOfClasses) => {
+export const getEntropy = (frequenciesOfClasses:number[]) => {
   const numberOfAllSamples = frequenciesOfClasses.reduce((sum, currentClassCount) => sum + currentClassCount, 0);
   return frequenciesOfClasses.reduce(
     (entropy, currentClassCount) => {
@@ -20,13 +16,8 @@ export const getEntropy = (frequenciesOfClasses) => {
   );
 };
 
-/**
- *
- * @param {Array<Object>} dataSet whole data set
- * @param {Array<string>} knownClasses
- * @return {number}
- */
-export const getEntropyForDataSet = (dataSet, knownClasses) => {
+
+export const getEntropyForDataSet = (dataSet:DataSetSample[], knownClasses:string[]) => {
   const frequencies = getFrequenciesOfClasses(dataSet, knownClasses);
   return getEntropy(Object.values(frequencies));
 };
@@ -38,7 +29,7 @@ export const getEntropyForDataSet = (dataSet, knownClasses) => {
  * that means array of arrays of frequencies for binary split you will have two arrays one for left node second for right node
  * @returns {number}
  */
-export const getInformationGainForSplit = (frequenciesOfClasses, frequenciesOfClassesChildren) => {
+export const getInformationGainForSplit = (frequenciesOfClasses:number[], frequenciesOfClassesChildren:number[][]) => {
   const nItems = frequenciesOfClasses.reduce((sum, current) => sum + current, 0);
   const parentEntropy = getEntropy(frequenciesOfClasses);
   const childEntropy = frequenciesOfClassesChildren.reduce((entropy, currentFrequencies) => {
@@ -58,7 +49,7 @@ export const getInformationGainForSplit = (frequenciesOfClasses, frequenciesOfCl
  * that means array of arrays of frequencies for binary split you will have two arrays one for left node second for right node
  * @returns {number}
  */
-export const getInformationGainRatioForSplit = (frequenciesOfClasses, frequenciesOfClassesChildren) => {
+export const getInformationGainRatioForSplit = (frequenciesOfClasses:number[], frequenciesOfClassesChildren:number[][]) => {
   const splitSizes = frequenciesOfClassesChildren.reduce((result, currentSplit) => {
     result.push(currentSplit.reduce((all, item) => all + item, 0));
     return result;

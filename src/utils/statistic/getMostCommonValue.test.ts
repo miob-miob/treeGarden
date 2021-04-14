@@ -13,10 +13,12 @@ test('throws error when some value is not string', () => {
   const crippledValuesTwo = ['a', 'b', 'c', null];
   const crippledValuesThree = ['a', 'b', 'c', undefined];
   const crippledValuesFour = ['a', 'b', 'c', ''];
-  // @ts-ignore
+  // @ts-expect-error
   expect(() => getMostCommonValues(crippledValuesOne)).toThrow(Error);
+  // @ts-expect-error
   expect(() => getMostCommonValues(crippledValuesTwo)).toThrow(Error);
-  expect(() => getMostCommonValues(crippledValuesThree)).toThrow();
-  expect(() => getMostCommonValues(crippledValuesFour)).toThrow();
+  // @ts-expect-error
+  expect(() => getMostCommonValues(crippledValuesThree)).toThrow(Error);
+  expect(() => getMostCommonValues(crippledValuesFour)).toThrow(Error);
 });
 

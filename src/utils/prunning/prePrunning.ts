@@ -9,15 +9,10 @@ import { TreeGardenNode } from '../treeNode';
 type AlgorithmConfig = { [key:string]:any };
 
 type StopperFn = (currentNode:TreeGardenNode, configuration:AlgorithmConfig)=>boolean;
-export const composeStopFunctions = (...stopFunctions:StopperFn[]) => (currentNode:TreeGardenNode, configuration:AlgorithmConfig) => {
-  for (let index = 0; index < stopFunctions.length; index += 1) {
-    const stopper = stopFunctions[index];
-    if (stopper(currentNode, configuration)) {
-      return true;
-    }
-  }
-  return false;
-};
+export const composeStopFunctions = (...stopFunctions:StopperFn[]) => (
+  currentNode:TreeGardenNode,
+  configuration:AlgorithmConfig
+) => stopFunctions.some((stopFn) => stopFn(currentNode, configuration));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmConfig) => {
