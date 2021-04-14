@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { composeStopFunctions, stopIfPure } from './prePrunning';
-import { buildAlgorithmConfiguration } from '../../algorithmConfiguration/buildAlgorithmConfiguration';
-import { simple } from '../../sampleDataSets';
+import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { simple } from '../sampleDataSets';
 
 test('willTreeGrowFurther', () => {
   const conf = buildAlgorithmConfiguration(simple);

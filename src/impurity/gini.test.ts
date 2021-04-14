@@ -1,5 +1,5 @@
 import { getGiniIndex, getGiniIndexForDataSet, getGiniIndexForSplit } from './gini';
-import { simple } from '../../sampleDataSets';
+import { simple } from '../sampleDataSets';
 import { getClassesOfDataSet } from '../dataSet/set';
 import { getScoreForGivenSplitCriteria, getSplitCriteriaFn } from '../dataSet/split';
 

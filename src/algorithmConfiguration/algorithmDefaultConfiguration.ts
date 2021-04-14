@@ -1,11 +1,11 @@
-import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
-import { getInformationGainForSplit } from '../utils/impurity/entropy';
+import { getMostCommonValueFF } from '../dataSet/replaceMissingValues';
+import { getInformationGainForSplit } from '../impurity/entropy';
 import {
   getPossibleSpitCriteriaForContinuousAttribute,
   getPossibleSpitCriteriaForDiscreteAttribute
-} from '../utils/dataSet/split';
+} from '../dataSet/split';
 // eslint-disable-next-line import/no-cycle
-import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../utils/prunning/prePrunning';
+import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../prunning/prePrunning';
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 
 // todo implement expansivnes of splits derived from given attribute

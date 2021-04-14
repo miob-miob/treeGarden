@@ -5,9 +5,9 @@ import {
   dataPartitionsToDataPartitionCounts,
   dataPartitionsToClassCounts
 } from './treeNode';
-import { simple } from '../sampleDataSets';
+import { simple } from './sampleDataSets';
 
-import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 import { getGiniIndexForSplit } from './impurity/gini';
 
 

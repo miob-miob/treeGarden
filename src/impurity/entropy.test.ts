@@ -1,4 +1,4 @@
-import { simple } from '../../sampleDataSets';
+import { simple } from '../sampleDataSets';
 import {
   getEntropyForDataSet, getInformationGainForSplit, getEntropy, getInformationGainRatioForSplit
 } from './entropy';

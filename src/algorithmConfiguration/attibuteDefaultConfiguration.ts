@@ -1,4 +1,4 @@
-import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
+import { getMostCommonValueFF } from '../dataSet/replaceMissingValues';
 
 // configuration for particular attribute
 export const defaultAttributeConfiguration = {

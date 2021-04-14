@@ -1,7 +1,7 @@
 import { tennisSet } from './sampleDataSets';
 import { induceTree } from './induceTree';
 import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
-import { getGiniIndexForSplit } from './utils/impurity/gini';
+import { getGiniIndexForSplit } from './impurity/gini';
 
 
 const algorithmConfig = buildAlgorithmConfiguration(tennisSet, {

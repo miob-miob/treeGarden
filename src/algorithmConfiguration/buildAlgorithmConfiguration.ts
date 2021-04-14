@@ -1,6 +1,6 @@
 import { AlgorithmConfig, defaultConfiguration, PartialConfig } from './algorithmDefaultConfiguration';
 import { buildAttributesConfiguration } from './buildAttributesConfiguration';
-import { DataSetSample, getClassesOfDataSet } from '../utils/dataSet/set';
+import { DataSetSample, getClassesOfDataSet } from '../dataSet/set';
 
 
 export const buildAlgorithmConfiguration = (dataSet:DataSetSample[], configuration: PartialConfig = {}) => {

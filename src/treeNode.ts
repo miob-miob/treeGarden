@@ -7,7 +7,7 @@ import {
 } from './dataSet/split';
 import { DataSetSample } from './dataSet/set';
 // eslint-disable-next-line import/no-cycle
-import { AlgorithmConfig } from '../algorithmConfiguration/algorithmDefaultConfiguration';
+import { AlgorithmConfig } from './algorithmConfiguration/algorithmDefaultConfiguration';
 
 export type TreeGardenNode = {
   childNodes?:{ [key:string]:TreeGardenNode },

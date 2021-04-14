@@ -1,4 +1,4 @@
-import { DataSetSample, getAllAttributeIds, getTypeOfAttribute } from '../utils/dataSet/set';
+import { DataSetSample, getAllAttributeIds, getTypeOfAttribute } from '../dataSet/set';
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 import { AlgorithmConfig } from './algorithmDefaultConfiguration';
 

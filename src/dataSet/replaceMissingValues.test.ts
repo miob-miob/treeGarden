@@ -3,8 +3,8 @@ import {
   getMostCommonValueAmongSameClassFF,
   getDataSetWithReplacedValues
 } from './replaceMissingValues';
-import { simple } from '../../sampleDataSets';
-import { buildAlgorithmConfiguration } from '../../algorithmConfiguration/buildAlgorithmConfiguration';
+import { simple } from '../sampleDataSets';
+import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 
 
 const configuration = buildAlgorithmConfiguration(simple, {});

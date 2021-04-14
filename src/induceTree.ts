@@ -1,7 +1,7 @@
-import { getDataSetWithReplacedValues } from './utils/dataSet/replaceMissingValues';
-import { dataSetToTreeNode } from './utils/treeNode';
+import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
+import { dataSetToTreeNode } from './treeNode';
 import { AlgorithmConfig } from './algorithmConfiguration/algorithmDefaultConfiguration';
-import { DataSetSample } from './utils/dataSet/set';
+import { DataSetSample } from './dataSet/set';
 
 
 export const induceTree = (fullConfiguration:AlgorithmConfig, dataSet:DataSetSample[]) => {
