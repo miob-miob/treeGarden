@@ -3,32 +3,30 @@ import { existingValueGuard } from './sample';
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
 import { DataSetSample, getAllUniqueValuesOfAttribute } from './set';
 
-const mathOperators = [
+
+const supportedMathOperators = new Set([
   '==',
   '>=',
   '<=',
   '>',
   '<'
-] as const;
-const supportedMathOperators = new Set(mathOperators);
+] as const);
 
-const allOperators = [
-  ...mathOperators,
+
+const supportedOperators = new Set([
+  ...supportedMathOperators,
   'customFn'
-] as const;
+] as const);
 
-const supportedOperators = new Set(allOperators);
-
-export type SplitOperator = typeof allOperators[number];
+export type SplitOperator = typeof supportedOperators extends Set<infer K>?K:never;
+export type SplitCriteriaFn = ReturnType<typeof getSplitCriteriaFn>;
+export type ImpurityScoringFn = (parentFrequencies:number[], childFrequencies:number[][])=> number;
+export type SplitCriteriaDefinition = any[];
 
 /**
  * Factory function that returns function that accepts sample and decides what is its tag for splitting
- * @param {string} attributeId which attribute from sample use
- * @param {string} operator
- * @param value {Array<string|number>|string|function|number} depends on operator
- * @return {function(object): string|boolean}
  */
-export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, value:any = undefined) => {
+export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, value?:Array<string|number>|string|Function|number) => {
   if (operator === '==') {
     return (currentSample:DataSetSample) => {
       // value is present ==> boolean - binary split
@@ -76,10 +74,9 @@ export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, v
   throw new Error(`Used unknown operator, supported operators are: ${supportedOperators}, got '${operator}'!`);
 };
 
-// todo continue here ;)
-export const splitDataSet = (dataSet:DataSetSample[], splitCriteriaFn:(sample:DataSetSample)=>any, onlyBinarySplits:boolean) => {
+export const splitDataSet = (dataSet:DataSetSample[], splitCriteriaFn: SplitCriteriaFn, onlyBinarySplits:boolean) => {
   const tagsAndSamples = dataSet.reduce(
-    (result, currentSample) => {
+    (result:{ [key:string]:DataSetSample[] }, currentSample) => {
       const tagOfSample = splitCriteriaFn(currentSample).toString();
       if (!result[tagOfSample]) {
         // eslint-disable-next-line no-param-reassign
@@ -99,38 +96,42 @@ export const splitDataSet = (dataSet:DataSetSample[], splitCriteriaFn:(sample:Da
 /**
  *
  * @param {Array<Object>} dataSet
- * @param {function(Object):string|Boolean} splitCreiteriaFn
+ * @param {function(Object):string|Boolean} splitCriteriaFn
  * @param {Array<string>} knownClasses
  * @param {function(Array<number>,Array<Array<number>>):number} scoringFunction
  * @param {Boolean} onlyBinarySplits
  * @return {number}
  */
-export const getScoreForGivenSplitCriteria = (dataSet, splitCreiteriaFn, knownClasses, scoringFunction, onlyBinarySplits) => {
+export const getScoreForGivenSplitCriteria = (
+  dataSet:DataSetSample[],
+  splitCriteriaFn:SplitCriteriaFn,
+  knownClasses:string[],
+  scoringFunction: ImpurityScoringFn,
+  onlyBinarySplits:boolean
+) => {
   const parentFrequencies = Object.values(getFrequenciesOfClasses(dataSet, knownClasses));
-  const childDataSets = splitDataSet(dataSet, splitCreiteriaFn, onlyBinarySplits);
+  const childDataSets = splitDataSet(dataSet, splitCriteriaFn, onlyBinarySplits);
   const childFrequencies = Object.values(childDataSets)
     .map((childSet) => Object.values(getFrequenciesOfClasses(childSet, knownClasses)));
   return scoringFunction(parentFrequencies, childFrequencies);
 };
 
-/**
- *
- * @param {Array<any>} values
- * @param {number} maxElements
- * @param {Array<Array<any>>}[combinationsFromPreviousStep]
- * @param {number} [currentElements]
- * @return {Array<Array<any>>}
- */
-export const getCombinationsWithoutRepeats = (values, maxElements, combinationsFromPreviousStep, currentElements) => {
-  let newCombinationsArray;
-  let curElements;
+
+export const getCombinationsWithoutRepeats = (
+  values: any[],
+  maxElements: number,
+  combinationsFromPreviousStep?:any[][],
+  currentElements?:number
+):any[][] => {
+  let newCombinationsArray:any[][];
+  let curElements: number;
   if (!combinationsFromPreviousStep || !currentElements) {
     newCombinationsArray = values.map((item) => [item]);
     newCombinationsArray.sort();
     curElements = 1;
   } else {
     curElements = currentElements;
-    const newlyDiscoveredUniqueCombinations = {};
+    const newlyDiscoveredUniqueCombinations:{ [key:string]:any[] } = {};
     for (let combinationIndex = 0; combinationIndex < combinationsFromPreviousStep.length; combinationIndex += 1) {
       for (let valueIndex = 0; valueIndex < values.length; valueIndex += 1) {
         const value = values[valueIndex];
@@ -156,10 +157,12 @@ export const getCombinationsWithoutRepeats = (values, maxElements, combinationsF
   return [...newCombinationsArray, ...getCombinationsWithoutRepeats(values, maxElements, newCombinationsArray, curElements + 1)];
 };
 
-export const getAllPossibleSplitCriteriaForCategoricalValues = (attributeId, values) => getCombinationsWithoutRepeats(values, values.length - 1)
+export const getAllPossibleSplitCriteriaForCategoricalValues = (
+  attributeId:string, values:any[]
+):SplitCriteriaDefinition[] => getCombinationsWithoutRepeats(values, values.length - 1)
   .map((combination) => [attributeId, '==', combination]);
 
-export const getAllPossibleSplitCriteriaForContinuousValues = (attributeId, values) => {
+export const getAllPossibleSplitCriteriaForContinuousValues = (attributeId:string, values:any[]) => {
   const valuesCopy = [...values];
   valuesCopy.sort((a, b) => a - b);
   const result = [];
@@ -175,8 +178,11 @@ export const getAllPossibleSplitCriteriaForContinuousValues = (attributeId, valu
   return result;
 };
 
-
-export const getPossibleSpitCriteriaForDiscreteAttribute = (attributeId, dataSet, configuration) => {
+export const getPossibleSpitCriteriaForDiscreteAttribute = (
+  attributeId:string,
+  dataSet:DataSetSample[],
+  configuration: { [key:string]:any } // this any is because cyclic dependency when inferring algorithmconfig
+):SplitCriteriaDefinition[] => {
   const uniqueValues = getAllUniqueValuesOfAttribute(attributeId, dataSet);
   if (configuration.onlyBinarySplits) {
     return getAllPossibleSplitCriteriaForCategoricalValues(attributeId, uniqueValues);
@@ -184,14 +190,15 @@ export const getPossibleSpitCriteriaForDiscreteAttribute = (attributeId, dataSet
   return [[attributeId, '==']];
 };
 
-// eslint-disable-next-line no-unused-vars
-export const getPossibleSpitCriteriaForContinuousAttribute = (attributeId, dataSet, configuration) => {
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getPossibleSpitCriteriaForContinuousAttribute = (attributeId:string, dataSet:DataSetSample[], configuration:{ [key:string]:any }) => {
   const uniqueValues = getAllUniqueValuesOfAttribute(attributeId, dataSet);
   return getAllPossibleSplitCriteriaForContinuousValues(attributeId, uniqueValues);
 };
 
 
-const areSplitCriteriaSame = (splitCriteriaOne, splitCriteriaTwo) => {
+const areSplitCriteriaSame = (splitCriteriaOne:SplitCriteriaDefinition, splitCriteriaTwo:SplitCriteriaDefinition) => {
   if (splitCriteriaOne[0] !== splitCriteriaTwo[0] || splitCriteriaOne[1] !== splitCriteriaTwo[1]) {
     return false;
   }
@@ -202,21 +209,27 @@ const areSplitCriteriaSame = (splitCriteriaOne, splitCriteriaTwo) => {
   if (typeof lastMemberOne !== typeof lastMemberTwo) {
     return false;
   }
-
-  // eslint-disable-next-line no-unused-expressions
+  // @ts-ignore
   lastMemberTwo?.sort?.();
-  // eslint-disable-next-line no-unused-expressions
+  // @ts-ignore
   lastMemberOne?.sort?.();
 
   return lastMemberOne.toString() === lastMemberTwo.toString();
 };
 
 // splitCriteriaAlreadyUsed - array of splits - which is array like [['color', '==', ['green','red','blue],[next...]]
-export const getAllPossibleSplitCriteriaForDataSet = (dataSet, configuration, splitCriteriaAlreadyUsed) => {
+export const getAllPossibleSplitCriteriaForDataSet = (
+  dataSet:DataSetSample[],
+  configuration:{ [key:string]:any },
+  splitCriteriaAlreadyUsed:SplitCriteriaDefinition[]
+): SplitCriteriaDefinition[] => {
   const possibleSplitCriteria = Object.entries(configuration.attributes).flatMap(
     ([attributeId, {
+      // @ts-expect-error because we cannot use algorithm config type here (used for infer config - cyclic dependency)
       dataType,
+      // @ts-expect-error
       getAllPossibleSplitCriteriaForDiscreteAttribute,
+      // @ts-expect-error
       getAllPossibleSplitCriteriaForContinuousAttribute
     }]) => ((dataType === 'discrete') ? getAllPossibleSplitCriteriaForDiscreteAttribute(attributeId, dataSet, configuration)
       : getAllPossibleSplitCriteriaForContinuousAttribute(attributeId, dataSet, configuration))
@@ -234,8 +247,9 @@ export const getAllPossibleSplitCriteriaForDataSet = (dataSet, configuration, sp
     });
 };
 
-export const getBestScoringSplits = (dataSet, possibleSplits, algorithmConfig) => {
+export const getBestScoringSplits = (dataSet:DataSetSample[], possibleSplits:SplitCriteriaDefinition[], algorithmConfig:{ [key:string]:any }) => {
   const splitsWithScore = possibleSplits.map((splitDefinition) => {
+    // @ts-expect-error
     const splitter = getSplitCriteriaFn(...splitDefinition);
     const score = getScoreForGivenSplitCriteria(
       dataSet,
@@ -246,7 +260,7 @@ export const getBestScoringSplits = (dataSet, possibleSplits, algorithmConfig) =
     );
     return { split: splitDefinition, score };
   });
-
+  // @ts-expect-error
   const comparator = algorithmConfig.biggerImpurityScoreBetterSplit ? (a, b) => b.score - a.score : (a, b) => a.score - b.score;
   return splitsWithScore
     .sort(comparator)

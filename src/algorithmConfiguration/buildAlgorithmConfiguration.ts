@@ -1,8 +1,9 @@
-import { defaultConfiguration } from './algorithmDefaultConfiguration';
+import { AlgorithmConfig, defaultConfiguration, PartialConfig } from './algorithmDefaultConfiguration';
 import { buildAttributesConfiguration } from './buildAttributesConfiguration';
-import { getClassesOfDataSet } from '../utils/dataSet/set';
+import { DataSetSample, getClassesOfDataSet } from '../utils/dataSet/set';
 
-export const buildAlgorithmConfiguration = (dataSet, configuration = {}) => {
+
+export const buildAlgorithmConfiguration = (dataSet:DataSetSample[], configuration: PartialConfig = {}) => {
   if (configuration.buildTime) {
     throw new Error(`This configuration was already build! ${JSON.stringify(configuration)}`);
   }
@@ -16,5 +17,5 @@ export const buildAlgorithmConfiguration = (dataSet, configuration = {}) => {
   }
   mergedConfiguration.attributes = buildAttributesConfiguration(mergedConfiguration, dataSet);
   mergedConfiguration.buildTime = Date.now();
-  return mergedConfiguration;
+  return mergedConfiguration as AlgorithmConfig;
 };

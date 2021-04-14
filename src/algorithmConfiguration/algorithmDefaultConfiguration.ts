@@ -1,12 +1,18 @@
 import { getMostCommonValueFF } from '../utils/dataSet/replaceMissingValues';
 import { getInformationGainForSplit } from '../utils/impurity/entropy';
-import { getPossibleSpitCriteriaForContinuousAttribute, getPossibleSpitCriteriaForDiscreteAttribute } from '../utils/dataSet/split';
-import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../utils/treeNode';
+import {
+  getPossibleSpitCriteriaForContinuousAttribute,
+  getPossibleSpitCriteriaForDiscreteAttribute
+} from '../utils/dataSet/split';
+// eslint-disable-next-line import/no-cycle
+import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../utils/prunning/prePrunning';
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
 
+
+// todo fix cyclic dependency  - write lgorithm config type by hand and use non undefined default values
 export const defaultConfiguration = {
   // key is attributeId, value is attributeMeta object
   attributes: {} as { [key:string]:typeof defaultAttributeConfiguration },
@@ -60,3 +66,6 @@ export const defaultConfiguration = {
   // check if was not already build
   buildTime: undefined as undefined | number
 };
+
+export type AlgorithmConfig = typeof defaultConfiguration;
+export type PartialConfig = Omit<Partial<AlgorithmConfig>, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } };

@@ -2,9 +2,8 @@
 import {
   createTreeNode,
   dataSetToTreeNode,
-  stopIfPure,
   dataPartitionsToDataPartitionCounts,
-  dataPartitionsToClassCounts, composeStopFunctions
+  dataPartitionsToClassCounts
 } from './treeNode';
 import { simple } from '../sampleDataSets';
 
@@ -82,52 +81,11 @@ test('dataSetToTreeNode', () => {
     classCounts: { left: 2, right: 3 }
   };
 
-  const newNode = dataSetToTreeNode(simple, config, null);
+  const newNode = dataSetToTreeNode(simple, config);
   // we do not want calculate gini by hand ;)
+  // @ts-expect-error
   newNode.bestSplits = newNode.bestSplits.map(({ split }) => split);
   expect(newNode).toStrictEqual(expectedNewTreeNode);
-});
-
-
-test('willTreeGrowFurther', () => {
-  const conf = buildAlgorithmConfiguration(simple);
-  const node = {
-    childNodes: null,
-    isLeaf: false,
-    chosenSplitCriteria: ['color', '=='],
-    impurityScore: 0,
-    bestSplits: [
-      ['color', '=='],
-      ['size', '>', 2.5],
-      ['size', '>', 3.5]
-    ],
-    dataPartitions: {
-      black: [
-        {
-          _class: 'left', color: 'black', size: 3, _label: '1'
-        },
-        {
-          _class: 'left', color: 'black', size: 4, _label: '2'
-        }
-      ],
-      white: [
-        {
-          _class: 'right', color: 'white', size: 4, _label: '3'
-        },
-        {
-          _class: 'right', color: 'white', size: 2, _label: '4'
-        },
-        {
-          _class: 'right', color: 'white', size: 2, _label: '5'
-        }
-      ]
-    }
-  };
-
-  expect(stopIfPure(node, conf)).toBeFalsy();
-  node.dataPartitions.black[0]._class = 'right';
-  node.dataPartitions.black[1]._class = 'right';
-  expect(stopIfPure(node, conf)).toBeTruthy();
 });
 
 
@@ -167,22 +125,4 @@ test('dataPartitionsToDataPartitionCounts and classCounts', () => {
   };
   expect(dataPartitionsToDataPartitionCounts(dataPartitions)).toStrictEqual(expectedCounts);
   expect(dataPartitionsToClassCounts(dataPartitions)).toStrictEqual({ left: 2, right: 3 });
-});
-
-
-test('composeStopFunctions', () => {
-  const stoppedOne = jest.fn(() => true);
-  const notStoppedOne = jest.fn(() => false);
-  const composedStopper = composeStopFunctions(stoppedOne, notStoppedOne);
-  expect(composedStopper({}, {})).toBeTruthy();
-  expect(stoppedOne.mock.calls.length).toBe(1);
-  expect(notStoppedOne.mock.calls.length).toBe(0);
-
-  const notStoppedTwo = jest.fn(() => false);
-  const anotherNotStoppedTwo = jest.fn(() => false);
-
-  const anotherComposedStopper = composeStopFunctions(notStoppedTwo, anotherNotStoppedTwo);
-  expect(anotherComposedStopper({}, {})).toBeFalsy();
-  expect(notStoppedTwo.mock.calls.length).toBe(1);
-  expect(anotherNotStoppedTwo.mock.calls.length).toBe(1);
 });

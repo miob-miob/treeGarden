@@ -1,7 +1,10 @@
 import {
   getCombinationsWithoutRepeats,
   getAllPossibleSplitCriteriaForCategoricalValues,
-  getAllPossibleSplitCriteriaForContinuousValues, getAllPossibleSplitCriteriaForDataSet, getBestScoringSplits
+  getAllPossibleSplitCriteriaForContinuousValues,
+  getAllPossibleSplitCriteriaForDataSet,
+  getBestScoringSplits,
+  SplitCriteriaDefinition
 } from './split';
 
 import { simple } from '../../sampleDataSets';
@@ -91,7 +94,7 @@ test('getBestScoringSplits', () => {
     ['size', '>', 3.5],
     ['color', '=='],
     ['size', '>', 2.5]
-  ];
+  ] as SplitCriteriaDefinition[];
   const expectedBestSplits = [
     ['color', '=='],
     ['size', '>', 2.5],

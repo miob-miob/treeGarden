@@ -23,7 +23,7 @@ export const getClassesOfDataSet = (dataSet:DataSetSample[], alreadyKnownClasses
 
 
 export const getAllAttributeIds = (dataSet : DataSetSample[]) => {
-  const resultSet = new Set();
+  const resultSet = new Set<string>();
   dataSet.forEach((sample) => {
     Object.keys(sample)
       .filter((key) => key[0] !== '_') // filter out _label and _class

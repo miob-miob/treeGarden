@@ -1,7 +1,7 @@
 import { getBootstrappedDataSet, getDividedSet } from './dividingAndBootstrapping';
 
-const buildDataSet = (nItems) => Array.from(Array(nItems))
-  .map((item, index) => ({ value: index }));
+const buildDataSet = (nItems: number) => Array.from(Array(nItems))
+  .map((item, index) => ({ value: index, _class: 'someClass' }));
 
 test('getBootstrappedDataSet', () => {
   const howMany = 99;

@@ -1,5 +1,6 @@
-import { getAllAttributeIds, getTypeOfAttribute } from '../utils/dataSet/set';
+import { DataSetSample, getAllAttributeIds, getTypeOfAttribute } from '../utils/dataSet/set';
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
+import { AlgorithmConfig } from './algorithmDefaultConfiguration';
 
 export const keysInheritedFromAlgorithmConfigurationIfNotDefined = [
   'induceMissingValueReplacement',
@@ -7,12 +8,13 @@ export const keysInheritedFromAlgorithmConfigurationIfNotDefined = [
   'missingValue',
   'getAllPossibleSplitCriteriaForDiscreteAttribute',
   'getAllPossibleSplitCriteriaForContinuousAttribute'
-];
+] as const;
 
-export const buildAttributesConfiguration = (configuration, dataSet) => {
+type ConfigWithPartialAttributes = Omit<AlgorithmConfig, 'attributes'> & { attributes: { [key:string]:Partial<typeof defaultAttributeConfiguration> } };
+export const buildAttributesConfiguration = (configuration:ConfigWithPartialAttributes, dataSet:DataSetSample[]) => {
   const consideredAttributes = configuration.includedAttributes.length > 0 ? configuration.includedAttributes : getAllAttributeIds(dataSet)
-    .filter((attributeId) => !configuration.excludedAttributes.includes(attributeId));
-  return consideredAttributes.reduce((result, currentAttributeId) => {
+    .filter((attributeId:string) => !configuration.excludedAttributes.includes(attributeId));
+  return consideredAttributes.reduce((result:{ [key:string]:typeof defaultAttributeConfiguration }, currentAttributeId) => {
     const attributeFromConfig = configuration.attributes[currentAttributeId];
 
     const resultAttrConfig = attributeFromConfig ? { ...defaultAttributeConfiguration, ...attributeFromConfig }
