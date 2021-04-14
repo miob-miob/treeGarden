@@ -1,5 +1,8 @@
+// eslint-disable-next-line import/no-cycle
 import { getMostCommonValueFF } from '../dataSet/replaceMissingValues';
 
+
+// todo solve circular dependencies on attribute configuration as well (by hand + default values)
 // configuration for particular attribute
 export const defaultAttributeConfiguration = {
   // 'automatic'|'continuous'|'discrete'

@@ -1,21 +1,19 @@
+/* eslint-disable */
 // stopping  - pre-pruning
 
 import { getClassesOfDataSet } from '../dataSet/set';
-// eslint-disable-next-line import/no-cycle
 import { TreeGardenNode } from '../treeNode';
+import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 
 
-// todo because cyclic dependency we must crippple algorith config for now
-type AlgorithmConfig = { [key:string]:any };
-
-type StopperFn = (currentNode:TreeGardenNode, configuration:AlgorithmConfig)=>boolean;
+type StopperFn = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration)=>boolean;
 export const composeStopFunctions = (...stopFunctions:StopperFn[]) => (
   currentNode:TreeGardenNode,
-  configuration:AlgorithmConfig
+  configuration:AlgorithmConfiguration
 ) => stopFunctions.some((stopFn) => stopFn(currentNode, configuration));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmConfig) => {
+export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration) => {
   if (!currentNode.dataPartitions) {
     throw new Error('Node has no partitions!');
   }
@@ -25,7 +23,7 @@ export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmCo
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, configuration:AlgorithmConfig) => {
+export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration) => {
   if (!currentNode.bestSplits || currentNode.bestSplits.length === 0) {
     throw new Error('Tou probably solving uninitialized node!');
   }

@@ -3,6 +3,8 @@ import { getMostCommonValues } from '../statistic/getMostCommonValue';
 import { chooseOne } from '../randomization';
 import { DataSetSample, getClassesOfDataSet } from './set';
 import { getMedian } from '../statistic/getMedian';
+// eslint-disable-next-line import/no-cycle
+import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 
 // todo because we infering configuration and some of functions here are used as default values of configuration
 // todo  we are creating circular depenency - we must ommit algorithmConfig type ;(
@@ -10,7 +12,7 @@ import { getMedian } from '../statistic/getMedian';
 // closure WARNING :D FF stands for Function Factory - on algorithm start it is called
 // and replacer is created (just once) than used for every sample with missing value
 // eslint-disable-next-line no-unused-vars
-export const getMostCommonValueFF = (dataSet:DataSetSample[], attributeId:string, configuration:{ [key:string]:any }) => {
+export const getMostCommonValueFF = (dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
   const typeOfAttribute = configuration.attributes[attributeId].dataType;
   const { missingValue } = configuration.attributes[attributeId];
   const valuesForGivenAttribute = dataSet
@@ -38,7 +40,7 @@ export const getMostCommonValueFF = (dataSet:DataSetSample[], attributeId:string
 };
 
 // closure WARNING :D FF stands for Function Factory
-export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attributeId:string, configuration:{ [key:string]:any }) => {
+export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
   const allClassesOfDataSet = getClassesOfDataSet(dataSet);
   const classesAndCommonValuesForGivenAttributeId:{ [key:string]:any[] } = {};
   const attributeDataType = configuration.attributes[attributeId].dataType;
@@ -64,12 +66,12 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attr
 };
 
 // this will create copy of dataSet which is then used for induction
-export const getDataSetWithReplacedValues = (dataSet:DataSetSample[], algorithmConfiguration:{ [key:string]:any }) => {
+export const getDataSetWithReplacedValues = (dataSet:DataSetSample[], algorithmConfiguration:AlgorithmConfiguration) => {
   // cash replacers because if replacer is build it will iterate whole dataset
   const replacerHash: { [key:string]:Function } = {};
   const getReplacer = (attributeId:string) => {
     if (!replacerHash[attributeId]) {
-      replacerHash[attributeId] = algorithmConfiguration.attributes[attributeId].induceMissingValueReplacement(dataSet, attributeId, algorithmConfiguration);
+      replacerHash[attributeId] = algorithmConfiguration.attributes[attributeId].induceMissingValueReplacement!(dataSet, attributeId, algorithmConfiguration);
     }
     return replacerHash[attributeId];
   };

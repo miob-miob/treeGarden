@@ -1,7 +1,35 @@
-import { AlgorithmConfig, defaultConfiguration, PartialConfig } from './algorithmDefaultConfiguration';
+/* eslint-disable import/no-cycle */
+import { defaultConfiguration } from './algorithmDefaultConfiguration';
 import { buildAttributesConfiguration } from './buildAttributesConfiguration';
 import { DataSetSample, getClassesOfDataSet } from '../dataSet/set';
+import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
+import { TreeGardenNode } from '../treeNode';
+import { SplitCriteriaDefinition } from '../dataSet/split';
 
+// We cannot infer this from defaultConfiguration because of cyclic dependency in types of defaultConfiguration
+export type AlgorithmConfiguration = {
+  attributes:{ [key:string]:typeof defaultAttributeConfiguration },
+  includedAttributes: string[],
+  excludedAttributes: string[],
+  impurityScoringForSplit:(frequenciesOfClasses:number[], frequenciesOfClassesChildren:number[][])=>number,
+  biggerImpurityScoreBetterSplit:boolean,
+  shouldWeStopGrowth:(node:TreeGardenNode, configuration:AlgorithmConfiguration)=>boolean,
+  numberOfSplitsKept: number,
+  induceMissingValueReplacement:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:DataSetSample)=>any,
+  evaluateMissingValueReplacement:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:DataSetSample)=>any,
+  onlyBinarySplits:boolean,
+  missingValue:any,
+  keepFullLearningData:boolean,
+  getAllPossibleSplitCriteriaForDiscreteAttribute:(attributeId:string,
+    dataSet:DataSetSample[],
+    configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[],
+  getAllPossibleSplitCriteriaForContinuousAttribute:(attributeId:string,
+    dataSet:DataSetSample[],
+    configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[],
+  allClasses?:string[],
+  buildTime?:number
+};
+export type PartialConfig = Omit<Partial<AlgorithmConfiguration>, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } };
 
 export const buildAlgorithmConfiguration = (dataSet:DataSetSample[], configuration: PartialConfig = {}) => {
   if (configuration.buildTime) {
@@ -17,5 +45,5 @@ export const buildAlgorithmConfiguration = (dataSet:DataSetSample[], configurati
   }
   mergedConfiguration.attributes = buildAttributesConfiguration(mergedConfiguration, dataSet);
   mergedConfiguration.buildTime = Date.now();
-  return mergedConfiguration as AlgorithmConfig;
+  return mergedConfiguration as AlgorithmConfiguration;
 };

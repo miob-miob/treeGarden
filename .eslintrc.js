@@ -15,7 +15,7 @@ module.exports = {
     'import/no-default-export':2,
     'import/prefer-default-export':0,
     "@typescript-eslint/comma-dangle": ["error", "never"],
-    "max-len": ["error", { "code": 160 }],
+    "max-len": ["error", { "code": 170 }],
     'no-unused-vars': ["error", { "args": "none" }]
   },
 };

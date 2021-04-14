@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { getMostCommonValueFF } from '../dataSet/replaceMissingValues';
 import { getInformationGainForSplit } from '../impurity/entropy';
 import {
@@ -6,22 +7,19 @@ import {
 } from '../dataSet/split';
 // eslint-disable-next-line import/no-cycle
 import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../prunning/prePrunning';
-import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
 
-
-// todo fix cyclic dependency  - write lgorithm config type by hand and use non undefined default values
 export const defaultConfiguration = {
   // key is attributeId, value is attributeMeta object
-  attributes: {} as { [key:string]:typeof defaultAttributeConfiguration },
+  attributes: {},
 
   // arrayOfAttributeIds if defined only these attributes re considered for building decision tree
-  includedAttributes: [] as string[],
+  includedAttributes: [],
 
   // arrayOfAttributeIds if defined  these attributes are not considered for building decision tree
-  excludedAttributes: [] as string[],
+  excludedAttributes: [],
 
   // impurity scoring function see default for more information
   impurityScoringForSplit: getInformationGainForSplit,
@@ -31,7 +29,6 @@ export const defaultConfiguration = {
 
   // when this function evaluates to to true then next split will be made if false grow is stopped and node is leaf one
   shouldWeStopGrowth: composeStopFunctions(stopIfPure, stopIfNoSplitsAvailable),
-
   // how many splits will be stored on each node
   numberOfSplitsKept: 3,
 
@@ -61,11 +58,9 @@ export const defaultConfiguration = {
 
   // below are runtime configs !!!
   // all classes of initial data set (will be populated automatically)
-  allClasses: undefined as undefined | (string|number)[],
+  allClasses: undefined,
 
   // check if was not already build
-  buildTime: undefined as undefined | number
+  buildTime: undefined
 };
 
-export type AlgorithmConfig = typeof defaultConfiguration;
-export type PartialConfig = Omit<Partial<AlgorithmConfig>, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } };

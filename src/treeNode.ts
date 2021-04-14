@@ -7,7 +7,7 @@ import {
 } from './dataSet/split';
 import { DataSetSample } from './dataSet/set';
 // eslint-disable-next-line import/no-cycle
-import { AlgorithmConfig } from './algorithmConfiguration/algorithmDefaultConfiguration';
+import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 
 export type TreeGardenNode = {
   childNodes?:{ [key:string]:TreeGardenNode },
@@ -55,7 +55,7 @@ export const dataPartitionsToClassCounts = (dataPartitions:{ [key:string]:DataSe
 };
 
 
-export const dataSetToTreeNode = (dataSet:DataSetSample[], configuration:AlgorithmConfig, parentNode?:TreeGardenNode) => {
+export const dataSetToTreeNode = (dataSet:DataSetSample[], configuration:AlgorithmConfiguration, parentNode?:TreeGardenNode) => {
   const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, configuration, parentNode?.alreadyUsedSplits ?? []);
   const bestScoringCriteria = getBestScoringSplits(dataSet, possibleSplits, configuration);
   //   todo solve no criteria (should stop)

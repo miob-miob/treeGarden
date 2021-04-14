@@ -1,10 +1,10 @@
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { dataSetToTreeNode } from './treeNode';
-import { AlgorithmConfig } from './algorithmConfiguration/algorithmDefaultConfiguration';
+import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 import { DataSetSample } from './dataSet/set';
 
 
-export const induceTree = (fullConfiguration:AlgorithmConfig, dataSet:DataSetSample[]) => {
+export const induceTree = (fullConfiguration:AlgorithmConfiguration, dataSet:DataSetSample[]) => {
   if (!fullConfiguration.buildTime) {
     throw new Error('You cannot use just partial configuration in "induceTree" function, build it with "buildAlgorithmConfiguration"');
   }
