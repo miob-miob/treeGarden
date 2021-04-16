@@ -46,10 +46,11 @@ test('willTreeGrowFurther', () => {
 
 
 test('composeStopFunctions', () => {
+  const config = buildAlgorithmConfiguration(simple, {});
   const stoppedOne = jest.fn(() => true);
   const notStoppedOne = jest.fn(() => false);
   const composedStopper = composeStopFunctions(stoppedOne, notStoppedOne);
-  expect(composedStopper({ isLeaf: false }, {})).toBeTruthy();
+  expect(composedStopper({ isLeaf: false }, config)).toBeTruthy();
   expect(stoppedOne.mock.calls.length).toBe(1);
   expect(notStoppedOne.mock.calls.length).toBe(0);
 
@@ -57,7 +58,7 @@ test('composeStopFunctions', () => {
   const anotherNotStoppedTwo = jest.fn(() => false);
 
   const anotherComposedStopper = composeStopFunctions(notStoppedTwo, anotherNotStoppedTwo);
-  expect(anotherComposedStopper({ isLeaf: false }, {})).toBeFalsy();
+  expect(anotherComposedStopper({ isLeaf: false }, config)).toBeFalsy();
   expect(notStoppedTwo.mock.calls.length).toBe(1);
   expect(anotherNotStoppedTwo.mock.calls.length).toBe(1);
 });
