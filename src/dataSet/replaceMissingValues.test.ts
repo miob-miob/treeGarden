@@ -42,7 +42,7 @@ test('getDataSetWithReplacedValues', () => {
     { _class: 'one', weight: 'z', color: 'x' }
   ];
   const config = buildAlgorithmConfiguration(dataSet, { missingValue: 'x', attributes: { weight: { missingValue: 'z' } } });
-  expect(getDataSetWithReplacedValues(dataSet, config)).toStrictEqual([
+  expect(getDataSetWithReplacedValues({ samplesToReplace: dataSet, algorithmConfiguration: config })).toStrictEqual([
     { _class: 'one', weight: 55, color: 'blue' },
     { _class: 'one', weight: 40, color: 'blue' },
     { _class: 'one', weight: 33, color: 'red' },
@@ -62,7 +62,7 @@ test('getDataSetWithReplacedValues with undefined missing values', () => {
     { _class: 'one', weight: 60 },
     { _class: 'one' }
   ];
-  expect(getDataSetWithReplacedValues(dataSet, buildAlgorithmConfiguration(dataSet, undefined))).toStrictEqual([
+  expect(getDataSetWithReplacedValues({ samplesToReplace: dataSet, algorithmConfiguration: buildAlgorithmConfiguration(dataSet) })).toStrictEqual([
     { _class: 'one', weight: 55, color: 'blue' },
     { _class: 'one', weight: 40, color: 'blue' },
     { _class: 'one', weight: 33, color: 'red' },

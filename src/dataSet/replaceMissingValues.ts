@@ -65,18 +65,32 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attr
   };
 };
 
-// this will create copy of dataSet which is then used for induction
-export const getDataSetWithReplacedValues = (dataSet:DataSetSample[], algorithmConfiguration:AlgorithmConfiguration) => {
-  // cash replacers because if replacer is build it will iterate whole dataset
+
+type ReplaceOptions = {
+  samplesToReplace:DataSetSample[],
+  referenceDataSet?:DataSetSample[],
+  algorithmConfiguration:AlgorithmConfiguration,
+  replacerFactoryKey?: 'induceMissingValueReplacement' | 'evaluateMissingValueReplacement'
+};
+
+// this will create copy of samplesToReplace with replaced values
+export const getDataSetWithReplacedValues = ({
+  samplesToReplace,
+  algorithmConfiguration,
+  referenceDataSet,
+  replacerFactoryKey = 'induceMissingValueReplacement'
+}:ReplaceOptions) => {
+  const usedReferenceSet = referenceDataSet || samplesToReplace;
+  // cache replacers because if replacer is build it will iterate whole dataset
   const replacerHash: { [key:string]:Function } = {};
   const getReplacer = (attributeId:string) => {
     if (!replacerHash[attributeId]) {
-      replacerHash[attributeId] = algorithmConfiguration.attributes[attributeId].induceMissingValueReplacement!(dataSet, attributeId, algorithmConfiguration);
+      replacerHash[attributeId] = algorithmConfiguration.attributes[attributeId][replacerFactoryKey]!(usedReferenceSet, attributeId, algorithmConfiguration);
     }
     return replacerHash[attributeId];
   };
   const usedAttributes = Object.keys(algorithmConfiguration.attributes);
-  return dataSet.map((sample) => {
+  return samplesToReplace.map((sample) => {
     const sampleCopy:{ [key:string]:DataSetSample } = {};
     let foundMissingValue = false;
     usedAttributes.forEach((attributeId) => {

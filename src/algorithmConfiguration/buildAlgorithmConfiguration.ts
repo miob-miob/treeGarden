@@ -17,6 +17,8 @@ export type AlgorithmConfiguration = {
   numberOfSplitsKept: number,
   induceMissingValueReplacement:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:DataSetSample)=>any,
   evaluateMissingValueReplacement:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:DataSetSample)=>any,
+  replaceMissingValuesWhileEvaluating?:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>
+  (sample:DataSetSample, nodeWithSampleWithMissingValue:TreeGardenNode)=>any,
   onlyBinarySplits:boolean,
   missingValue:any,
   keepFullLearningData:boolean,
@@ -29,8 +31,7 @@ export type AlgorithmConfiguration = {
   allClasses?:string[],
   buildTime?:number
 };
-export type PartialConfig = Omit<Partial<AlgorithmConfiguration>, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } };
-
+export type PartialConfig = Partial<Omit<AlgorithmConfiguration, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } }>;
 export const buildAlgorithmConfiguration = (dataSet:DataSetSample[], configuration: PartialConfig = {}) => {
   if (configuration.buildTime) {
     throw new Error(`This configuration was already build! ${JSON.stringify(configuration)}`);
@@ -39,11 +40,11 @@ export const buildAlgorithmConfiguration = (dataSet:DataSetSample[], configurati
   if (!dataSet) {
     throw new Error('Data set that will be used for learning is required in "buildAlgorithmConfiguration" function call.');
   }
-  const mergedConfiguration = { ...defaultConfiguration, ...(configuration || {}) };
+  const mergedConfiguration = { ...defaultConfiguration, ...(configuration || {}) } as AlgorithmConfiguration;
   if (!mergedConfiguration.allClasses) {
     mergedConfiguration.allClasses = getClassesOfDataSet(dataSet);
   }
   mergedConfiguration.attributes = buildAttributesConfiguration(mergedConfiguration, dataSet);
   mergedConfiguration.buildTime = Date.now();
-  return mergedConfiguration as AlgorithmConfiguration;
+  return mergedConfiguration;
 };

@@ -9,7 +9,7 @@ export const induceTree = (fullConfiguration:AlgorithmConfiguration, dataSet:Dat
     throw new Error('You cannot use just partial configuration in "induceTree" function, build it with "buildAlgorithmConfiguration"');
   }
   const shouldWeStop = fullConfiguration.shouldWeStopGrowth;
-  const readyToGoDataSet = getDataSetWithReplacedValues(dataSet, fullConfiguration);
+  const readyToGoDataSet = getDataSetWithReplacedValues({ samplesToReplace: dataSet, algorithmConfiguration: fullConfiguration });
   const rootNode = dataSetToTreeNode(readyToGoDataSet, fullConfiguration);
   const stack = [rootNode];
   while (stack.length > 0) {
