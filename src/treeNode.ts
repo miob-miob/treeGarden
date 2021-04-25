@@ -34,10 +34,10 @@ export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string
   .map(([tag, subset]) => {
     const resultForSubset :{ [key:string]:number } = {};
     subset.forEach(({ _class }) => {
-      if (!resultForSubset[_class]) {
-        resultForSubset[_class] = 0;
+      if (!resultForSubset[_class!]) {
+        resultForSubset[_class!] = 0;
       }
-      resultForSubset[_class] += 1;
+      resultForSubset[_class!] += 1;
     });
     return [tag, resultForSubset];
   }));
@@ -46,10 +46,10 @@ export const dataPartitionsToClassCounts = (dataPartitions:{ [key:string]:DataSe
   const wholeSet = Object.values(dataPartitions).flat(1);
   const result:{ [key:string]:number } = {};
   wholeSet.forEach(({ _class }) => {
-    if (!result[_class]) {
-      result[_class] = 0;
+    if (!result[_class!]) {
+      result[_class!] = 0;
     }
-    result[_class] += 1;
+    result[_class!] += 1;
   });
   return result;
 };
@@ -79,3 +79,20 @@ export const dataSetToTreeNode = (dataSet:DataSetSample[], configuration:Algorit
 };
 
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getMostCommonClassFromNode = (leafNode:TreeGardenNode, sample?:DataSetSample) => {
+  const sortedClasses = Object.entries(leafNode.classCounts!)
+    .sort(([classOne, countOne], [classTwo, countTwo]) => {
+      if (countOne === countTwo) {
+        if (classOne < classTwo) {
+          return -1;
+        }
+        if (classOne === classTwo) {
+          return 0;
+        }
+        return 1;
+      }
+      return countTwo - countOne;
+    });
+  return sortedClasses[0][0];
+};

@@ -3,7 +3,7 @@ import { dataSetToTreeNode } from './treeNode';
 import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 import { DataSetSample } from './dataSet/set';
 
-
+// todo check input data set that it has _class - all of them ;)
 export const induceTree = (fullConfiguration:AlgorithmConfiguration, dataSet:DataSetSample[]) => {
   if (!fullConfiguration.buildTime) {
     throw new Error('You cannot use just partial configuration in "induceTree" function, build it with "buildAlgorithmConfiguration"');

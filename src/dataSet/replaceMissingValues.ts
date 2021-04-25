@@ -40,6 +40,7 @@ export const getMostCommonValueFF = (dataSet:DataSetSample[], attributeId:string
 };
 
 // closure WARNING :D FF stands for Function Factory
+// this is usable only in induction time, evaluation samples do not have _class
 export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
   const allClassesOfDataSet = getClassesOfDataSet(dataSet);
   const classesAndCommonValuesForGivenAttributeId:{ [key:string]:any[] } = {};
@@ -55,13 +56,13 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attr
     }
   });
   return (sampleWithMissingValue:DataSetSample) => {
-    if (!classesAndCommonValuesForGivenAttributeId[sampleWithMissingValue._class]) {
+    if (!classesAndCommonValuesForGivenAttributeId[sampleWithMissingValue._class!]) {
       throw new Error(`
       There is no value for attribute '${attributeId}' among samples with class: '${sampleWithMissingValue._class}'!
       Use different method for replacement of missing values or discard sample entirely!
       `);
     }
-    return classesAndCommonValuesForGivenAttributeId[sampleWithMissingValue._class];
+    return classesAndCommonValuesForGivenAttributeId[sampleWithMissingValue._class!];
   };
 };
 

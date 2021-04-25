@@ -7,6 +7,8 @@ import {
 } from '../dataSet/split';
 // eslint-disable-next-line import/no-cycle
 import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../prunning/prePrunning';
+// eslint-disable-next-line import/no-cycle
+import { getMostCommonClassFromNode } from '../treeNode';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
@@ -44,6 +46,9 @@ export const defaultConfiguration = {
   // todo this is not implemented - i think it is replacement method of C4.5
   // missing values replacement delayed to point when samples traverse during induced tree, sample and treeNode is provided
   replaceMissingValuesWhileEvaluating: undefined,
+
+  // how to obtain class from node where unknown sample lands
+  getClassFromLeafNode: getMostCommonClassFromNode,
 
   // every node in decision tree can have maximal two branches (true/false) - CART uses usually this condition
   onlyBinarySplits: false,

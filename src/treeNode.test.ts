@@ -3,7 +3,7 @@ import {
   createTreeNode,
   dataSetToTreeNode,
   dataPartitionsToDataPartitionCounts,
-  dataPartitionsToClassCounts
+  dataPartitionsToClassCounts, getMostCommonClassFromNode, TreeGardenNode
 } from './treeNode';
 import { simple } from './sampleDataSets';
 
@@ -124,4 +124,19 @@ test('dataPartitionsToDataPartitionCounts and classCounts', () => {
   };
   expect(dataPartitionsToDataPartitionCounts(dataPartitions)).toStrictEqual(expectedCounts);
   expect(dataPartitionsToClassCounts(dataPartitions)).toStrictEqual({ left: 2, right: 3 });
+});
+
+test('getMostCommonClassFromNode', () => {
+  const nodeLikeOne = {
+    classCounts: { green: 2, yellow: 3 }
+  };
+  const nodeLikeTwo = {
+    classCounts: { green: 2, yellow: 2 }
+  };
+  const nodeLikeThree = {
+    classCounts: { green: 2, yellow: 2, black: 2 }
+  };
+  expect(getMostCommonClassFromNode(nodeLikeOne as unknown as TreeGardenNode)).toBe('yellow');
+  expect(getMostCommonClassFromNode(nodeLikeTwo as unknown as TreeGardenNode)).toBe('green');
+  expect(getMostCommonClassFromNode(nodeLikeThree as unknown as TreeGardenNode)).toBe('black');
 });

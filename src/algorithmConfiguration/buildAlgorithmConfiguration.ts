@@ -17,8 +17,8 @@ export type AlgorithmConfiguration = {
   numberOfSplitsKept: number,
   induceMissingValueReplacement:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:DataSetSample)=>any,
   evaluateMissingValueReplacement:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:DataSetSample)=>any,
-  replaceMissingValuesWhileEvaluating?:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>
-  (sample:DataSetSample, nodeWithSampleWithMissingValue:TreeGardenNode)=>any,
+  replaceMissingValuesWhileEvaluating?:(sample:DataSetSample, attributeId:string, nodeWhereWeeNeedValue:TreeGardenNode)=>any
+  getClassFromLeafNode:(node:TreeGardenNode, sample?:DataSetSample)=>string,
   onlyBinarySplits:boolean,
   missingValue:any,
   keepFullLearningData:boolean,

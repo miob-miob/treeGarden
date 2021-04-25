@@ -1,18 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 
 export type DataSetSample = {
-  _class:string,
+  _class?:string,
   _label?:string|number,
   [key:string]:any
 };
-
 
 export const getClassesOfDataSet = (dataSet:DataSetSample[], alreadyKnownClasses :string[]|null = null) => {
   const classesSet = dataSet
     .reduce(
       (allKnownClasses, currentSample) => {
-        if (!allKnownClasses.has(currentSample._class)) {
-          allKnownClasses.add(currentSample._class);
+        if (!allKnownClasses.has(currentSample._class!)) {
+          allKnownClasses.add(currentSample._class!);
         }
         return allKnownClasses;
       },

@@ -13,7 +13,7 @@ export const getFrequenciesOfClasses = (dataSet:DataSetSample[], knownClasses:st
   const counts = Object.fromEntries(knownClasses.map((classId) => ([classId, 0])));
   return dataSet.reduce((overallCounts, currentSample) => {
     // eslint-disable-next-line no-param-reassign
-    overallCounts[currentSample._class] += 1;
+    overallCounts[currentSample._class!] += 1;
     return overallCounts;
   }, counts);
 };
