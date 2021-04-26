@@ -3,9 +3,10 @@ import {
   createTreeNode,
   dataSetToTreeNode,
   dataPartitionsToDataPartitionCounts,
-  dataPartitionsToClassCounts, getMostCommonClassFromNode, TreeGardenNode
+  dataPartitionsToClassCounts, getMostCommonClassFromNode, TreeGardenNode, getAllNonLeafNodes
 } from './treeNode';
 import { simple } from './sampleDataSets';
+import { tennisTree } from './sampleTrainedTrees/tennisTree';
 
 import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 import { getGiniIndexForSplit } from './impurity/gini';
@@ -139,4 +140,13 @@ test('getMostCommonClassFromNode', () => {
   expect(getMostCommonClassFromNode(nodeLikeOne as unknown as TreeGardenNode)).toBe('yellow');
   expect(getMostCommonClassFromNode(nodeLikeTwo as unknown as TreeGardenNode)).toBe('green');
   expect(getMostCommonClassFromNode(nodeLikeThree as unknown as TreeGardenNode)).toBe('black');
+});
+
+
+test('getAllNonLeafNodes', () => {
+  const nonLeafNodes = getAllNonLeafNodes(tennisTree);
+  const chosenCriteria = nonLeafNodes.map((node) => node.chosenSplitCriteria![0]);
+  const expectedCriteria = ['outlook', 'humidity', 'wind'];
+  expect(chosenCriteria.length).toBe(expectedCriteria.length);
+  expect(chosenCriteria.sort()).toEqual(expectedCriteria.sort());
 });

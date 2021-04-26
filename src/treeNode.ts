@@ -96,3 +96,10 @@ export const getMostCommonClassFromNode = (leafNode:TreeGardenNode, sample?:Data
     });
   return sortedClasses[0][0];
 };
+
+export const getAllNonLeafNodes = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
+  if (treeRoot.isLeaf) {
+    return [];
+  }
+  return [treeRoot, ...(Object.values(treeRoot.childNodes!).flatMap(getAllNonLeafNodes))];
+};

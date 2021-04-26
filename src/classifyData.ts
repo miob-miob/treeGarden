@@ -51,4 +51,4 @@ export const getPredictedClassesOfSamples = (
   algorithmConfiguration:AlgorithmConfiguration,
   referenceDataSetForReplacing?:DataSetSample[]
 ) => getLeafNodesForSamples(samplesToClassify, decisionTreeRoot, algorithmConfiguration, referenceDataSetForReplacing)
-  .map(([sample, leafNode]) => [sample, algorithmConfiguration.getClassFromLeafNode(leafNode, sample)]);
+  .map(([sample, leafNode]) => [sample, algorithmConfiguration.getClassFromLeafNode(leafNode, sample)] as const);
