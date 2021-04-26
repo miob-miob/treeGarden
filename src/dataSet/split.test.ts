@@ -9,6 +9,7 @@ import {
 
 import { simple } from '../sampleDataSets';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { consistentDataSetGuard } from './set';
 
 
 test('getCombinationsWithoutRepeats', () => {
@@ -106,4 +107,24 @@ test('getBestScoringSplits', () => {
   const reversedResult = getBestScoringSplits(dataSet, possibleSplits, conf).map((item) => item.split);
   expectedBestSplits.reverse();
   expect(reversedResult).toStrictEqual(expectedBestSplits);
+});
+
+test('consistentDataSetGuard', () => {
+  const correctSet = [
+    { _class: 'loiza', something: 'lalala' },
+    { _class: 'ssd', something: 'gogog' },
+    { _class: 'Aloiz', something: 'Poncho' }
+  ];
+  const incorrectSet = [
+    { _class: 'loiza', something: 'lalala' },
+    { something: 'gogog' },
+    { _class: 'Aloiz', something: 'Poncho' }
+  ];
+  expect(() => {
+    consistentDataSetGuard(incorrectSet, 'insideTest');
+  }).toThrowError();
+
+  expect(() => {
+    consistentDataSetGuard(correctSet, 'alsoInTest');
+  }).not.toThrowError();
 });

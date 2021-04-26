@@ -47,3 +47,10 @@ export const getTypeOfAttribute = (dataSet:DataSetSample[], attributeId:string, 
 
 export const getAllValuesOfAttribute = (attributeId:string, dataSet:DataSetSample[]) => dataSet.map((sample) => sample[attributeId]);
 export const getAllUniqueValuesOfAttribute = (attributeId:string, dataSet:DataSetSample[]) => [...new Set(getAllValuesOfAttribute(attributeId, dataSet))];
+
+export const consistentDataSetGuard = (dataSet:DataSetSample[], parentFnName = 'unknown') => {
+  const sampleWithoutClass = dataSet.find((sample) => sample._class === undefined);
+  if (sampleWithoutClass) {
+    throw new Error(`While calling '${parentFnName}' '_class' must be defined on every sample `);
+  }
+};
