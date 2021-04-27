@@ -109,3 +109,5 @@ export const getFlattenTree = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
 
 export const getAllNonLeafNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)
   .filter((node) => !node.isLeaf);
+
+// todo ability to copy tree, getNodeBy uuid  and most important to be able innerNode=> leaf node
