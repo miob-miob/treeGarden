@@ -27,6 +27,7 @@
   "homepage": "https://github.com/miob-miob/treeGarden#readme",
   "devDependencies": {
     "@types/jest": "^26.0.22",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
@@ -52,5 +53,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
   }
 }

@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { v4 as uuidV4 } from 'uuid';
 import {
   getAllPossibleSplitCriteriaForDataSet,
   getBestScoringSplits,
@@ -10,6 +11,7 @@ import { DataSetSample } from './dataSet/set';
 import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 
 export type TreeGardenNode = {
+  uuid:string,
   childNodes?:{ [key:string]:TreeGardenNode },
   isLeaf:boolean,
   depth?:number,
@@ -28,7 +30,7 @@ const defaultTreeNode = {
 };
 
 
-export const createTreeNode = (node:Partial<TreeGardenNode> = {}) => ({ ...defaultTreeNode, ...node } as TreeGardenNode);
+export const createTreeNode = (node:Partial<TreeGardenNode> = {}) => ({ ...defaultTreeNode, ...node, uuid: uuidV4() } as TreeGardenNode);
 
 export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string]:DataSetSample[] }) => Object.fromEntries(Object.entries(dataPartitions)
   .map(([tag, subset]) => {
@@ -60,7 +62,7 @@ export const dataSetToTreeNode = (dataSet:DataSetSample[], configuration:Algorit
   const bestScoringCriteria = getBestScoringSplits(dataSet, possibleSplits, configuration);
   //   todo solve no criteria (should stop)
   if (bestScoringCriteria.length === 0) {
-    throw new Error("No best scroring criteria in 'dataSetToTreeNode' function call!");
+    throw new Error("No best scoring criteria in 'dataSetToTreeNode' function call!");
   }
   const { split: winnerCriteria, score: winnerScore } = bestScoringCriteria[0];
   // @ts-expect-error
@@ -97,9 +99,13 @@ export const getMostCommonClassFromNode = (leafNode:TreeGardenNode, sample?:Data
   return sortedClasses[0][0];
 };
 
-export const getAllNonLeafNodes = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
+// returns all nodes of tree in array
+export const getFlattenTree = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
   if (treeRoot.isLeaf) {
-    return [];
+    return [treeRoot];
   }
-  return [treeRoot, ...(Object.values(treeRoot.childNodes!).flatMap(getAllNonLeafNodes))];
+  return [treeRoot, ...(Object.values(treeRoot.childNodes!).flatMap(getFlattenTree))];
 };
+
+export const getAllNonLeafNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)
+  .filter((node) => !node.isLeaf);

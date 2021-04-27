@@ -3,13 +3,14 @@ import {
   createTreeNode,
   dataSetToTreeNode,
   dataPartitionsToDataPartitionCounts,
-  dataPartitionsToClassCounts, getMostCommonClassFromNode, TreeGardenNode, getAllNonLeafNodes
+  dataPartitionsToClassCounts, getMostCommonClassFromNode, TreeGardenNode, getAllNonLeafNodes, getFlattenTree
 } from './treeNode';
 import { simple } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
 
 import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 import { getGiniIndexForSplit } from './impurity/gini';
+import { simpleTree } from './sampleTrainedTrees/simpleTree';
 
 
 // treeForTesting not used atm but can be handy soon
@@ -42,6 +43,7 @@ test('dataSetToTreeNode', () => {
   });
   const expectedNewTreeNode = {
     isLeaf: false,
+    uuid: 'z85',
     chosenSplitCriteria: ['color', '=='],
     alreadyUsedSplits: [
       ['color', '==']
@@ -82,6 +84,9 @@ test('dataSetToTreeNode', () => {
   };
 
   const newNode = dataSetToTreeNode(simple, config);
+  // remove uuid for comparison
+  // @ts-ignore
+  newNode.uuid = 'z85';
   // we do not want calculate gini by hand ;)
   // @ts-expect-error
   newNode.bestSplits = newNode.bestSplits.map(({ split }) => split);
@@ -142,6 +147,11 @@ test('getMostCommonClassFromNode', () => {
   expect(getMostCommonClassFromNode(nodeLikeThree as unknown as TreeGardenNode)).toBe('black');
 });
 
+test('getFlattenTree', () => {
+  const uuidsOfTennisTreeNodes = getFlattenTree(tennisTree)
+    .map((node) => node.uuid);
+  expect(new Set(uuidsOfTennisTreeNodes).size).toBe(8);
+});
 
 test('getAllNonLeafNodes', () => {
   const nonLeafNodes = getAllNonLeafNodes(tennisTree);
@@ -149,4 +159,7 @@ test('getAllNonLeafNodes', () => {
   const expectedCriteria = ['outlook', 'humidity', 'wind'];
   expect(chosenCriteria.length).toBe(expectedCriteria.length);
   expect(chosenCriteria.sort()).toEqual(expectedCriteria.sort());
+
+  const leafNodesOfSimpleTree = getAllNonLeafNodes(simpleTree);
+  expect(leafNodesOfSimpleTree[0]).toBe(simpleTree);
 });
