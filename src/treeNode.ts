@@ -11,7 +11,7 @@ import { DataSetSample } from './dataSet/set';
 import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 
 export type TreeGardenNode = {
-  uuid:string,
+  id:string,
   childNodes?:{ [key:string]:TreeGardenNode },
   isLeaf:boolean,
   depth?:number,
@@ -30,7 +30,7 @@ const defaultTreeNode = {
 };
 
 
-export const createTreeNode = (node:Partial<TreeGardenNode> = {}) => ({ ...defaultTreeNode, ...node, uuid: uuidV4() } as TreeGardenNode);
+export const createTreeNode = (node:Partial<TreeGardenNode> = {}) => ({ ...defaultTreeNode, ...node, id: uuidV4() } as TreeGardenNode);
 
 export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string]:DataSetSample[] }) => Object.fromEntries(Object.entries(dataPartitions)
   .map(([tag, subset]) => {
@@ -110,4 +110,12 @@ export const getFlattenTree = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
 export const getAllNonLeafNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)
   .filter((node) => !node.isLeaf);
 
-// todo ability to copy tree, getNodeBy uuid  and most important to be able innerNode=> leaf node
+// todo  innerNode=> leaf node
+export const getTreeNodeById = (treeRoot:TreeGardenNode, id:string) => {
+  const desiredNode = getFlattenTree(treeRoot).find(({ id: currentNodeId }) => currentNodeId === id);
+  if (!desiredNode) {
+    throw new Error(`There is no node with id: '${id}' on tree${JSON.stringify(treeRoot)}`);
+  }
+  return desiredNode;
+};
+export const getTreeCopy = (treeRoot:TreeGardenNode):TreeGardenNode => JSON.parse(JSON.stringify(treeRoot));

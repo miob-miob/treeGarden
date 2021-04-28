@@ -3,14 +3,19 @@ import {
   createTreeNode,
   dataSetToTreeNode,
   dataPartitionsToDataPartitionCounts,
-  dataPartitionsToClassCounts, getMostCommonClassFromNode, TreeGardenNode, getAllNonLeafNodes, getFlattenTree
+  dataPartitionsToClassCounts,
+  getMostCommonClassFromNode,
+  TreeGardenNode,
+  getAllNonLeafNodes,
+  getFlattenTree,
+  getTreeNodeById
 } from './treeNode';
 import { simple } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
+import { simpleTree } from './sampleTrainedTrees/simpleTree';
 
 import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 import { getGiniIndexForSplit } from './impurity/gini';
-import { simpleTree } from './sampleTrainedTrees/simpleTree';
 
 
 // treeForTesting not used atm but can be handy soon
@@ -43,7 +48,7 @@ test('dataSetToTreeNode', () => {
   });
   const expectedNewTreeNode = {
     isLeaf: false,
-    uuid: 'z85',
+    id: 'z85',
     chosenSplitCriteria: ['color', '=='],
     alreadyUsedSplits: [
       ['color', '==']
@@ -86,7 +91,7 @@ test('dataSetToTreeNode', () => {
   const newNode = dataSetToTreeNode(simple, config);
   // remove uuid for comparison
   // @ts-ignore
-  newNode.uuid = 'z85';
+  newNode.id = 'z85';
   // we do not want calculate gini by hand ;)
   // @ts-expect-error
   newNode.bestSplits = newNode.bestSplits.map(({ split }) => split);
@@ -149,7 +154,7 @@ test('getMostCommonClassFromNode', () => {
 
 test('getFlattenTree', () => {
   const uuidsOfTennisTreeNodes = getFlattenTree(tennisTree)
-    .map((node) => node.uuid);
+    .map((node) => node.id);
   expect(new Set(uuidsOfTennisTreeNodes).size).toBe(8);
 });
 
@@ -162,4 +167,10 @@ test('getAllNonLeafNodes', () => {
 
   const leafNodesOfSimpleTree = getAllNonLeafNodes(simpleTree);
   expect(leafNodesOfSimpleTree[0]).toBe(simpleTree);
+});
+
+test('getTreeNodeById', () => {
+  const someNode = tennisTree.childNodes.Rain.childNodes.Weak;
+  const someNodeId = someNode.id;
+  expect(getTreeNodeById(tennisTree, someNodeId)).toBe(someNode);
 });
