@@ -25,8 +25,12 @@ const getLeafNodeOfSample = (sample:DataSetSample, rootNode:TreeGardenNode, algo
     // @ts-expect-error
     const tagOfSample = getSplitCriteriaFn(...currentNode.chosenSplitCriteria!)(sampleCopy);
     if (!currentNode.childNodes![tagOfSample]) {
-      throw new Error(`There is no children node under
-       value '${tagOfSample}' of node ${JSON.stringify(currentNode)}! Maybe there was not such value in training set!`);
+      // this can happen if value was only in validation dataset
+      // or if ended up in this node, but we do not have training data in given node
+      // lets return this one even if it is not leaf
+      // example: we have 3 sizes of apartmans - small medium and large, but all training samples reached this nodes were only 'small'
+      // but validation data here has 'medium'
+      return currentNode;
     }
     currentNode = currentNode.childNodes![tagOfSample];
   }
@@ -47,7 +51,8 @@ export const getLeafNodesForSamples = (
     referenceDataSet: referenceDataSetForReplacing
   }) : [...samplesToClassify];
 
-  return readyToClassifySamples.map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration)] as const);
+  return readyToClassifySamples
+    .map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration)] as const);
 };
 
 

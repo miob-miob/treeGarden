@@ -7,7 +7,7 @@ import { getAllNonLeafNodes, getNumberOfTreeNodes } from './treeNode';
 import { getPrunedTreeByReducedErrorPruning } from './pruneTree/reducedErrorPrunning';
 import { getTreeAccuracy } from './statistic/treeStats';
 
-const [validationTitanic, trainingTitanic] = getDividedSet(titanicSet, 0.5);
+const [validationTitanic, trainingTitanic] = getDividedSet(titanicSet, 0.35);
 console.log('validation length', validationTitanic.length);
 console.log('training length', trainingTitanic.length);
 const algorithmConfig = buildAlgorithmConfiguration(trainingTitanic, {
@@ -17,7 +17,7 @@ const algorithmConfig = buildAlgorithmConfiguration(trainingTitanic, {
 //  onlyBinarySplits: true
 });
 
-console.log(algorithmConfig);
+// console.log(algorithmConfig);
 const tree = induceTree(algorithmConfig, trainingTitanic);
 const legthOfNonPruned = getNumberOfTreeNodes(tree);
 const accUnpruned = getTreeAccuracy(tree, validationTitanic, algorithmConfig);

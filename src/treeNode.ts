@@ -120,6 +120,9 @@ export const getFlattenTree = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
 export const getAllNonLeafNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)
   .filter((node) => !node.isLeaf);
 
+export const getAllLeafNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)
+  .filter((node) => node.isLeaf);
+
 // todo  innerNode=> leaf node
 export const getTreeNodeById = (treeRoot:TreeGardenNode, id:string) => {
   const desiredNode = getFlattenTree(treeRoot).find(({ id: currentNodeId }) => currentNodeId === id);
@@ -128,7 +131,7 @@ export const getTreeNodeById = (treeRoot:TreeGardenNode, id:string) => {
   }
   return desiredNode;
 };
-export const getTreeCopy = (treeRoot:TreeGardenNode):TreeGardenNode => JSON.parse(JSON.stringify(treeRoot));
+export const getTreeCopy = <T extends TreeGardenNode>(treeRoot:T):T => JSON.parse(JSON.stringify(treeRoot));
 
 // for pruning purposes
 export const mutateNonLeafNodeIntoLeafOne = (nonLeafNode:TreeGardenNode) => {

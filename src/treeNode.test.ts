@@ -8,7 +8,7 @@ import {
   TreeGardenNode,
   getAllNonLeafNodes,
   getFlattenTree,
-  getTreeNodeById, getNumberOfTreeNodes
+  getTreeNodeById, getNumberOfTreeNodes, getAllLeafNodes
 } from './treeNode';
 import { simple } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
@@ -167,6 +167,10 @@ test('getAllNonLeafNodes', () => {
 
   const leafNodesOfSimpleTree = getAllNonLeafNodes(simpleTree);
   expect(leafNodesOfSimpleTree[0]).toBe(simpleTree);
+});
+
+test('getAllLeafNodes', () => {
+  expect(getAllLeafNodes(simpleTree).length).toBe(2);
 });
 
 test('getTreeNodeById', () => {
