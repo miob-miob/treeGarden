@@ -14,7 +14,7 @@ export const tennisTree = {
   classCounts: { No: 5, Yes: 9 },
   depth: 0,
   alreadyUsedSplits: [['outlook', '==']],
-  id: '05b1afca-a275-4b47-864d-82b3f664a457',
+  id: 'f2f856dc-c656-4689-b32a-a4b3a4c3aaab',
   childNodes: {
     Sunny: {
       isLeaf: false,
@@ -24,19 +24,20 @@ export const tennisTree = {
       dataPartitionsCounts: { High: { No: 3 }, Normal: { Yes: 2 } },
       classCounts: { No: 3, Yes: 2 },
       depth: 1,
+      parentId: 'f2f856dc-c656-4689-b32a-a4b3a4c3aaab',
       alreadyUsedSplits: [['outlook', '=='], ['humidity', '==']],
-      id: '084ba35c-f546-4ff7-8f4d-348ac78150ed',
+      id: 'c4402f7c-f227-48ab-8040-a703dd34e7ab',
       childNodes: {
         High: {
-          isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['wind', '=='], score: 0 }], dataPartitionsCounts: { Hot: { No: 2 }, Mild: { No: 1 } }, classCounts: { No: 3 }, depth: 2, alreadyUsedSplits: [['outlook', '=='], ['humidity', '=='], ['temp', '==']], id: 'd4e3c8ca-dd95-451a-8559-563b5f7fbc04'
+          isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['wind', '=='], score: 0 }], dataPartitionsCounts: { Hot: { No: 2 }, Mild: { No: 1 } }, classCounts: { No: 3 }, depth: 2, parentId: 'c4402f7c-f227-48ab-8040-a703dd34e7ab', alreadyUsedSplits: [['outlook', '=='], ['humidity', '=='], ['temp', '==']], id: '9f156fc0-3f82-4a31-863e-108bfb37fc60'
         },
         Normal: {
-          isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['wind', '=='], score: 0 }], dataPartitionsCounts: { Cool: { Yes: 1 }, Mild: { Yes: 1 } }, classCounts: { Yes: 2 }, depth: 2, alreadyUsedSplits: [['outlook', '=='], ['humidity', '=='], ['temp', '==']], id: 'a4a00394-61a7-453a-a43c-c9cd923bca3d'
+          isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['wind', '=='], score: 0 }], dataPartitionsCounts: { Cool: { Yes: 1 }, Mild: { Yes: 1 } }, classCounts: { Yes: 2 }, depth: 2, parentId: 'c4402f7c-f227-48ab-8040-a703dd34e7ab', alreadyUsedSplits: [['outlook', '=='], ['humidity', '=='], ['temp', '==']], id: '8bbace58-e339-4e42-a5a0-5bab22b62724'
         }
       }
     },
     Overcast: {
-      isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['humidity', '=='], score: 0 }, { split: ['wind', '=='], score: 0 }], dataPartitionsCounts: { Hot: { Yes: 2 }, Cool: { Yes: 1 }, Mild: { Yes: 1 } }, classCounts: { Yes: 4 }, depth: 1, alreadyUsedSplits: [['outlook', '=='], ['temp', '==']], id: '767c1a6b-e181-4060-85cb-015805ac73df'
+      isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['humidity', '=='], score: 0 }, { split: ['wind', '=='], score: 0 }], dataPartitionsCounts: { Hot: { Yes: 2 }, Cool: { Yes: 1 }, Mild: { Yes: 1 } }, classCounts: { Yes: 4 }, depth: 1, parentId: 'f2f856dc-c656-4689-b32a-a4b3a4c3aaab', alreadyUsedSplits: [['outlook', '=='], ['temp', '==']], id: '1aca91e4-8d1c-431a-8466-8181ef547f72'
     },
     Rain: {
       isLeaf: false,
@@ -46,17 +47,17 @@ export const tennisTree = {
       dataPartitionsCounts: { Weak: { Yes: 3 }, Strong: { No: 2 } },
       classCounts: { Yes: 3, No: 2 },
       depth: 1,
+      parentId: 'f2f856dc-c656-4689-b32a-a4b3a4c3aaab',
       alreadyUsedSplits: [['outlook', '=='], ['wind', '==']],
-      id: 'b7219341-5932-4ed8-a7c6-9c93b2a3095f',
+      id: '8e64ed62-643a-444b-a03d-b1a215121376',
       childNodes: {
         Weak: {
-          isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['humidity', '=='], score: 0 }], dataPartitionsCounts: { Mild: { Yes: 2 }, Cool: { Yes: 1 } }, classCounts: { Yes: 3 }, depth: 2, alreadyUsedSplits: [['outlook', '=='], ['wind', '=='], ['temp', '==']], id: 'dd9e0dc4-c1c2-47df-8432-52588cee9aea'
+          isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['humidity', '=='], score: 0 }], dataPartitionsCounts: { Mild: { Yes: 2 }, Cool: { Yes: 1 } }, classCounts: { Yes: 3 }, depth: 2, parentId: '8e64ed62-643a-444b-a03d-b1a215121376', alreadyUsedSplits: [['outlook', '=='], ['wind', '=='], ['temp', '==']], id: 'ecd8f049-40a9-4d2d-bb97-3b0bf37ae5c8'
         },
         Strong: {
-          isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['humidity', '=='], score: 0 }], dataPartitionsCounts: { Cool: { No: 1 }, Mild: { No: 1 } }, classCounts: { No: 2 }, depth: 2, alreadyUsedSplits: [['outlook', '=='], ['wind', '=='], ['temp', '==']], id: 'bf8bce50-d65a-4dc2-a383-b2d95df57da4'
+          isLeaf: true, chosenSplitCriteria: ['temp', '=='], impurityScore: 0, bestSplits: [{ split: ['temp', '=='], score: 0 }, { split: ['humidity', '=='], score: 0 }], dataPartitionsCounts: { Cool: { No: 1 }, Mild: { No: 1 } }, classCounts: { No: 2 }, depth: 2, parentId: '8e64ed62-643a-444b-a03d-b1a215121376', alreadyUsedSplits: [['outlook', '=='], ['wind', '=='], ['temp', '==']], id: 'dc881780-2267-44a7-b978-6b21d23d6460'
         }
       }
     }
   }
 };
-

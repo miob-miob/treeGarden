@@ -8,7 +8,7 @@ import {
   TreeGardenNode,
   getAllNonLeafNodes,
   getFlattenTree,
-  getTreeNodeById
+  getTreeNodeById, getNumberOfTreeNodes
 } from './treeNode';
 import { simple } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
@@ -173,4 +173,9 @@ test('getTreeNodeById', () => {
   const someNode = tennisTree.childNodes.Rain.childNodes.Weak;
   const someNodeId = someNode.id;
   expect(getTreeNodeById(tennisTree, someNodeId)).toBe(someNode);
+});
+
+test('getNumberOfTreeNodes', () => {
+  expect(getNumberOfTreeNodes(simpleTree)).toBe(3);
+  expect(getNumberOfTreeNodes(tennisTree.childNodes.Rain)).toBe(3);
 });

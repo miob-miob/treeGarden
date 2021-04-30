@@ -2,10 +2,13 @@
 import { composeStopFunctions, stopIfPure } from './prePrunning';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 import { simple } from '../sampleDataSets';
+import { TreeGardenNode } from '../treeNode';
 
 test('willTreeGrowFurther', () => {
   const conf = buildAlgorithmConfiguration(simple);
   const node = {
+    id: 'something',
+    depth: 1,
     childNodes: undefined,
     isLeaf: false,
     chosenSplitCriteria: ['color', '=='],
@@ -38,9 +41,12 @@ test('willTreeGrowFurther', () => {
     }
   };
 
+
+  // @ts-expect-error
   expect(stopIfPure(node, conf)).toBeFalsy();
   node.dataPartitions.black[0]._class = 'right';
   node.dataPartitions.black[1]._class = 'right';
+  // @ts-expect-error
   expect(stopIfPure(node, conf)).toBeTruthy();
 });
 
@@ -50,7 +56,7 @@ test('composeStopFunctions', () => {
   const stoppedOne = jest.fn(() => true);
   const notStoppedOne = jest.fn(() => false);
   const composedStopper = composeStopFunctions(stoppedOne, notStoppedOne);
-  expect(composedStopper({ isLeaf: false }, config)).toBeTruthy();
+  expect(composedStopper({ isLeaf: false } as TreeGardenNode, config)).toBeTruthy();
   expect(stoppedOne.mock.calls.length).toBe(1);
   expect(notStoppedOne.mock.calls.length).toBe(0);
 
@@ -58,6 +64,7 @@ test('composeStopFunctions', () => {
   const anotherNotStoppedTwo = jest.fn(() => false);
 
   const anotherComposedStopper = composeStopFunctions(notStoppedTwo, anotherNotStoppedTwo);
+  // @ts-expect-error
   expect(anotherComposedStopper({ isLeaf: false }, config)).toBeFalsy();
   expect(notStoppedTwo.mock.calls.length).toBe(1);
   expect(anotherNotStoppedTwo.mock.calls.length).toBe(1);

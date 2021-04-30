@@ -6,9 +6,11 @@ import {
   getPossibleSpitCriteriaForDiscreteAttribute
 } from '../dataSet/split';
 // eslint-disable-next-line import/no-cycle
-import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../prunning/prePrunning';
+import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../pruneTree/prePrunning';
 // eslint-disable-next-line import/no-cycle
 import { getMostCommonClassFromNode } from '../treeNode';
+// eslint-disable-next-line import/no-cycle
+import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
@@ -64,6 +66,9 @@ export const defaultConfiguration = {
   // of investigation all possibilities
   getAllPossibleSplitCriteriaForDiscreteAttribute: getPossibleSpitCriteriaForDiscreteAttribute,
   getAllPossibleSplitCriteriaForContinuousAttribute: getPossibleSpitCriteriaForContinuousAttribute,
+
+  // while using reduced errorPruning best scoring tree is kept
+  reducedErrorPruningGetScore: getPrunedTreeScore,
 
   // below are runtime configs !!!
   // all classes of initial data set (will be populated automatically)

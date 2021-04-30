@@ -28,6 +28,7 @@ export type AlgorithmConfiguration = {
   getAllPossibleSplitCriteriaForContinuousAttribute:(attributeId:string,
     dataSet:DataSetSample[],
     configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[],
+  reducedErrorPruningGetScore:(accuracyBeforePruning:number, accuracyAfterPruning:number, numberOfRemovedNodes:number)=>number,
   allClasses?:string[],
   buildTime?:number
 };

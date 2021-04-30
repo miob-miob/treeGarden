@@ -12,16 +12,17 @@ import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmC
 
 export type TreeGardenNode = {
   id:string,
+  parentId?:string,
   childNodes?:{ [key:string]:TreeGardenNode },
   isLeaf:boolean,
-  depth?:number,
-  alreadyUsedSplits?:SplitCriteriaDefinition[],
-  chosenSplitCriteria?:SplitCriteriaDefinition, // best scoring split criteria
+  depth:number,
+  alreadyUsedSplits:SplitCriteriaDefinition[],
+  chosenSplitCriteria:SplitCriteriaDefinition, // best scoring split criteria
   impurityScore?:number, // score of best split
-  bestSplits?:ReturnType<typeof getBestScoringSplits>,
+  bestSplits:ReturnType<typeof getBestScoringSplits>,
   dataPartitions?:ReturnType<typeof splitDataSet>, // split outcome - {tag:[sample,sample,sample]}
-  dataPartitionsCounts?:ReturnType<typeof dataPartitionsToDataPartitionCounts>, // {tag:{classOne:3, classTwo:3}, anotherTag:{classOne:1, classTwo:6}}
-  classCounts?:ReturnType<typeof dataPartitionsToClassCounts> // {classOne:8, classTwo:7}
+  dataPartitionsCounts:ReturnType<typeof dataPartitionsToDataPartitionCounts>, // {tag:{classOne:3, classTwo:3}, anotherTag:{classOne:1, classTwo:6}}
+  classCounts:ReturnType<typeof dataPartitionsToClassCounts> // {classOne:8, classTwo:7}
 };
 
 
@@ -29,7 +30,7 @@ const defaultTreeNode = {
   isLeaf: false
 };
 
-
+// todo consider to keep labels of samples in every node
 export const createTreeNode = (node:Partial<TreeGardenNode> = {}) => ({ ...defaultTreeNode, ...node, id: uuidV4() } as TreeGardenNode);
 
 export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string]:DataSetSample[] }) => Object.fromEntries(Object.entries(dataPartitions)
@@ -56,34 +57,37 @@ export const dataPartitionsToClassCounts = (dataPartitions:{ [key:string]:DataSe
   return result;
 };
 
-
 export const dataSetToTreeNode = (dataSet:DataSetSample[], configuration:AlgorithmConfiguration, parentNode?:TreeGardenNode) => {
   const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, configuration, parentNode?.alreadyUsedSplits ?? []);
   const bestScoringCriteria = getBestScoringSplits(dataSet, possibleSplits, configuration);
   //   todo solve no criteria (should stop)
   if (bestScoringCriteria.length === 0) {
-    throw new Error("No best scoring criteria in 'dataSetToTreeNode' function call!");
+    throw new Error(`No best scoring criteria in 'dataSetToTreeNode' function call! ${JSON.stringify(dataSet)}, ${parentNode!.alreadyUsedSplits}`);
   }
   const { split: winnerCriteria, score: winnerScore } = bestScoringCriteria[0];
   // @ts-expect-error
   const spliterFn = getSplitCriteriaFn(...winnerCriteria);
   const partitions = splitDataSet(dataSet, spliterFn, configuration.onlyBinarySplits);
-  return createTreeNode({
+  const newNode = createTreeNode({
     chosenSplitCriteria: winnerCriteria,
     impurityScore: winnerScore,
     bestSplits: bestScoringCriteria,
     dataPartitions: partitions,
     dataPartitionsCounts: dataPartitionsToDataPartitionCounts(partitions),
     classCounts: dataPartitionsToClassCounts(partitions),
-    depth: parentNode ? parentNode.depth! + 1 : 0,
+    depth: parentNode ? parentNode.depth + 1 : 0,
     alreadyUsedSplits: parentNode ? [...parentNode.alreadyUsedSplits!, winnerCriteria] : [winnerCriteria]
   });
+  if (parentNode) {
+    newNode.parentId = parentNode.id;
+  }
+  return newNode;
 };
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getMostCommonClassFromNode = (leafNode:TreeGardenNode, sample?:DataSetSample) => {
-  const sortedClasses = Object.entries(leafNode.classCounts!)
+  const sortedClasses = Object.entries(leafNode.classCounts)
     .sort(([classOne, countOne], [classTwo, countTwo]) => {
       if (countOne === countTwo) {
         if (classOne < classTwo) {
@@ -119,3 +123,13 @@ export const getTreeNodeById = (treeRoot:TreeGardenNode, id:string) => {
   return desiredNode;
 };
 export const getTreeCopy = (treeRoot:TreeGardenNode):TreeGardenNode => JSON.parse(JSON.stringify(treeRoot));
+
+// for pruning purposes
+export const mutateNonLeafNodeIntoLeafOne = (nonLeafNode:TreeGardenNode) => {
+  // eslint-disable-next-line no-param-reassign
+  nonLeafNode.isLeaf = true;
+  // eslint-disable-next-line no-param-reassign
+  delete nonLeafNode.childNodes;
+  return nonLeafNode;
+};
+export const getNumberOfTreeNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot).length;
