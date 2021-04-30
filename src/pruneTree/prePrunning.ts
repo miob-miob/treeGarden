@@ -24,10 +24,7 @@ export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmCo
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration) => {
-  if (!currentNode.bestSplits || currentNode.bestSplits.length === 0) {
-    throw new Error('Tou probably solving uninitialized node!');
-  }
-  return currentNode.bestSplits.length === 1;
+  return currentNode.bestSplits.length <= 1;
 };
 
 

@@ -1,8 +1,9 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,import/no-cycle */
 import { DataSetSample } from './dataSet/set';
 import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
 import { TreeGardenNode } from './treeNode';
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
+import { getSplitCriteriaFn } from './dataSet/split';
 
 
 const getLeafNodeOfSample = (sample:DataSetSample, rootNode:TreeGardenNode, algorithmConfiguration:AlgorithmConfiguration) => {
@@ -17,12 +18,17 @@ const getLeafNodeOfSample = (sample:DataSetSample, rootNode:TreeGardenNode, algo
       as missing, it should be replaced using 'referenceDataSetForReplacing', or you should define 'replaceMissingValuesWhileEvaluating'
        function in configuration!`);
     }
-    const valueForAttributeId = (sampleValueForGivenAttribute === missingValue) ? replaceAsEvaluating!(sample, attributeId, currentNode) : sampleValueForGivenAttribute;
-    if (!currentNode.childNodes![valueForAttributeId]) {
+    const replacedValueForAttributeId = (sampleValueForGivenAttribute === missingValue)
+      ? replaceAsEvaluating!(sample, attributeId, currentNode) : sampleValueForGivenAttribute;
+    // we do not want modify smample in case replace missing  value
+    const sampleCopy = { ...sample, [attributeId]: replacedValueForAttributeId };
+    // @ts-expect-error
+    const tagOfSample = getSplitCriteriaFn(...currentNode.chosenSplitCriteria!)(sampleCopy);
+    if (!currentNode.childNodes![tagOfSample]) {
       throw new Error(`There is no children node under
-       value '${valueForAttributeId}' of node ${JSON.stringify(currentNode)}! Maybe there was not such value in training set!`);
+       value '${tagOfSample}' of node ${JSON.stringify(currentNode)}! Maybe there was not such value in training set!`);
     }
-    currentNode = currentNode.childNodes![valueForAttributeId];
+    currentNode = currentNode.childNodes![tagOfSample];
   }
   return currentNode;
 };

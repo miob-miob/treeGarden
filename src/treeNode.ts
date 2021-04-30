@@ -45,38 +45,43 @@ export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string
     return [tag, resultForSubset];
   }));
 
-export const dataPartitionsToClassCounts = (dataPartitions:{ [key:string]:DataSetSample[] }) => {
-  const wholeSet = Object.values(dataPartitions).flat(1);
-  const result:{ [key:string]:number } = {};
-  wholeSet.forEach(({ _class }) => {
-    if (!result[_class!]) {
-      result[_class!] = 0;
-    }
-    result[_class!] += 1;
-  });
+export const dataPartitionsToClassCounts = (dataSet:DataSetSample[]) => dataSet.reduce((result:Record<string, number>, currentSample:DataSetSample) => {
+  if (!result[currentSample._class!]) {
+    // eslint-disable-next-line no-param-reassign
+    result[currentSample._class!] = 0;
+  }
+  // eslint-disable-next-line no-param-reassign
+  result[currentSample._class!] += 1;
   return result;
-};
+}, {});
 
 export const dataSetToTreeNode = (dataSet:DataSetSample[], configuration:AlgorithmConfiguration, parentNode?:TreeGardenNode) => {
   const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, configuration, parentNode?.alreadyUsedSplits ?? []);
   const bestScoringCriteria = getBestScoringSplits(dataSet, possibleSplits, configuration);
-  //   todo solve no criteria (should stop)
+  let furtherSplittingPossible = true;
+
   if (bestScoringCriteria.length === 0) {
-    throw new Error(`No best scoring criteria in 'dataSetToTreeNode' function call! ${JSON.stringify(dataSet)}, ${parentNode!.alreadyUsedSplits}`);
+    //  this is case where there is only one sample in data set ==> no splits available
+    furtherSplittingPossible = false;
   }
-  const { split: winnerCriteria, score: winnerScore } = bestScoringCriteria[0];
+
+  const winnerScore = furtherSplittingPossible ? bestScoringCriteria[0].score : NaN;
+  const winnerCriteria = furtherSplittingPossible ? bestScoringCriteria[0].split : undefined;
   // @ts-expect-error
-  const spliterFn = getSplitCriteriaFn(...winnerCriteria);
-  const partitions = splitDataSet(dataSet, spliterFn, configuration.onlyBinarySplits);
+  const partitions = furtherSplittingPossible ? splitDataSet(dataSet, getSplitCriteriaFn(...winnerCriteria), configuration.onlyBinarySplits) : {};
+  const usedCriteria = parentNode ? [...parentNode.alreadyUsedSplits!] : [];
+  if (winnerCriteria) {
+    usedCriteria.push(winnerCriteria);
+  }
   const newNode = createTreeNode({
     chosenSplitCriteria: winnerCriteria,
     impurityScore: winnerScore,
     bestSplits: bestScoringCriteria,
     dataPartitions: partitions,
     dataPartitionsCounts: dataPartitionsToDataPartitionCounts(partitions),
-    classCounts: dataPartitionsToClassCounts(partitions),
+    classCounts: dataPartitionsToClassCounts(dataSet),
     depth: parentNode ? parentNode.depth + 1 : 0,
-    alreadyUsedSplits: parentNode ? [...parentNode.alreadyUsedSplits!, winnerCriteria] : [winnerCriteria]
+    alreadyUsedSplits: usedCriteria
   });
   if (parentNode) {
     newNode.parentId = parentNode.id;
@@ -100,6 +105,7 @@ export const getMostCommonClassFromNode = (leafNode:TreeGardenNode, sample?:Data
       }
       return countTwo - countOne;
     });
+
   return sortedClasses[0][0];
 };
 

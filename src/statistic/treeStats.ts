@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,import/no-cycle */
 
 // todo use  https://gist.github.com/michhar/2dfd2de0d4f8727f873422c5d959fff5#file-titanic-csv for tests
 import { TreeGardenNode } from '../treeNode';

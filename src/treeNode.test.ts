@@ -134,7 +134,7 @@ test('dataPartitionsToDataPartitionCounts and classCounts', () => {
     }
   };
   expect(dataPartitionsToDataPartitionCounts(dataPartitions)).toStrictEqual(expectedCounts);
-  expect(dataPartitionsToClassCounts(dataPartitions)).toStrictEqual({ left: 2, right: 3 });
+  expect(dataPartitionsToClassCounts(Object.values(dataPartitions).flat())).toStrictEqual({ left: 2, right: 3 });
 });
 
 test('getMostCommonClassFromNode', () => {

@@ -21,7 +21,6 @@ export const getPrunedTreeScore = (
 export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, validationDataSet:DataSetSample[], configuration:AlgorithmConfiguration) => {
   let currentTree = getTreeCopy(treeRoot);
   let currentScore = 0;
-  console.log('dopici', getAllNonLeafNodes(currentTree).length);
   while (currentScore >= 0) {
     const treesAndScores = getAllNonLeafNodes(currentTree)
     // eslint-disable-next-line @typescript-eslint/no-loop-func
@@ -36,7 +35,6 @@ export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, vali
           score: configuration.reducedErrorPruningGetScore(accuracyBeforePruning, accuracyAfterPruning, getNumberOfTreeNodes(treeCopy))
         };
       });
-    console.log(treesAndScores);
     const { score, tree } = treesAndScores.sort((a, b) => b.score - a.score)[0];
     currentTree = tree;
     currentScore = score;
