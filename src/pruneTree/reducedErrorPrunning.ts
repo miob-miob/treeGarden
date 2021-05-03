@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import {
-  getAllNonLeafNodes, getNumberOfTreeNodes, getTreeCopy, getTreeNodeById, mutateNonLeafNodeIntoLeafOne, TreeGardenNode
+  getAllInnerNodes, getNumberOfTreeNodes, getTreeCopy, getTreeNodeById, mutateNonLeafNodeIntoLeafOne, TreeGardenNode
 } from '../treeNode';
 import { DataSetSample } from '../dataSet/set';
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
@@ -24,7 +24,7 @@ export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, vali
   let currentTree = getTreeCopy(treeRoot);
   let currentScore = 0;
   while (currentScore >= 0) {
-    const treesAndScores = getAllNonLeafNodes(currentTree)
+    const treesAndScores = getAllInnerNodes(currentTree)
     // eslint-disable-next-line @typescript-eslint/no-loop-func
       .map((consideredNode) => {
         const treeCopy = getTreeCopy(currentTree);

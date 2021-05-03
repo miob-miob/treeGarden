@@ -1,6 +1,6 @@
 import {
   getAllLeafNodes,
-  getAllNonLeafNodes,
+  getAllInnerNodes,
   getMostCommonClassForNode, getNumberOfSamplesInNode,
   getNumberOfTreeNodes,
   getTreeCopy,
@@ -13,10 +13,10 @@ import { getNFoldCrossValidationDataSets } from '../dataSet/dividingAndBootstrap
 import { induceTree } from '../induceTree';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 import { getTreeAccuracy } from '../statistic/treeStats';
-import { getArithmeticAverage, getMedian } from '../statistic/getMedian';
+import { getMedian } from '../statistic/getMedian';
 
 // implemented with help of https://online.stat.psu.edu/stat508/lesson/11/11.8/11.8.2, http://mlwiki.org/index.php/Cost-Complexity_Pruning
-
+// https://link.springer.com/content/pdf/10.1023/A:1022604100933.pdf
 
 export const getMissClassificationRateOfNode = (treeNode:TreeGardenNode, nSamplesInTree:number) => {
   const nSamplesInNode = getNumberOfSamplesInNode(treeNode);
@@ -47,23 +47,23 @@ export const getAlphaForNode = (
   return alpha;
 };
 
+// todo do better tests
 export const getAlphasAndSubTreesForFullTree = (unPrunedTreeRoot:TreeGardenNode) => {
   let currentTree = unPrunedTreeRoot;
   const result : { alpha:number, subTree:TreeGardenNode }[] = [];
   while (getNumberOfTreeNodes(currentTree) > 1) {
     currentTree = getTreeCopy(currentTree);
-    const innerNodes = getAllNonLeafNodes(currentTree);
+    const innerNodes = getAllInnerNodes(currentTree);
 
     const alphasAndNodes = innerNodes.map((node) => [getAlphaForNode(node, getNumberOfSamplesInNode(unPrunedTreeRoot)), node] as const);
-
     // lets find node/nodes with minimal alpha - also known as weakest links
     const minAlpha = Math.min(...alphasAndNodes.map(([alphaOfInternalNode]) => alphaOfInternalNode));
-
     // as there can be more of nodes with lowest alpha - prune out them all
     const nodesWithThisMinAlpha = alphasAndNodes.filter(([alpha]) => alpha === minAlpha);
     if (nodesWithThisMinAlpha.length === 0) {
       throw new Error('Some math domain error!!! - NAN as alpha');
     }
+    // todo maybe prune just one, which prune less nodes of
     // prune tree and store
     nodesWithThisMinAlpha.forEach(([,node]) => {
       mutateNonLeafNodeIntoLeafOne(node);
@@ -73,30 +73,76 @@ export const getAlphasAndSubTreesForFullTree = (unPrunedTreeRoot:TreeGardenNode)
   return result;
 };
 
+
+export const getComplexityScoreForGivenTreeAndAlpha = (treeRoot:TreeGardenNode, alpha:number) => {
+  const nSamplesInTree = getNumberOfSamplesInNode(treeRoot);
+  return getMissClassificationRateOfTree(treeRoot, nSamplesInTree) + getAllLeafNodes(treeRoot).length * alpha;
+};
+
+export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:TreeGardenNode, alpha :number) => {
+  // alphas produced are ignored, we are just interested in set of subtrees, and we will get one
+  // that minimizes costComplexityScore score = missClassificationRate  + (numberOfLeafNodes) * alpha
+  const consideredSubtreesAndComplexityScore = getAlphasAndSubTreesForFullTree(fullTree)
+    .map(({ subTree }) => ({ costComplexityScore: getComplexityScoreForGivenTreeAndAlpha(subTree, alpha), subTree }));
+  // lets choose tree with minimal score
+  return consideredSubtreesAndComplexityScore
+    .sort((a, b) => {
+      const numberOfNodesA = getNumberOfTreeNodes(a.subTree);
+      const numberOfNodesB = getNumberOfTreeNodes(b.subTree);
+      if (a.costComplexityScore < b.costComplexityScore) {
+        return -1;
+      }
+      if (a.costComplexityScore > b.costComplexityScore) {
+        return 1;
+      }
+      if (numberOfNodesA > numberOfNodesB) {
+        return -1;
+      }
+      if (numberOfNodesA < numberOfNodesB) {
+        return 1;
+      }
+      return 0;
+    })[0].subTree;
+};
+
 export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fullTrainingData:DataSetSample[], configuration:AlgorithmConfiguration) => {
   const readyToGoTrainingSet = getDataSetWithReplacedValues({
     samplesToReplace: fullTrainingData,
     algorithmConfiguration: configuration
   });
   const alphasAndSubTrees = getAlphasAndSubTreesForFullTree(treeRoot);
-  alphasAndSubTrees.forEach((item) => {
-    console.log(item.alpha, getNumberOfTreeNodes(item.subTree));
-  });
-  const nFoldCrossValidationSets = getNFoldCrossValidationDataSets(readyToGoTrainingSet, 10);
+  // alphasAndSubTrees.forEach((item) => {
+  //   console.log(item.alpha, getNumberOfTreeNodes(item.subTree));
+  // });
+  const nFoldCrossValidationSets = getNFoldCrossValidationDataSets(readyToGoTrainingSet, 5);
   const bestAlphaFromEachTree = nFoldCrossValidationSets.map(({ validation, training }) => {
     const fullTree = induceTree(configuration, training);
-    const alphasAndAccuracy = getAlphasAndSubTreesForFullTree(fullTree).map(
-      ({ subTree, alpha }) => ({ alpha, accuracy: getTreeAccuracy(subTree, validation, configuration), n: getNumberOfTreeNodes(subTree) })
-    ).sort((a, b) => b.accuracy - a.accuracy);
-    const mostAccurate = alphasAndAccuracy[0];
-    console.log(mostAccurate);
-    return mostAccurate.alpha;
+
+    // best scoring alphas
+    const bestAlphas = alphasAndSubTrees
+      .map(({ alpha }) => {
+        const treeForAlpha = getSubTreeThanMinimizesCostComplexityForGivenAlpha(fullTree, alpha);
+        const accuracy = getTreeAccuracy(treeForAlpha, validation, configuration);
+        return { accuracy, alpha };
+      })
+      .sort((a, b) => b.accuracy - a.accuracy);
+    const alphasForSameAccuracy = bestAlphas
+      .filter(({ accuracy }) => accuracy === bestAlphas[0].accuracy)
+      .map(({ alpha }) => alpha);
+    return getMedian(alphasForSameAccuracy);
   });
 
-  console.log(bestAlphaFromEachTree);
-  console.log(getMedian(bestAlphaFromEachTree), 'median');
-  console.log(getArithmeticAverage(bestAlphaFromEachTree), 'average');
-  // todo find closests alpha on original one and use given tree
+  const chosenAlpha = getMedian(bestAlphaFromEachTree);
+  const closestALphas = alphasAndSubTrees
+    .map(({ alpha, subTree }) => ({
+      sortValue: Math.abs(chosenAlpha - alpha),
+      alpha,
+      subTree
+    }))
+    .sort((a, b) => a.sortValue - b.sortValue);
+
+  // our tree
+  return closestALphas[0].subTree;
 };
 
 

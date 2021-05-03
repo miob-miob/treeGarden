@@ -6,7 +6,7 @@ import {
   dataPartitionsToClassCounts,
   getMostCommonClassForNode,
   TreeGardenNode,
-  getAllNonLeafNodes,
+  getAllInnerNodes,
   getFlattenTree,
   getTreeNodeById, getNumberOfTreeNodes, getAllLeafNodes, getNumberOfSamplesInNode
 } from './treeNode';
@@ -159,13 +159,13 @@ test('getFlattenTree', () => {
 });
 
 test('getAllNonLeafNodes', () => {
-  const nonLeafNodes = getAllNonLeafNodes(tennisTree);
+  const nonLeafNodes = getAllInnerNodes(tennisTree);
   const chosenCriteria = nonLeafNodes.map((node) => node.chosenSplitCriteria![0]);
   const expectedCriteria = ['outlook', 'humidity', 'wind'];
   expect(chosenCriteria.length).toBe(expectedCriteria.length);
   expect(chosenCriteria.sort()).toEqual(expectedCriteria.sort());
 
-  const leafNodesOfSimpleTree = getAllNonLeafNodes(simpleTree);
+  const leafNodesOfSimpleTree = getAllInnerNodes(simpleTree);
   expect(leafNodesOfSimpleTree[0]).toBe(simpleTree);
 });
 

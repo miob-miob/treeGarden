@@ -23,12 +23,12 @@ test('default of tennis set', () => {
 test('changed humidity field', () => {
   expect(buildAttributesConfiguration({
     ...defaultConfiguration,
-    attributes: { humidity: { dataType: 'numeric' } }
+    attributes: { humidity: { dataType: 'continuous' } }
   }, tennisSet))
     .toStrictEqual({
       outlook: defaultWithDiscrete,
       temp: defaultWithDiscrete,
-      humidity: { ...defaultWithDiscrete, dataType: 'numeric' },
+      humidity: { ...defaultWithDiscrete, dataType: 'continuous' },
       wind: defaultWithDiscrete
     });
 });

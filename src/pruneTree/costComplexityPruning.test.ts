@@ -1,10 +1,14 @@
 import {
-  getAlphaForNode, getAlphasAndSubTreesForFullTree,
+  getAlphaForNode,
+  getAlphasAndSubTreesForFullTree,
+  getComplexityScoreForGivenTreeAndAlpha,
   getMissClassificationRateOfNode,
-  getMissClassificationRateOfTree
+  getMissClassificationRateOfTree,
+  getPrunedTreeByCostComplexityPruning,
+  getSubTreeThanMinimizesCostComplexityForGivenAlpha
 } from './costComplexityPruning';
 import {
-  getNumberOfTreeNodes, getTreeCopy, mutateNonLeafNodeIntoLeafOne
+  getNumberOfTreeNodes, getTreeCopy, mutateNonLeafNodeIntoLeafOne, TreeGardenNode
 } from '../treeNode';
 import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 import { titanicTree } from '../sampleTrainedTrees/titanicTree';
@@ -46,4 +50,11 @@ test('getAlphasAndSubTreesForFullTree', () => {
   expect(getNumberOfTreeNodes(lastOne.subTree)).toBe(1);
   expect(lastOne.alpha > secondFromEnd.alpha);
   expect(firstOne.alpha < secondFromEnd.alpha && secondFromEnd.alpha < lastOne.alpha).toBeTruthy();
+});
+
+test('getSubTreeThanMinimizesCostComplexityForGivenAlpha', () => {
+  const treeWithLotOfNodes = getSubTreeThanMinimizesCostComplexityForGivenAlpha(titanicTree as any as TreeGardenNode, 0);
+  const treeThatShouldBeJustRoot = getSubTreeThanMinimizesCostComplexityForGivenAlpha(titanicTree as any as TreeGardenNode, 2);
+  expect(getNumberOfTreeNodes(treeWithLotOfNodes)).toBeGreaterThan(15);
+  expect(getNumberOfTreeNodes(treeThatShouldBeJustRoot)).toBe(1);
 });

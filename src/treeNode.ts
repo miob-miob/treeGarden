@@ -117,7 +117,7 @@ export const getFlattenTree = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
   return [treeRoot, ...(Object.values(treeRoot.childNodes!).flatMap(getFlattenTree))];
 };
 
-export const getAllNonLeafNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)
+export const getAllInnerNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)
   .filter((node) => !node.isLeaf);
 
 export const getAllLeafNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)

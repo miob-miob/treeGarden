@@ -1,8 +1,8 @@
-/* eslint-disable */
+/* eslint-disable import/no-cycle */
 // stopping  - pre-pruning
 
 import { getClassesOfDataSet } from '../dataSet/set';
-import { TreeGardenNode } from '../treeNode';
+import { getNumberOfSamplesInNode, TreeGardenNode } from '../treeNode';
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 
 
@@ -22,9 +22,12 @@ export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmCo
   return getClassesOfDataSet(wholeIncomingSet).length === 1;
 };
 
+export const stopIfMinimalNumberOfSamplesInLeafNode = (
+  nSamples = 5
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+) => (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration) => getNumberOfSamplesInNode(currentNode) <= nSamples;
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration) => {
-  return currentNode.bestSplits.length <= 1;
-};
+export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration) => currentNode.bestSplits.length <= 1;
 
 

@@ -8,7 +8,8 @@
     "build": "tsc --noEmit false",
     "start": "node dist/index.js",
     "lint": "eslint --ext .js,.jsx,.es6,.ts,.tsx ./src/",
-    "buildAndRun": "npm run build && npm run start"
+    "buildAndRun": "npm run build && npm run start",
+    "checkTypes": "tsc"
   },
   "repository": {
     "type": "git",
