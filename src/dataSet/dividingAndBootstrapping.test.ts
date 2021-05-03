@@ -1,4 +1,5 @@
-import { getBootstrappedDataSet, getDividedSet } from './dividingAndBootstrapping';
+import { getBootstrappedDataSet, getDividedSet, getNFoldCrossValidationDataSets } from './dividingAndBootstrapping';
+import { tennisSet } from '../sampleDataSets';
 
 const buildDataSet = (nItems: number) => Array.from(Array(nItems))
   .map((item, index) => ({ value: index, _class: 'someClass' }));
@@ -19,4 +20,14 @@ test('getDividedSet', () => {
   expect(validation.length / set.length).toBeCloseTo(validationSetPortion, 1);
   expect(training.length / set.length).toBeCloseTo(1 - validationSetPortion, 1);
   expect(validation.length + training.length).toBe(nItems);
+});
+
+test('getNFoldCrossValidationDataSets', () => {
+  const folds = 13;
+  const crossValidationSamples = getNFoldCrossValidationDataSets(tennisSet, folds);
+  expect(crossValidationSamples.length).toBe(folds);
+  const sums = crossValidationSamples.map(({ validation, training }) => training.length + validation.length);
+  const uniqueSums = Array.from(new Set(sums));
+  expect(uniqueSums.length).toBe(1);
+  expect(uniqueSums[0]).toBe(14);
 });

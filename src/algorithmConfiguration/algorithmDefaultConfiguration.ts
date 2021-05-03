@@ -8,7 +8,7 @@ import {
 // eslint-disable-next-line import/no-cycle
 import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../pruneTree/prePrunning';
 // eslint-disable-next-line import/no-cycle
-import { getMostCommonClassFromNode } from '../treeNode';
+import { getMostCommonClassForNode } from '../treeNode';
 // eslint-disable-next-line import/no-cycle
 import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
 
@@ -50,7 +50,7 @@ export const defaultConfiguration = {
   replaceMissingValuesWhileEvaluating: undefined,
 
   // how to obtain class from node where unknown sample lands
-  getClassFromLeafNode: getMostCommonClassFromNode,
+  getClassFromLeafNode: getMostCommonClassForNode,
 
   // every node in decision tree can have maximal two branches (true/false) - CART uses usually this condition
   onlyBinarySplits: false,

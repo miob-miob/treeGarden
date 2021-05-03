@@ -91,7 +91,7 @@ export const dataSetToTreeNode = (dataSet:DataSetSample[], configuration:Algorit
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getMostCommonClassFromNode = (leafNode:TreeGardenNode, sample?:DataSetSample) => {
+export const getMostCommonClassForNode = (leafNode:TreeGardenNode, sample?:DataSetSample) => {
   const sortedClasses = Object.entries(leafNode.classCounts)
     .sort(([classOne, countOne], [classTwo, countTwo]) => {
       if (countOne === countTwo) {
@@ -142,3 +142,6 @@ export const mutateNonLeafNodeIntoLeafOne = (nonLeafNode:TreeGardenNode) => {
   return nonLeafNode;
 };
 export const getNumberOfTreeNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot).length;
+
+export const getNumberOfSamplesInNode = (node:TreeGardenNode) => Object.values(node.classCounts)
+  .reduce((acc, current) => acc + current, 0);

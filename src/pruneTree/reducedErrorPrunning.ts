@@ -5,6 +5,7 @@ import {
 import { DataSetSample } from '../dataSet/set';
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 import { getTreeAccuracy } from '../statistic/treeStats';
+import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 
 // simple implementation - prefer trees  with best accuray
 
@@ -19,6 +20,7 @@ export const getPrunedTreeScore = (
 // todo do painful unit test testing
 // this will make copy of tree
 export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, validationDataSet:DataSetSample[], configuration:AlgorithmConfiguration) => {
+  const readyToGoValidationSet = getDataSetWithReplacedValues({ samplesToReplace: validationDataSet, algorithmConfiguration: configuration });
   let currentTree = getTreeCopy(treeRoot);
   let currentScore = 0;
   while (currentScore >= 0) {
@@ -26,10 +28,10 @@ export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, vali
     // eslint-disable-next-line @typescript-eslint/no-loop-func
       .map((consideredNode) => {
         const treeCopy = getTreeCopy(currentTree);
-        const accuracyBeforePruning = getTreeAccuracy(treeCopy, validationDataSet, configuration);
+        const accuracyBeforePruning = getTreeAccuracy(treeCopy, readyToGoValidationSet, configuration);
         const prunedNode = getTreeNodeById(treeCopy, consideredNode.id);
         mutateNonLeafNodeIntoLeafOne(prunedNode);
-        const accuracyAfterPruning = getTreeAccuracy(treeCopy, validationDataSet, configuration);
+        const accuracyAfterPruning = getTreeAccuracy(treeCopy, readyToGoValidationSet, configuration);
         return {
           tree: treeCopy,
           score: configuration.reducedErrorPruningGetScore(accuracyBeforePruning, accuracyAfterPruning, getNumberOfTreeNodes(treeCopy))

@@ -4,11 +4,11 @@ import {
   dataSetToTreeNode,
   dataPartitionsToDataPartitionCounts,
   dataPartitionsToClassCounts,
-  getMostCommonClassFromNode,
+  getMostCommonClassForNode,
   TreeGardenNode,
   getAllNonLeafNodes,
   getFlattenTree,
-  getTreeNodeById, getNumberOfTreeNodes, getAllLeafNodes
+  getTreeNodeById, getNumberOfTreeNodes, getAllLeafNodes, getNumberOfSamplesInNode
 } from './treeNode';
 import { simple } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
@@ -147,9 +147,9 @@ test('getMostCommonClassFromNode', () => {
   const nodeLikeThree = {
     classCounts: { green: 2, yellow: 2, black: 2 }
   };
-  expect(getMostCommonClassFromNode(nodeLikeOne as unknown as TreeGardenNode)).toBe('yellow');
-  expect(getMostCommonClassFromNode(nodeLikeTwo as unknown as TreeGardenNode)).toBe('green');
-  expect(getMostCommonClassFromNode(nodeLikeThree as unknown as TreeGardenNode)).toBe('black');
+  expect(getMostCommonClassForNode(nodeLikeOne as unknown as TreeGardenNode)).toBe('yellow');
+  expect(getMostCommonClassForNode(nodeLikeTwo as unknown as TreeGardenNode)).toBe('green');
+  expect(getMostCommonClassForNode(nodeLikeThree as unknown as TreeGardenNode)).toBe('black');
 });
 
 test('getFlattenTree', () => {
@@ -182,4 +182,9 @@ test('getTreeNodeById', () => {
 test('getNumberOfTreeNodes', () => {
   expect(getNumberOfTreeNodes(simpleTree)).toBe(3);
   expect(getNumberOfTreeNodes(tennisTree.childNodes.Rain)).toBe(3);
+});
+
+
+test('getNumberOfSamplesInNode', () => {
+  expect(getNumberOfSamplesInNode(tennisTree)).toBe(14);
 });

@@ -15,3 +15,8 @@ export const getMedian = (numbers:number[]) => {
   }
   return (copy[middleIndex] + copy[middleIndex - 1]) / 2;
 };
+
+export const getArithmeticAverage = (values:number[]) => {
+  const sum = values.reduce((acc, curr) => acc + curr, 0);
+  return sum / values.length;
+};
