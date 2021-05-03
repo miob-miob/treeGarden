@@ -10,11 +10,11 @@ import {
   composeStopFunctions,
   stopIfMinimalNumberOfSamplesInLeafNode,
   stopIfNoSplitsAvailable,
-  stopIfPure
+  stopIfPure, getPrunedTreeByPessimisticPruning
 } from './pruneTree';
 
 
-const [validationTitanic, trainingTitanic] = getDividedSet(titanicSet, 0);
+const [validationTitanic, trainingTitanic] = getDividedSet(titanicSet, 0.1);
 console.log('validation length', validationTitanic.length);
 console.log('training length', trainingTitanic.length);
 const algorithmConfig = buildAlgorithmConfiguration(trainingTitanic, {
@@ -36,7 +36,8 @@ const legthOfNonPruned = getNumberOfTreeNodes(tree);
 const accUnpruned = getTreeAccuracy(tree, validationTitanic, algorithmConfig);
 console.log('UNpuruned ', legthOfNonPruned, accUnpruned);
 
-const prunedTree = getPrunedTreeByCostComplexityPruning(tree, trainingTitanic, algorithmConfig);
+// const prunedTree = getPrunedTreeByCostComplexityPruning(tree, trainingTitanic, algorithmConfig);
+const prunedTree = getPrunedTreeByPessimisticPruning(tree);
 
 const legthOfPruned = getNumberOfTreeNodes(prunedTree);
 const accOfPrunned = getTreeAccuracy(prunedTree, validationTitanic, algorithmConfig);

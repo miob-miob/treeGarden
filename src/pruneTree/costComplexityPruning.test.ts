@@ -1,10 +1,8 @@
 import {
   getAlphaForNode,
   getAlphasAndSubTreesForFullTree,
-  getComplexityScoreForGivenTreeAndAlpha,
   getMissClassificationRateOfNode,
   getMissClassificationRateOfTree,
-  getPrunedTreeByCostComplexityPruning,
   getSubTreeThanMinimizesCostComplexityForGivenAlpha
 } from './costComplexityPruning';
 import {
