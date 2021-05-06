@@ -1,4 +1,4 @@
-import { getBootstrappedDataSet, getDividedSet, getNFoldCrossValidationDataSets } from './dividingAndBootstrapping';
+import { getBootstrappedDataSet, getDividedSet, getKFoldCrossValidationDataSets } from './dividingAndBootstrapping';
 import { tennisSet } from '../sampleDataSets';
 
 const buildDataSet = (nItems: number) => Array.from(Array(nItems))
@@ -24,7 +24,7 @@ test('getDividedSet', () => {
 
 test('getNFoldCrossValidationDataSets', () => {
   const folds = 13;
-  const crossValidationSamples = getNFoldCrossValidationDataSets(tennisSet, folds);
+  const crossValidationSamples = getKFoldCrossValidationDataSets(tennisSet, folds);
   expect(crossValidationSamples.length).toBe(folds);
   const sums = crossValidationSamples.map(({ validation, training }) => training.length + validation.length);
   const uniqueSums = Array.from(new Set(sums));

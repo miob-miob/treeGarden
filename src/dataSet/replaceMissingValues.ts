@@ -1,10 +1,10 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,import/no-cycle */
 import { getMostCommonValues } from '../statistic/getMostCommonValue';
 import { chooseOne } from '../randomization';
 import { DataSetSample, getClassesOfDataSet } from './set';
 import { getMedian } from '../statistic/getMedian';
-// eslint-disable-next-line import/no-cycle
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { TreeGardenNode } from '../treeNode';
 
 // todo because we infering configuration and some of functions here are used as default values of configuration
 // todo  we are creating circular depenency - we must ommit algorithmConfig type ;(
@@ -107,4 +107,18 @@ export const getDataSetWithReplacedValues = ({
     }
     return sample;
   });
+};
+
+export const getMostCommonTagOfSamplesInNode = (
+  sample:DataSetSample,
+  attributeId:string,
+  nodeWhereWeeNeedValue:TreeGardenNode,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  config:AlgorithmConfiguration
+) => {
+  // returns most common value from partitions
+  const valuesAndCounts = Object.entries(nodeWhereWeeNeedValue.dataPartitionsCounts!)
+    .map(([key, classCounts]) => [key, Object.values(classCounts).reduce((acc, curr) => acc + curr, 0)] as const)
+    .sort((tupleOne, tupleTwo) => tupleTwo[1] - tupleOne[1]);
+  return valuesAndCounts[0][0];
 };

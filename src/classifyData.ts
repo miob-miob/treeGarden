@@ -18,12 +18,11 @@ const getLeafNodeOfSample = (sample:DataSetSample, rootNode:TreeGardenNode, algo
       as missing, it should be replaced using 'referenceDataSetForReplacing', or you should define 'replaceMissingValuesWhileEvaluating'
        function in configuration!`);
     }
-    const replacedValueForAttributeId = (sampleValueForGivenAttribute === missingValue)
-      ? replaceAsEvaluating!(sample, attributeId, currentNode) : sampleValueForGivenAttribute;
-    // we do not want modify smample in case replace missing  value
-    const sampleCopy = { ...sample, [attributeId]: replacedValueForAttributeId };
-    // @ts-expect-error
-    const tagOfSample = getSplitCriteriaFn(...currentNode.chosenSplitCriteria!)(sampleCopy);
+
+    const tagOfSample = (sampleValueForGivenAttribute === missingValue)
+      // @ts-expect-error
+      ? replaceAsEvaluating!(sample, attributeId, currentNode, algorithmConfiguration) : getSplitCriteriaFn(...currentNode.chosenSplitCriteria!)(sample);
+
     if (!currentNode.childNodes![tagOfSample]) {
       // this can happen if value was only in validation dataset
       // or if ended up in this node, but we do not have training data in given node

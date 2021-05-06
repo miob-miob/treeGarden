@@ -26,12 +26,12 @@ export const getBootstrappedDataSet = (dataSet:DataSetSample[], howMany?:number)
   return bootstrappedSet;
 };
 
-export const getNFoldCrossValidationDataSets = (dataSet:DataSetSample[], nFold = 10) => {
-  if (dataSet.length < nFold) {
-    throw new Error(`You can not divide ${dataSet.length} samples into ${nFold} partitions!!!`);
+export const getKFoldCrossValidationDataSets = (dataSet:DataSetSample[], kFold = 10) => {
+  if (dataSet.length < kFold) {
+    throw new Error(`You can not divide ${dataSet.length} samples into ${kFold} partitions!!!`);
   }
   const shuffledDataSet = shuffleArray(dataSet);
-  const partitions: DataSetSample[][] = [...Array(nFold).keys()].map(() => []);
+  const partitions: DataSetSample[][] = [...Array(kFold).keys()].map(() => []);
   while (shuffledDataSet.length > 0) {
     partitions.forEach((currentPartition) => {
       const sample = shuffledDataSet.pop();

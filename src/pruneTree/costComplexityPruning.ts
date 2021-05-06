@@ -9,7 +9,7 @@ import {
 } from '../treeNode';
 import { DataSetSample } from '../dataSet/set';
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
-import { getNFoldCrossValidationDataSets } from '../dataSet/dividingAndBootstrapping';
+import { getKFoldCrossValidationDataSets } from '../dataSet/dividingAndBootstrapping';
 import { induceTree } from '../induceTree';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 import { getTreeAccuracy } from '../statistic/treeStats';
@@ -114,7 +114,7 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
   // alphasAndSubTrees.forEach((item) => {
   //   console.log(item.alpha, getNumberOfTreeNodes(item.subTree));
   // });
-  const nFoldCrossValidationSets = getNFoldCrossValidationDataSets(readyToGoTrainingSet, 5);
+  const nFoldCrossValidationSets = getKFoldCrossValidationDataSets(readyToGoTrainingSet, 5);
   const bestAlphaFromEachTree = nFoldCrossValidationSets.map(({ validation, training }) => {
     const fullTree = induceTree(configuration, training);
 

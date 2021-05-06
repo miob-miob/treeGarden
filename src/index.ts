@@ -36,8 +36,8 @@ const legthOfNonPruned = getNumberOfTreeNodes(tree);
 const accUnpruned = getTreeAccuracy(tree, validationTitanic, algorithmConfig);
 console.log('UNpuruned ', legthOfNonPruned, accUnpruned);
 
-// const prunedTree = getPrunedTreeByCostComplexityPruning(tree, trainingTitanic, algorithmConfig);
-const prunedTree = getPrunedTreeByPessimisticPruning(tree);
+const prunedTree = getPrunedTreeByCostComplexityPruning(tree, trainingTitanic, algorithmConfig);
+// const prunedTree = getPrunedTreeByPessimisticPruning(tree);
 
 const legthOfPruned = getNumberOfTreeNodes(prunedTree);
 const accOfPrunned = getTreeAccuracy(prunedTree, validationTitanic, algorithmConfig);
