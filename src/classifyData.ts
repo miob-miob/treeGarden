@@ -1,19 +1,19 @@
 /* eslint-disable no-underscore-dangle,import/no-cycle */
 import { DataSetSample } from './dataSet/set';
-import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
+import { AlgorithmConfiguration } from './algorithmConfiguration';
 import { TreeGardenNode } from './treeNode';
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { getSplitCriteriaFn } from './dataSet/split';
 
 
 const getLeafNodeOfSample = (sample:DataSetSample, rootNode:TreeGardenNode, algorithmConfiguration:AlgorithmConfiguration) => {
-  const replaceAsEvaluating = algorithmConfiguration.replaceMissingValuesWhileEvaluating;
+  const getTagOfSampleWithMissingValue = algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying;
   let currentNode = rootNode;
   while (!currentNode.isLeaf) {
     const attributeId = currentNode.chosenSplitCriteria![0];
     const sampleValueForGivenAttribute = sample[attributeId];
     const { missingValue } = algorithmConfiguration.attributes[attributeId];
-    if (sampleValueForGivenAttribute === missingValue && !replaceAsEvaluating) {
+    if (sampleValueForGivenAttribute === missingValue && !getTagOfSampleWithMissingValue) {
       throw new Error(`When classifying sample with label: '${sample._label}', its value: '${sample[attributeId]}' is considered 
       as missing, it should be replaced using 'referenceDataSetForReplacing', or you should define 'replaceMissingValuesWhileEvaluating'
        function in configuration!`);
@@ -21,7 +21,7 @@ const getLeafNodeOfSample = (sample:DataSetSample, rootNode:TreeGardenNode, algo
 
     const tagOfSample = (sampleValueForGivenAttribute === missingValue)
       // @ts-expect-error
-      ? replaceAsEvaluating!(sample, attributeId, currentNode, algorithmConfiguration) : getSplitCriteriaFn(...currentNode.chosenSplitCriteria!)(sample);
+      ? getTagOfSampleWithMissingValue!(sample, attributeId, currentNode, algorithmConfiguration) : getSplitCriteriaFn(...currentNode.chosenSplitCriteria!)(sample);
 
     if (!currentNode.childNodes![tagOfSample]) {
       // this can happen if value was only in validation dataset
@@ -43,7 +43,7 @@ export const getLeafNodesForSamples = (
   algorithmConfiguration:AlgorithmConfiguration,
   referenceDataSetForReplacing?:DataSetSample[]
 ) => {
-  const readyToClassifySamples = (referenceDataSetForReplacing && !algorithmConfiguration.replaceMissingValuesWhileEvaluating) ? getDataSetWithReplacedValues({
+  const readyToClassifySamples = (referenceDataSetForReplacing && !algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying) ? getDataSetWithReplacedValues({
     replacerFactoryKey: 'evaluateMissingValueReplacement',
     samplesToReplace: samplesToClassify as DataSetSample[],
     algorithmConfiguration,

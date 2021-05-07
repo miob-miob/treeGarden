@@ -1,6 +1,6 @@
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { dataSetToTreeNode } from './treeNode';
-import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
+import { AlgorithmConfiguration } from './algorithmConfiguration';
 import { consistentDataSetGuard, DataSetSample } from './dataSet/set';
 
 

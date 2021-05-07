@@ -4,7 +4,7 @@
 import { TreeGardenNode } from '../treeNode';
 import { consistentDataSetGuard, DataSetSample } from '../dataSet/set';
 import { getPredictedClassesOfSamples } from '../classifyData';
-import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { AlgorithmConfiguration } from '../algorithmConfiguration';
 
 export const getTreeAccuracy = (
   treeRootNode:TreeGardenNode,

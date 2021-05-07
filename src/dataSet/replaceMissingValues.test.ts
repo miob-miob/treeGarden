@@ -1,10 +1,11 @@
 import {
   getMostCommonValueFF,
   getMostCommonValueAmongSameClassFF,
-  getDataSetWithReplacedValues
+  getDataSetWithReplacedValues, getMostCommonTagOfSamplesInNode
 } from './replaceMissingValues';
-import { simple } from '../sampleDataSets';
-import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { simple, tennisSet } from '../sampleDataSets';
+import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
+import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 
 
 const configuration = buildAlgorithmConfiguration(simple, {});
@@ -70,4 +71,10 @@ test('getDataSetWithReplacedValues with undefined missing values', () => {
     { _class: 'one', weight: 60, color: 'blue' },
     { _class: 'one', weight: 40, color: 'blue' }
   ]);
+});
+
+test('getMostCommonTagOfSamplesInNode', () => {
+  const nodeForTest = tennisTree.childNodes.Sunny;
+
+  expect(getMostCommonTagOfSamplesInNode(nodeForTest, 'humidity', nodeForTest, buildAlgorithmConfiguration(tennisSet))).toBe('High');
 });

@@ -45,9 +45,8 @@ export const defaultConfiguration = {
   // strategy used during evaluation of unknown samples (classification of instances)
   evaluateMissingValueReplacement: getMostCommonValueFF,
 
-  // todo this is not implemented - i think it is replacement method of C4.5
   // missing values replacement delayed to point when samples traverse during induced tree, sample and treeNode is provided
-  replaceMissingValuesWhileEvaluating: undefined,
+  getTagOfSampleWithMissingValueWhileClassifying: undefined,
 
   // how to obtain class from node where unknown sample lands
   getClassFromLeafNode: getMostCommonClassForNode,
