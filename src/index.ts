@@ -1,5 +1,5 @@
 import {
-  buildAlgorithmConfiguration, c45Config, cartConfig
+  buildAlgorithmConfiguration, c45Config
 } from './algorithmConfiguration';
 
 
@@ -18,7 +18,7 @@ import { getDividedSet } from './dataSet/dividingAndBootstrapping';
 import { getNumberOfTreeNodes, getTreeAccuracy } from './statistic/treeStats';
 
 export {
-  buildAlgorithmConfiguration, AlgorithmConfiguration, c45Config, cartConfig
+  buildAlgorithmConfiguration, AlgorithmConfiguration
 } from './algorithmConfiguration';
 export { induceTree } from './induceTree';
 export { getPredictedClassesOfSamples, getLeafNodesForSamples } from './classifyData';
@@ -28,8 +28,8 @@ const [training, pruning] = getDividedSet(rest, 0.8);
 console.log(`length of validation: ${validation.length}, length of training: ${training.length} `);
 
 const myConfig = buildAlgorithmConfiguration(training, {
-  // ...c45Config,
-  ...cartConfig,
+  ...c45Config,
+  // ...cartConfig,
   excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
   attributes: { sibsp: { dataType: 'discrete' } },
   shouldWeStopGrowth: composeStopFunctions(
