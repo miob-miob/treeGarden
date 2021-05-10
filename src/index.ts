@@ -31,6 +31,7 @@ const myConfig = buildAlgorithmConfiguration(training, {
   // ...c45Config,
   ...cartConfig,
   excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
+  attributes: { sibsp: { dataType: 'discrete' } },
   shouldWeStopGrowth: composeStopFunctions(
     stopIfPure,
     stopIfNoSplitsAvailable,

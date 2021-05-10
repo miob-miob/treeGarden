@@ -2,8 +2,8 @@
 import { getMostCommonValues } from '../statistic/getMostCommonValue';
 import { chooseOne } from '../randomization';
 import { DataSetSample, getClassesOfDataSet } from './set';
-import { medianAndAverage } from '../statistic/getMedian';
-import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { medianAndAverage } from '../statistic/medianAndAverage';
+import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { TreeGardenNode } from '../treeNode';
 
 // todo because we infering configuration and some of functions here are used as default values of configuration

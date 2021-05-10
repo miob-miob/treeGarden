@@ -4,7 +4,7 @@ import {
   mutateNonLeafNodeIntoLeafOne,
   TreeGardenNode
 } from '../treeNode';
-import {getNumberOfSamplesInNode} from "../statistic/treeStats";
+import { getNumberOfSamplesInNode } from '../statistic/treeStats';
 
 // disclaimer this is just copy paste from http://www-scf.usc.edu/~csci567/21-penalty-methods.pdf
 // i dunno understand statistic behind it

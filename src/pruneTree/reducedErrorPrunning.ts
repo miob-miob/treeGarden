@@ -4,7 +4,7 @@ import {
 } from '../treeNode';
 import { DataSetSample } from '../dataSet/set';
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
-import {getNumberOfTreeNodes, getTreeAccuracy} from '../statistic/treeStats';
+import { getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 
 // simple implementation - prefer trees  with best accuray

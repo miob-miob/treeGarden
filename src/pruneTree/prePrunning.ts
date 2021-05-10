@@ -4,7 +4,7 @@
 import { getClassesOfDataSet } from '../dataSet/set';
 import { TreeGardenNode } from '../treeNode';
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
-import {getNumberOfSamplesInNode} from "../statistic/treeStats";
+import { getNumberOfSamplesInNode } from '../statistic/treeStats';
 
 
 type StopperFn = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration)=>boolean;

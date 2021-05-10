@@ -11,7 +11,7 @@ import {
 import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 import { titanicTree } from '../sampleTrainedTrees/titanicTree';
 import { tennisSet } from '../sampleDataSets';
-import {getNumberOfTreeNodes} from "../statistic/treeStats";
+import { getNumberOfTreeNodes } from '../statistic/treeStats';
 
 const tennisSetLength = tennisSet.length;
 test('getMissClassificationRateOfTree', () => {

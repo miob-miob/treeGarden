@@ -6,12 +6,12 @@ import {
   TreeGardenNode
 } from '../treeNode';
 import { DataSetSample } from '../dataSet/set';
-import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { getKFoldCrossValidationDataSets } from '../dataSet/dividingAndBootstrapping';
 import { induceTree } from '../induceTree';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
-import {getNumberOfSamplesInNode, getNumberOfTreeNodes, getTreeAccuracy} from '../statistic/treeStats';
-import { medianAndAverage } from '../statistic/getMedian';
+import { getNumberOfSamplesInNode, getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
+import { medianAndAverage } from '../statistic/medianAndAverage';
 
 // implemented with help of https://online.stat.psu.edu/stat508/lesson/11/11.8/11.8.2, http://mlwiki.org/index.php/Cost-Complexity_Pruning
 // https://link.springer.com/content/pdf/10.1023/A:1022604100933.pdf
