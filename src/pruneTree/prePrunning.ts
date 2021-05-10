@@ -2,8 +2,9 @@
 // stopping  - pre-pruning
 
 import { getClassesOfDataSet } from '../dataSet/set';
-import { getNumberOfSamplesInNode, TreeGardenNode } from '../treeNode';
+import { TreeGardenNode } from '../treeNode';
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import {getNumberOfSamplesInNode} from "../statistic/treeStats";
 
 
 type StopperFn = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration)=>boolean;

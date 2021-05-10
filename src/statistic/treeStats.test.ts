@@ -1,8 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import { simple } from '../sampleDataSets';
 import { induceTree } from '../induceTree';
-import { getTreeAccuracy } from './treeStats';
-import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { getNumberOfSamplesInNode, getNumberOfTreeNodes, getTreeAccuracy } from './treeStats';
+import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
+import { simpleTree } from '../sampleTrainedTrees/simpleTree';
+import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 
 
 const config = buildAlgorithmConfiguration(simple);
@@ -18,6 +20,17 @@ describe('getTreeAccuracy', () => {
     deepCopyOfSimple[2]._class = 'left';
     expect(getTreeAccuracy(tree, deepCopyOfSimple, config)).toBeCloseTo(0.6);
   });
+});
+
+
+test('getNumberOfTreeNodes', () => {
+  expect(getNumberOfTreeNodes(simpleTree)).toBe(3);
+  expect(getNumberOfTreeNodes(tennisTree.childNodes.Rain)).toBe(3);
+});
+
+
+test('getNumberOfSamplesInNode', () => {
+  expect(getNumberOfSamplesInNode(tennisTree)).toBe(14);
 });
 
 

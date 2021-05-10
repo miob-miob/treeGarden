@@ -2,7 +2,7 @@
 import { getMostCommonValues } from '../statistic/getMostCommonValue';
 import { chooseOne } from '../randomization';
 import { DataSetSample, getClassesOfDataSet } from './set';
-import { getMedian } from '../statistic/getMedian';
+import { medianAndAverage } from '../statistic/getMedian';
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 import { TreeGardenNode } from '../treeNode';
 
@@ -27,7 +27,7 @@ export const getMostCommonValueFF = (dataSet:DataSetSample[], attributeId:string
   if (typeOfAttribute === 'discrete') {
     mostCommonValues = getMostCommonValues(valuesForGivenAttribute);
   } else {
-    median = getMedian(valuesForGivenAttribute);
+    median = medianAndAverage(valuesForGivenAttribute);
   }
   // in case there is more than one most common value, choose one by random
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -52,7 +52,7 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attr
       .map((sample) => sample[attributeId]);
     if (partitionValues.length !== 0) {
       classesAndCommonValuesForGivenAttributeId[currentClass] = (attributeDataType === 'discrete')
-        ? chooseOne(getMostCommonValues(partitionValues)) : getMedian(partitionValues);
+        ? chooseOne(getMostCommonValues(partitionValues)) : medianAndAverage(partitionValues);
     }
   });
   return (sampleWithMissingValue:DataSetSample) => {

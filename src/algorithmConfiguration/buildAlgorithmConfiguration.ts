@@ -32,8 +32,9 @@ export type AlgorithmConfiguration = {
   allClasses?:string[],
   buildTime?:number
 };
-export type PartialConfig = Partial<Omit<AlgorithmConfiguration, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } }>;
-export const buildAlgorithmConfiguration = (dataSet:DataSetSample[], configuration: PartialConfig = {}) => {
+export type PartialAlgorithmConfiguration =
+  Partial<Omit<AlgorithmConfiguration, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } }>;
+export const buildAlgorithmConfiguration = (dataSet:DataSetSample[], configuration: PartialAlgorithmConfiguration = {}) => {
   if (configuration.buildTime) {
     throw new Error(`This configuration was already build! ${JSON.stringify(configuration)}`);
   }

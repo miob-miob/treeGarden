@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle,import/no-cycle */
 
 // todo use  https://gist.github.com/michhar/2dfd2de0d4f8727f873422c5d959fff5#file-titanic-csv for tests
-import { TreeGardenNode } from '../treeNode';
+import { getFlattenTree, TreeGardenNode } from '../treeNode';
 import { consistentDataSetGuard, DataSetSample } from '../dataSet/set';
 import { getPredictedClassesOfSamples } from '../classifyData';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
@@ -18,3 +18,6 @@ export const getTreeAccuracy = (
 };
 
 
+export const getNumberOfTreeNodes = (treeRoot: TreeGardenNode) => getFlattenTree(treeRoot).length;
+export const getNumberOfSamplesInNode = (node: TreeGardenNode) => Object.values(node.classCounts)
+  .reduce((acc, current) => acc + current, 0);

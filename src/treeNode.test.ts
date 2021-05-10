@@ -8,13 +8,13 @@ import {
   TreeGardenNode,
   getAllInnerNodes,
   getFlattenTree,
-  getTreeNodeById, getNumberOfTreeNodes, getAllLeafNodes, getNumberOfSamplesInNode
+  getTreeNodeById, getAllLeafNodes
 } from './treeNode';
 import { simple } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
 import { simpleTree } from './sampleTrainedTrees/simpleTree';
 
-import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
+import { buildAlgorithmConfiguration } from './algorithmConfiguration';
 import { getGiniIndexForSplit } from './impurity/gini';
 
 
@@ -179,12 +179,3 @@ test('getTreeNodeById', () => {
   expect(getTreeNodeById(tennisTree, someNodeId)).toBe(someNode);
 });
 
-test('getNumberOfTreeNodes', () => {
-  expect(getNumberOfTreeNodes(simpleTree)).toBe(3);
-  expect(getNumberOfTreeNodes(tennisTree.childNodes.Rain)).toBe(3);
-});
-
-
-test('getNumberOfSamplesInNode', () => {
-  expect(getNumberOfSamplesInNode(tennisTree)).toBe(14);
-});

@@ -1,10 +1,10 @@
 /* eslint-disable import/no-cycle */
 import {
-  getAllInnerNodes, getNumberOfTreeNodes, getTreeCopy, getTreeNodeById, mutateNonLeafNodeIntoLeafOne, TreeGardenNode
+  getAllInnerNodes, getTreeCopy, getTreeNodeById, mutateNonLeafNodeIntoLeafOne, TreeGardenNode
 } from '../treeNode';
 import { DataSetSample } from '../dataSet/set';
 import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
-import { getTreeAccuracy } from '../statistic/treeStats';
+import {getNumberOfTreeNodes, getTreeAccuracy} from '../statistic/treeStats';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 
 // simple implementation - prefer trees  with best accuray
@@ -19,8 +19,8 @@ export const getPrunedTreeScore = (
 
 // todo do painful unit test testing
 // this will make copy of tree
-export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, validationDataSet:DataSetSample[], configuration:AlgorithmConfiguration) => {
-  const readyToGoValidationSet = getDataSetWithReplacedValues({ samplesToReplace: validationDataSet, algorithmConfiguration: configuration });
+export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, pruningDataSet:DataSetSample[], configuration:AlgorithmConfiguration) => {
+  const readyToGoValidationSet = getDataSetWithReplacedValues({ samplesToReplace: pruningDataSet, algorithmConfiguration: configuration });
   let currentTree = getTreeCopy(treeRoot);
   let currentScore = 0;
   while (currentScore >= 0) {

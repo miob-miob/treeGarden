@@ -3,12 +3,13 @@ import { v4 as uuidV4 } from 'uuid';
 import {
   getAllPossibleSplitCriteriaForDataSet,
   getBestScoringSplits,
-  getSplitCriteriaFn, SplitCriteriaDefinition,
+  getSplitCriteriaFn,
+  SplitCriteriaDefinition,
   splitDataSet
 } from './dataSet/split';
 import { DataSetSample } from './dataSet/set';
 // eslint-disable-next-line import/no-cycle
-import { AlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
+import { AlgorithmConfiguration } from './algorithmConfiguration';
 
 export type TreeGardenNode = {
   id:string,
@@ -141,7 +142,4 @@ export const mutateNonLeafNodeIntoLeafOne = (nonLeafNode:TreeGardenNode) => {
   delete nonLeafNode.childNodes;
   return nonLeafNode;
 };
-export const getNumberOfTreeNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot).length;
 
-export const getNumberOfSamplesInNode = (node:TreeGardenNode) => Object.values(node.classCounts)
-  .reduce((acc, current) => acc + current, 0);

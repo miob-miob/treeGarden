@@ -1,9 +1,7 @@
 import {
   getAllLeafNodes,
   getAllInnerNodes,
-  getMostCommonClassForNode, getNumberOfSamplesInNode,
-  getNumberOfTreeNodes,
-  getTreeCopy,
+  getMostCommonClassForNode, getTreeCopy,
   mutateNonLeafNodeIntoLeafOne,
   TreeGardenNode
 } from '../treeNode';
@@ -12,8 +10,8 @@ import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithm
 import { getKFoldCrossValidationDataSets } from '../dataSet/dividingAndBootstrapping';
 import { induceTree } from '../induceTree';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
-import { getTreeAccuracy } from '../statistic/treeStats';
-import { getMedian } from '../statistic/getMedian';
+import {getNumberOfSamplesInNode, getNumberOfTreeNodes, getTreeAccuracy} from '../statistic/treeStats';
+import { medianAndAverage } from '../statistic/getMedian';
 
 // implemented with help of https://online.stat.psu.edu/stat508/lesson/11/11.8/11.8.2, http://mlwiki.org/index.php/Cost-Complexity_Pruning
 // https://link.springer.com/content/pdf/10.1023/A:1022604100933.pdf
@@ -129,10 +127,10 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
     const alphasForSameAccuracy = bestAlphas
       .filter(({ accuracy }) => accuracy === bestAlphas[0].accuracy)
       .map(({ alpha }) => alpha);
-    return getMedian(alphasForSameAccuracy);
+    return medianAndAverage(alphasForSameAccuracy);
   });
 
-  const chosenAlpha = getMedian(bestAlphaFromEachTree);
+  const chosenAlpha = medianAndAverage(bestAlphaFromEachTree);
   const closestALphas = alphasAndSubTrees
     .map(({ alpha, subTree }) => ({
       sortValue: Math.abs(chosenAlpha - alpha),

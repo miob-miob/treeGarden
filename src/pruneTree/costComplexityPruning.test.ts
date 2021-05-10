@@ -6,11 +6,12 @@ import {
   getSubTreeThanMinimizesCostComplexityForGivenAlpha
 } from './costComplexityPruning';
 import {
-  getNumberOfTreeNodes, getTreeCopy, mutateNonLeafNodeIntoLeafOne, TreeGardenNode
+  getTreeCopy, mutateNonLeafNodeIntoLeafOne, TreeGardenNode
 } from '../treeNode';
 import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 import { titanicTree } from '../sampleTrainedTrees/titanicTree';
 import { tennisSet } from '../sampleDataSets';
+import {getNumberOfTreeNodes} from "../statistic/treeStats";
 
 const tennisSetLength = tennisSet.length;
 test('getMissClassificationRateOfTree', () => {
