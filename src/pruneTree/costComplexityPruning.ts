@@ -5,7 +5,7 @@ import {
   mutateNonLeafNodeIntoLeafOne,
   TreeGardenNode
 } from '../treeNode';
-import { DataSetSample } from '../dataSet/set';
+import { TreeGardenDataSample } from '../dataSet/set';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { getKFoldCrossValidationDataSets } from '../dataSet/dividingAndBootstrapping';
 import { induceTree } from '../induceTree';
@@ -103,7 +103,7 @@ export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:Tree
     })[0].subTree;
 };
 
-export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fullTrainingData:DataSetSample[], configuration:AlgorithmConfiguration) => {
+export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fullTrainingData:TreeGardenDataSample[], configuration:AlgorithmConfiguration) => {
   const readyToGoTrainingSet = getDataSetWithReplacedValues({
     samplesToReplace: fullTrainingData,
     algorithmConfiguration: configuration

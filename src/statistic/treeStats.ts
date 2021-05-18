@@ -2,13 +2,13 @@
 
 // todo use  https://gist.github.com/michhar/2dfd2de0d4f8727f873422c5d959fff5#file-titanic-csv for tests
 import { getFlattenTree, TreeGardenNode } from '../treeNode';
-import { consistentDataSetGuard, DataSetSample } from '../dataSet/set';
+import { consistentDataSetGuard, TreeGardenDataSample } from '../dataSet/set';
 import { getPredictedClassesOfSamples } from '../classifyData';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 
 export const getTreeAccuracy = (
   treeRootNode:TreeGardenNode,
-  validationSet:DataSetSample[],
+  validationSet:TreeGardenDataSample[],
   configuration:AlgorithmConfiguration
 ) => {
   consistentDataSetGuard(validationSet, 'getMisclassificationRate');

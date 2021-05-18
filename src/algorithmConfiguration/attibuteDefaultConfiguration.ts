@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 // eslint-disable-next-line import/no-cycle
 import { getMostCommonValueFF } from '../dataSet/replaceMissingValues';
-import { DataSetSample } from '../dataSet/set';
+import { TreeGardenDataSample } from '../dataSet/set';
 import { SplitCriteriaDefinition } from '../dataSet/split';
 import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
 
@@ -26,10 +26,10 @@ export const defaultAttributeConfiguration = {
   // of investigation all possibilities
   getAllPossibleSplitCriteriaForDiscreteAttribute: undefined as ((
     attributeId:string,
-    dataSet:DataSetSample[],
+    dataSet:TreeGardenDataSample[],
     configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[]) | undefined,
   getAllPossibleSplitCriteriaForContinuousAttribute: undefined as ((
     attributeId:string,
-    dataSet:DataSetSample[],
+    dataSet:TreeGardenDataSample[],
     configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[]) | undefined
 };

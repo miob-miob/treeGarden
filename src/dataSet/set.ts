@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 
-export type DataSetSample = {
+export type TreeGardenDataSample = {
   _class?:string,
   _label?:string|number,
   [key:string]:any
 };
 
-export const getClassesOfDataSet = (dataSet:DataSetSample[], alreadyKnownClasses :string[]|null = null) => {
+export const getClassesOfDataSet = (dataSet:TreeGardenDataSample[], alreadyKnownClasses :string[]|null = null) => {
   const classesSet = dataSet
     .reduce(
       (allKnownClasses, currentSample) => {
@@ -21,7 +21,7 @@ export const getClassesOfDataSet = (dataSet:DataSetSample[], alreadyKnownClasses
 };
 
 
-export const getAllAttributeIds = (dataSet : DataSetSample[]) => {
+export const getAllAttributeIds = (dataSet : TreeGardenDataSample[]) => {
   const resultSet = new Set<string>();
   dataSet.forEach((sample) => {
     Object.keys(sample)
@@ -37,7 +37,7 @@ export const getAllAttributeIds = (dataSet : DataSetSample[]) => {
 };
 
 // decide if values under given attributeId of dataset are continuous or discrete
-export const getTypeOfAttribute = (dataSet:DataSetSample[], attributeId:string, missingValue:any = undefined) => {
+export const getTypeOfAttribute = (dataSet:TreeGardenDataSample[], attributeId:string, missingValue:any = undefined) => {
   const allValuesAreNumbers = dataSet.map((sample) => sample[attributeId])
     .filter((value) => value !== missingValue) // filter out missing values
     .every((value) => typeof value === 'number');
@@ -45,10 +45,10 @@ export const getTypeOfAttribute = (dataSet:DataSetSample[], attributeId:string, 
 };
 
 
-export const getAllValuesOfAttribute = (attributeId:string, dataSet:DataSetSample[]) => dataSet.map((sample) => sample[attributeId]);
-export const getAllUniqueValuesOfAttribute = (attributeId:string, dataSet:DataSetSample[]) => [...new Set(getAllValuesOfAttribute(attributeId, dataSet))];
+export const getAllValuesOfAttribute = (attributeId:string, dataSet:TreeGardenDataSample[]) => dataSet.map((sample) => sample[attributeId]);
+export const getAllUniqueValuesOfAttribute = (attributeId:string, dataSet:TreeGardenDataSample[]) => [...new Set(getAllValuesOfAttribute(attributeId, dataSet))];
 
-export const consistentDataSetGuard = (dataSet:DataSetSample[], parentFnName = 'unknown') => {
+export const consistentDataSetGuard = (dataSet:TreeGardenDataSample[], parentFnName = 'unknown') => {
   const sampleWithoutClass = dataSet.find((sample) => sample._class === undefined);
   if (sampleWithoutClass) {
     throw new Error(`While calling '${parentFnName}' '_class' must be defined on every sample `);

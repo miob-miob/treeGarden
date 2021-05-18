@@ -1,10 +1,10 @@
 import { chooseOne, shuffleArray } from '../randomization';
-import { DataSetSample } from './set';
+import { TreeGardenDataSample } from './set';
 
 // this is useful when i need training and validation data set
-export const getDividedSet = (dataSet:DataSetSample[], portionGoesToFirst = 0.5) => {
-  const firstSet:DataSetSample[] = [];
-  const secondSet:DataSetSample[] = [];
+export const getDividedSet = (dataSet:TreeGardenDataSample[], portionGoesToFirst = 0.5) => {
+  const firstSet:TreeGardenDataSample[] = [];
+  const secondSet:TreeGardenDataSample[] = [];
   dataSet.forEach((sample) => {
     if (Math.random() < portionGoesToFirst) {
       firstSet.push(sample);
@@ -17,7 +17,7 @@ export const getDividedSet = (dataSet:DataSetSample[], portionGoesToFirst = 0.5)
 };
 
 // sampling with replacement
-export const getBootstrappedDataSet = (dataSet:DataSetSample[], howMany?:number) => {
+export const getBootstrappedDataSet = (dataSet:TreeGardenDataSample[], howMany?:number) => {
   const readyHowMany = howMany || dataSet.length;
   const bootstrappedSet = [];
   for (let counter = 0; counter < readyHowMany; counter += 1) {
@@ -26,12 +26,12 @@ export const getBootstrappedDataSet = (dataSet:DataSetSample[], howMany?:number)
   return bootstrappedSet;
 };
 
-export const getKFoldCrossValidationDataSets = (dataSet:DataSetSample[], kFold = 10) => {
+export const getKFoldCrossValidationDataSets = (dataSet:TreeGardenDataSample[], kFold = 10) => {
   if (dataSet.length < kFold) {
     throw new Error(`You can not divide ${dataSet.length} samples into ${kFold} partitions!!!`);
   }
   const shuffledDataSet = shuffleArray(dataSet);
-  const partitions: DataSetSample[][] = [...Array(kFold).keys()].map(() => []);
+  const partitions: TreeGardenDataSample[][] = [...Array(kFold).keys()].map(() => []);
   while (shuffledDataSet.length > 0) {
     partitions.forEach((currentPartition) => {
       const sample = shuffledDataSet.pop();

@@ -1,5 +1,5 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
-import { DataSetSample } from '../dataSet/set';
+import { TreeGardenDataSample } from '../dataSet/set';
 
 
 export const getEntropy = (frequenciesOfClasses:number[]) => {
@@ -17,7 +17,7 @@ export const getEntropy = (frequenciesOfClasses:number[]) => {
 };
 
 
-export const getEntropyForDataSet = (dataSet:DataSetSample[], knownClasses:string[]) => {
+export const getEntropyForDataSet = (dataSet:TreeGardenDataSample[], knownClasses:string[]) => {
   const frequencies = getFrequenciesOfClasses(dataSet, knownClasses);
   return getEntropy(Object.values(frequencies));
 };

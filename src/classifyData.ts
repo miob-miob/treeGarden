@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle,import/no-cycle */
-import { DataSetSample } from './dataSet/set';
+import { TreeGardenDataSample } from './dataSet/set';
 import { AlgorithmConfiguration } from './algorithmConfiguration';
 import { TreeGardenNode } from './treeNode';
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { getSplitCriteriaFn } from './dataSet/split';
 
 
-const getLeafNodeOfSample = (sample:DataSetSample, rootNode:TreeGardenNode, algorithmConfiguration:AlgorithmConfiguration) => {
+const getLeafNodeOfSample = (sample:TreeGardenDataSample, rootNode:TreeGardenNode, algorithmConfiguration:AlgorithmConfiguration) => {
   const getTagOfSampleWithMissingValue = algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying;
   let currentNode = rootNode;
   while (!currentNode.isLeaf) {
@@ -38,14 +38,14 @@ const getLeafNodeOfSample = (sample:DataSetSample, rootNode:TreeGardenNode, algo
 
 
 export const getLeafNodesForSamples = (
-  samplesToClassify:DataSetSample[],
+  samplesToClassify:TreeGardenDataSample[],
   decisionTreeRoot:TreeGardenNode,
   algorithmConfiguration:AlgorithmConfiguration,
-  referenceDataSetForReplacing?:DataSetSample[]
+  referenceDataSetForReplacing?:TreeGardenDataSample[]
 ) => {
   const readyToClassifySamples = (referenceDataSetForReplacing && !algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying) ? getDataSetWithReplacedValues({
     replacerFactoryKey: 'evaluateMissingValueReplacement',
-    samplesToReplace: samplesToClassify as DataSetSample[],
+    samplesToReplace: samplesToClassify as TreeGardenDataSample[],
     algorithmConfiguration,
     referenceDataSet: referenceDataSetForReplacing
   }) : [...samplesToClassify];
@@ -56,9 +56,9 @@ export const getLeafNodesForSamples = (
 
 
 export const getPredictedClassesOfSamples = (
-  samplesToClassify:DataSetSample[],
+  samplesToClassify:TreeGardenDataSample[],
   decisionTreeRoot:TreeGardenNode,
   algorithmConfiguration:AlgorithmConfiguration,
-  referenceDataSetForReplacing?:DataSetSample[]
+  referenceDataSetForReplacing?:TreeGardenDataSample[]
 ) => getLeafNodesForSamples(samplesToClassify, decisionTreeRoot, algorithmConfiguration, referenceDataSetForReplacing)
   .map(([sample, leafNode]) => [sample, algorithmConfiguration.getClassFromLeafNode(leafNode, sample)] as const);

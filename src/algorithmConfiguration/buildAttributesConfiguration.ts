@@ -1,4 +1,4 @@
-import { DataSetSample, getAllAttributeIds, getTypeOfAttribute } from '../dataSet/set';
+import { TreeGardenDataSample, getAllAttributeIds, getTypeOfAttribute } from '../dataSet/set';
 // eslint-disable-next-line import/no-cycle
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 // eslint-disable-next-line import/no-cycle
@@ -13,7 +13,7 @@ export const keysInheritedFromAlgorithmConfigurationIfNotDefined = [
 ] as const;
 
 type ConfigWithPartialAttributes = Omit<AlgorithmConfiguration, 'attributes'> & { attributes: { [key:string]:Partial<typeof defaultAttributeConfiguration> } };
-export const buildAttributesConfiguration = (configuration:ConfigWithPartialAttributes, dataSet:DataSetSample[]) => {
+export const buildAttributesConfiguration = (configuration:ConfigWithPartialAttributes, dataSet:TreeGardenDataSample[]) => {
   const consideredAttributes = configuration.includedAttributes.length > 0 ? configuration.includedAttributes : getAllAttributeIds(dataSet)
     .filter((attributeId:string) => !configuration.excludedAttributes.includes(attributeId));
   return consideredAttributes.reduce((result:{ [key:string]:typeof defaultAttributeConfiguration }, currentAttributeId) => {

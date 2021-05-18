@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle,import/no-cycle */
 import { getMostCommonValues } from '../statistic/getMostCommonValue';
 import { chooseOne } from '../randomization';
-import { DataSetSample, getClassesOfDataSet } from './set';
+import { TreeGardenDataSample, getClassesOfDataSet } from './set';
 import { medianAndAverage } from '../statistic/medianAndAverage';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { TreeGardenNode } from '../treeNode';
@@ -12,7 +12,7 @@ import { TreeGardenNode } from '../treeNode';
 // closure WARNING :D FF stands for Function Factory - on algorithm start it is called
 // and replacer is created (just once) than used for every sample with missing value
 // eslint-disable-next-line no-unused-vars
-export const getMostCommonValueFF = (dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
+export const getMostCommonValueFF = (dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
   const typeOfAttribute = configuration.attributes[attributeId].dataType;
   const { missingValue } = configuration.attributes[attributeId];
   const valuesForGivenAttribute = dataSet
@@ -31,7 +31,7 @@ export const getMostCommonValueFF = (dataSet:DataSetSample[], attributeId:string
   }
   // in case there is more than one most common value, choose one by random
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return (sampleWithMissingValue:DataSetSample) => {
+  return (sampleWithMissingValue:TreeGardenDataSample) => {
     if (typeOfAttribute === 'discrete') {
       return chooseOne(mostCommonValues);
     }
@@ -41,7 +41,7 @@ export const getMostCommonValueFF = (dataSet:DataSetSample[], attributeId:string
 
 // closure WARNING :D FF stands for Function Factory
 // this is usable only in induction time, evaluation samples do not have _class
-export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
+export const getMostCommonValueAmongSameClassFF = (dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
   const allClassesOfDataSet = getClassesOfDataSet(dataSet);
   const classesAndCommonValuesForGivenAttributeId:{ [key:string]:any[] } = {};
   const attributeDataType = configuration.attributes[attributeId].dataType;
@@ -55,7 +55,7 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attr
         ? chooseOne(getMostCommonValues(partitionValues)) : medianAndAverage(partitionValues);
     }
   });
-  return (sampleWithMissingValue:DataSetSample) => {
+  return (sampleWithMissingValue:TreeGardenDataSample) => {
     if (!classesAndCommonValuesForGivenAttributeId[sampleWithMissingValue._class!]) {
       throw new Error(`
       There is no value for attribute '${attributeId}' among samples with class: '${sampleWithMissingValue._class}'!
@@ -68,8 +68,8 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:DataSetSample[], attr
 
 
 type ReplaceOptions = {
-  samplesToReplace:DataSetSample[],
-  referenceDataSet?:DataSetSample[],
+  samplesToReplace:TreeGardenDataSample[],
+  referenceDataSet?:TreeGardenDataSample[],
   algorithmConfiguration:AlgorithmConfiguration,
   replacerFactoryKey?: 'induceMissingValueReplacement' | 'evaluateMissingValueReplacement'
 };
@@ -92,7 +92,7 @@ export const getDataSetWithReplacedValues = ({
   };
   const usedAttributes = Object.keys(algorithmConfiguration.attributes);
   return samplesToReplace.map((sample) => {
-    const sampleCopy:{ [key:string]:DataSetSample } = {};
+    const sampleCopy:{ [key:string]:TreeGardenDataSample } = {};
     let foundMissingValue = false;
     usedAttributes.forEach((attributeId) => {
       const { missingValue } = algorithmConfiguration.attributes[attributeId];
@@ -110,7 +110,7 @@ export const getDataSetWithReplacedValues = ({
 };
 
 export const getMostCommonTagOfSamplesInNode = (
-  sample:DataSetSample,
+  sample:TreeGardenDataSample,
   attributeId:string,
   nodeWhereWeeNeedValue:TreeGardenNode,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

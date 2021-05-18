@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { existingValueGuard } from './sample';
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
-import { DataSetSample, getAllUniqueValuesOfAttribute } from './set';
+import { TreeGardenDataSample, getAllUniqueValuesOfAttribute } from './set';
 
 
 const supportedMathOperators = new Set([
@@ -28,7 +28,7 @@ export type SplitCriteriaDefinition = any[];
  */
 export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, value?:Array<string|number>|string|Function|number) => {
   if (operator === '==') {
-    return (currentSample:DataSetSample) => {
+    return (currentSample:TreeGardenDataSample) => {
       // value is present ==> boolean - binary split
       if (value) {
         return Array.isArray(value) ? value.includes(currentSample[attributeId]) : currentSample[attributeId] === value;
@@ -44,10 +44,10 @@ export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, v
     }
     // value is custom function, which is provided with sample and attributeId
     // should return split tag
-    return (currentSample:DataSetSample) => value(currentSample, attributeId);
+    return (currentSample:TreeGardenDataSample) => value(currentSample, attributeId);
   }
   if (supportedMathOperators.has(operator)) {
-    return (currentSample:DataSetSample) => {
+    return (currentSample:TreeGardenDataSample) => {
       existingValueGuard(currentSample, attributeId);
       const attributeValue = currentSample[attributeId];
       if (typeof (attributeValue) !== 'number') {
@@ -74,9 +74,9 @@ export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, v
   throw new Error(`Used unknown operator, supported operators are: ${supportedOperators}, got '${operator}'!`);
 };
 
-export const splitDataSet = (dataSet:DataSetSample[], splitCriteriaFn: SplitCriteriaFn, onlyBinarySplits:boolean) => {
+export const splitDataSet = (dataSet:TreeGardenDataSample[], splitCriteriaFn: SplitCriteriaFn, onlyBinarySplits:boolean) => {
   const tagsAndSamples = dataSet.reduce(
-    (result:{ [key:string]:DataSetSample[] }, currentSample) => {
+    (result:{ [key:string]:TreeGardenDataSample[] }, currentSample) => {
       const tagOfSample = splitCriteriaFn(currentSample).toString();
       if (!result[tagOfSample]) {
         // eslint-disable-next-line no-param-reassign
@@ -103,7 +103,7 @@ export const splitDataSet = (dataSet:DataSetSample[], splitCriteriaFn: SplitCrit
  * @return {number}
  */
 export const getScoreForGivenSplitCriteria = (
-  dataSet:DataSetSample[],
+  dataSet:TreeGardenDataSample[],
   splitCriteriaFn:SplitCriteriaFn,
   knownClasses:string[],
   scoringFunction: ImpurityScoringFn,
@@ -180,7 +180,7 @@ export const getAllPossibleSplitCriteriaForContinuousValues = (attributeId:strin
 
 export const getPossibleSpitCriteriaForDiscreteAttribute = (
   attributeId:string,
-  dataSet:DataSetSample[],
+  dataSet:TreeGardenDataSample[],
   configuration: { [key:string]:any } // this any is because cyclic dependency when inferring algorithmconfig
 ):SplitCriteriaDefinition[] => {
   const uniqueValues = getAllUniqueValuesOfAttribute(attributeId, dataSet);
@@ -192,7 +192,7 @@ export const getPossibleSpitCriteriaForDiscreteAttribute = (
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getPossibleSpitCriteriaForContinuousAttribute = (attributeId:string, dataSet:DataSetSample[], configuration:{ [key:string]:any }) => {
+export const getPossibleSpitCriteriaForContinuousAttribute = (attributeId:string, dataSet:TreeGardenDataSample[], configuration:{ [key:string]:any }) => {
   const uniqueValues = getAllUniqueValuesOfAttribute(attributeId, dataSet);
   return getAllPossibleSplitCriteriaForContinuousValues(attributeId, uniqueValues);
 };
@@ -219,7 +219,7 @@ const areSplitCriteriaSame = (splitCriteriaOne:SplitCriteriaDefinition, splitCri
 
 // splitCriteriaAlreadyUsed - array of splits - which is array like [['color', '==', ['green','red','blue],[next...]]
 export const getAllPossibleSplitCriteriaForDataSet = (
-  dataSet:DataSetSample[],
+  dataSet:TreeGardenDataSample[],
   configuration:{ [key:string]:any },
   splitCriteriaAlreadyUsed:SplitCriteriaDefinition[]
 ): SplitCriteriaDefinition[] => {
@@ -247,7 +247,7 @@ export const getAllPossibleSplitCriteriaForDataSet = (
     });
 };
 
-export const getBestScoringSplits = (dataSet:DataSetSample[], possibleSplits:SplitCriteriaDefinition[], algorithmConfig:{ [key:string]:any }) => {
+export const getBestScoringSplits = (dataSet:TreeGardenDataSample[], possibleSplits:SplitCriteriaDefinition[], algorithmConfig:{ [key:string]:any }) => {
   const splitsWithScore = possibleSplits.map((splitDefinition) => {
     // @ts-expect-error
     const splitter = getSplitCriteriaFn(...splitDefinition);

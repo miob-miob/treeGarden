@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { defaultConfiguration } from './algorithmDefaultConfiguration';
 import { buildAttributesConfiguration } from './buildAttributesConfiguration';
-import { DataSetSample, getClassesOfDataSet } from '../dataSet/set';
+import { TreeGardenDataSample, getClassesOfDataSet } from '../dataSet/set';
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 import { TreeGardenNode } from '../treeNode';
 import { SplitCriteriaDefinition } from '../dataSet/split';
@@ -15,18 +15,18 @@ export type AlgorithmConfiguration = {
   biggerImpurityScoreBetterSplit:boolean,
   shouldWeStopGrowth:(node:TreeGardenNode, configuration:AlgorithmConfiguration)=>boolean,
   numberOfSplitsKept: number,
-  induceMissingValueReplacement:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:DataSetSample)=>any,
-  evaluateMissingValueReplacement:(dataSet:DataSetSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:DataSetSample)=>any,
-  getTagOfSampleWithMissingValueWhileClassifying?:(sample:DataSetSample, attributeId:string, nodeWhereWeeNeedValue:TreeGardenNode, config:AlgorithmConfiguration)=>any
-  getClassFromLeafNode:(node:TreeGardenNode, sample?:DataSetSample)=>string,
+  induceMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:TreeGardenDataSample)=>any,
+  evaluateMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:TreeGardenDataSample)=>any,
+  getTagOfSampleWithMissingValueWhileClassifying?:(sample:TreeGardenDataSample, attributeId:string, nodeWhereWeeNeedValue:TreeGardenNode, config:AlgorithmConfiguration)=>any
+  getClassFromLeafNode:(node:TreeGardenNode, sample?:TreeGardenDataSample)=>string,
   onlyBinarySplits:boolean,
   missingValue:any,
   keepFullLearningData:boolean,
   getAllPossibleSplitCriteriaForDiscreteAttribute:(attributeId:string,
-    dataSet:DataSetSample[],
+    dataSet:TreeGardenDataSample[],
     configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[],
   getAllPossibleSplitCriteriaForContinuousAttribute:(attributeId:string,
-    dataSet:DataSetSample[],
+    dataSet:TreeGardenDataSample[],
     configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[],
   reducedErrorPruningGetScore:(accuracyBeforePruning:number, accuracyAfterPruning:number, numberOfRemovedNodes:number)=>number,
   allClasses?:string[],
@@ -34,7 +34,7 @@ export type AlgorithmConfiguration = {
 };
 export type PartialAlgorithmConfiguration =
   Partial<Omit<AlgorithmConfiguration, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } }>;
-export const buildAlgorithmConfiguration = (dataSet:DataSetSample[], configuration: PartialAlgorithmConfiguration = {}) => {
+export const buildAlgorithmConfiguration = (dataSet:TreeGardenDataSample[], configuration: PartialAlgorithmConfiguration = {}) => {
   if (configuration.buildTime) {
     throw new Error(`This configuration was already build! ${JSON.stringify(configuration)}`);
   }

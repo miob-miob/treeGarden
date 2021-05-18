@@ -7,7 +7,7 @@ import {
   SplitCriteriaDefinition,
   splitDataSet
 } from './dataSet/split';
-import { DataSetSample } from './dataSet/set';
+import { TreeGardenDataSample } from './dataSet/set';
 // eslint-disable-next-line import/no-cycle
 import { AlgorithmConfiguration } from './algorithmConfiguration';
 
@@ -34,7 +34,7 @@ const defaultTreeNode = {
 // todo consider to keep labels of samples in every node
 export const createTreeNode = (node:Partial<TreeGardenNode> = {}) => ({ ...defaultTreeNode, ...node, id: uuidV4() } as TreeGardenNode);
 
-export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string]:DataSetSample[] }) => Object.fromEntries(Object.entries(dataPartitions)
+export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string]:TreeGardenDataSample[] }) => Object.fromEntries(Object.entries(dataPartitions)
   .map(([tag, subset]) => {
     const resultForSubset :{ [key:string]:number } = {};
     subset.forEach(({ _class }) => {
@@ -46,7 +46,7 @@ export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string
     return [tag, resultForSubset];
   }));
 
-export const dataPartitionsToClassCounts = (dataSet:DataSetSample[]) => dataSet.reduce((result:Record<string, number>, currentSample:DataSetSample) => {
+export const dataPartitionsToClassCounts = (dataSet:TreeGardenDataSample[]) => dataSet.reduce((result:Record<string, number>, currentSample:TreeGardenDataSample) => {
   if (!result[currentSample._class!]) {
     // eslint-disable-next-line no-param-reassign
     result[currentSample._class!] = 0;
@@ -56,7 +56,7 @@ export const dataPartitionsToClassCounts = (dataSet:DataSetSample[]) => dataSet.
   return result;
 }, {});
 
-export const dataSetToTreeNode = (dataSet:DataSetSample[], configuration:AlgorithmConfiguration, parentNode?:TreeGardenNode) => {
+export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:AlgorithmConfiguration, parentNode?:TreeGardenNode) => {
   const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, configuration, parentNode?.alreadyUsedSplits ?? []);
   const bestScoringCriteria = getBestScoringSplits(dataSet, possibleSplits, configuration);
   let furtherSplittingPossible = true;
@@ -92,7 +92,7 @@ export const dataSetToTreeNode = (dataSet:DataSetSample[], configuration:Algorit
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getMostCommonClassForNode = (leafNode:TreeGardenNode, sample?:DataSetSample) => {
+export const getMostCommonClassForNode = (leafNode:TreeGardenNode, sample?:TreeGardenDataSample) => {
   const sortedClasses = Object.entries(leafNode.classCounts)
     .sort(([classOne, countOne], [classTwo, countTwo]) => {
       if (countOne === countTwo) {

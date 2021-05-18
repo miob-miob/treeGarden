@@ -1,5 +1,5 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
-import { DataSetSample } from '../dataSet/set';
+import { TreeGardenDataSample } from '../dataSet/set';
 
 
 /**
@@ -23,7 +23,7 @@ export const getGiniIndex = (frequenciesOfClasses:number[]) => {
  * @return {number}
  */
 
-export const getGiniIndexForDataSet = (dataSet:DataSetSample[], knownClasses:string[]) => {
+export const getGiniIndexForDataSet = (dataSet:TreeGardenDataSample[], knownClasses:string[]) => {
   const frequencies = getFrequenciesOfClasses(dataSet, knownClasses);
   return getGiniIndex(Object.values(frequencies));
 };
