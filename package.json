@@ -2,8 +2,8 @@
   "name": "tree-garden",
   "version": "1.0.0",
   "description": "Decision trees library",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "node ./node_modules/jest/bin/jest.js",
     "build": "tsc --noEmit false",
