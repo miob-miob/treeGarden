@@ -1,8 +1,9 @@
 {
   "name": "tree-garden",
   "version": "1.0.0",
-  "description": "experiments wth decision trees",
-  "main": "index.js",
+  "description": "Decision trees library",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "node ./node_modules/jest/bin/jest.js",
     "build": "tsc --noEmit false",
@@ -25,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/miob-miob/treeGarden/issues"
   },
-  "homepage": "https://github.com/miob-miob/treeGarden#readme",
+  "homepage": "https://github.com/miob-miob/treeGarden",
   "devDependencies": {
     "@types/jest": "^26.0.22",
     "@types/uuid": "^8.3.0",
