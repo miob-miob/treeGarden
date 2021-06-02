@@ -143,3 +143,23 @@ export const mutateNonLeafNodeIntoLeafOne = (nonLeafNode:TreeGardenNode) => {
   return nonLeafNode;
 };
 
+// this is used for visualization
+// stages and grouped children
+export const getTreeStages = (tree:TreeGardenNode) => {
+  const result = [[[tree]]];
+  while (true) {
+    const newStage:TreeGardenNode[][] = [];
+    const flatLastStage = result[result.length - 1].flat();
+    flatLastStage.forEach((node) => {
+      if (!node.isLeaf) {
+        newStage.push(Object.values(node.childNodes!));
+      }
+    });
+    if (newStage.length > 0) {
+      result.push(newStage);
+    } else {
+      break;
+    }
+  }
+  return result;
+};

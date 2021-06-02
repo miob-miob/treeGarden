@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,max-len */
 import {
   createTreeNode,
   dataSetToTreeNode,
@@ -8,7 +8,7 @@ import {
   TreeGardenNode,
   getAllInnerNodes,
   getFlattenTree,
-  getTreeNodeById, getAllLeafNodes
+  getTreeNodeById, getAllLeafNodes, getTreeStages
 } from './treeNode';
 import { simple } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
@@ -178,4 +178,16 @@ test('getTreeNodeById', () => {
   const someNodeId = someNode.id;
   expect(getTreeNodeById(tennisTree, someNodeId)).toBe(someNode);
 });
+
+const getTenisTreeNode = (id:string) => getTreeNodeById(tennisTree, id);
+test('getTreeStages', () => {
+  const stagesOfTennisTree = [
+    [[getTenisTreeNode('f2f856dc-c656-4689-b32a-a4b3a4c3aaab')]],
+    [[getTenisTreeNode('c4402f7c-f227-48ab-8040-a703dd34e7ab'), getTenisTreeNode('1aca91e4-8d1c-431a-8466-8181ef547f72'), getTenisTreeNode('8e64ed62-643a-444b-a03d-b1a215121376')]],
+    [[getTenisTreeNode('9f156fc0-3f82-4a31-863e-108bfb37fc60'), getTenisTreeNode('8bbace58-e339-4e42-a5a0-5bab22b62724')], [getTenisTreeNode('ecd8f049-40a9-4d2d-bb97-3b0bf37ae5c8'), getTenisTreeNode('dc881780-2267-44a7-b978-6b21d23d6460')]]
+  ];
+
+  expect(getTreeStages(tennisTree)).toEqual(stagesOfTennisTree);
+});
+
 
