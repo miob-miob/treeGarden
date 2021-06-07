@@ -5,5 +5,4 @@ export {
 export { induceTree } from './induceTree';
 export { getPredictedClassesOfSamples, getLeafNodesForSamples } from './classifyData';
 export { TreeGardenNode } from './treeNode';
-import {TreeGardenDataSample} from "./dataSet/set";
 

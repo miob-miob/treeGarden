@@ -143,6 +143,17 @@ export const mutateNonLeafNodeIntoLeafOne = (nonLeafNode:TreeGardenNode) => {
   return nonLeafNode;
 };
 
+
+const childEntriesComparator = (entryOne:[string, TreeGardenNode], entryTwo:[string, TreeGardenNode]) => {
+  if (entryOne[0].toString() < entryTwo[0].toString()) {
+    return -1;
+  }
+  if (entryOne[0].toString() === entryTwo[0].toString()) {
+    return 1;
+  }
+  return 0;
+};
+
 // this is used for visualization
 // stages and grouped children
 export const getTreeStages = (tree:TreeGardenNode) => {
@@ -152,7 +163,7 @@ export const getTreeStages = (tree:TreeGardenNode) => {
     const flatLastStage = result[result.length - 1].flat();
     flatLastStage.forEach((node) => {
       if (!node.isLeaf) {
-        newStage.push(Object.values(node.childNodes!));
+        newStage.push(Object.entries((node.childNodes!)).sort(childEntriesComparator).map((item) => item[1]));
       }
     });
     if (newStage.length > 0) {
