@@ -57,6 +57,8 @@ export const getInformationGainRatioForSplit = (frequenciesOfClasses:number[], f
   // split information is calculates like entropy of split sizes and is used for normalization of informationGain
   // split information is large when there is big number of small subsets
   const splitInformation = getEntropy(splitSizes);
-
+  if (splitInformation === 0) {
+    return 0;
+  }
   return getInformationGainForSplit(frequenciesOfClasses, frequenciesOfClassesChildren) / splitInformation;
 };

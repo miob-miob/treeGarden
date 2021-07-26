@@ -6,7 +6,7 @@ import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { getSplitCriteriaFn } from './dataSet/split';
 
 
-const getLeafNodeOfSample = (sample:TreeGardenDataSample, rootNode:TreeGardenNode, algorithmConfiguration:AlgorithmConfiguration) => {
+export const getLeafNodeOfSample = (sample:TreeGardenDataSample, rootNode:TreeGardenNode, algorithmConfiguration:AlgorithmConfiguration) => {
   const getTagOfSampleWithMissingValue = algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying;
   let currentNode = rootNode;
   while (!currentNode.isLeaf) {
