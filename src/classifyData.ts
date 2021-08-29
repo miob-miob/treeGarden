@@ -6,7 +6,14 @@ import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { getSplitCriteriaFn } from './dataSet/split';
 
 
-export const getLeafNodeOfSample = (sample:TreeGardenDataSample, rootNode:TreeGardenNode, algorithmConfiguration:AlgorithmConfiguration) => {
+type NodeOrIdArray<T extends boolean> = T extends true?string[]:TreeGardenNode;
+export const getLeafNodeOfSample = <T extends boolean>(
+  sample:TreeGardenDataSample,
+  rootNode:TreeGardenNode,
+  algorithmConfiguration:AlgorithmConfiguration,
+  retrieveIds?:T
+):NodeOrIdArray<T> => {
+  const visitedNodeIds = [rootNode.id];
   const getTagOfSampleWithMissingValue = algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying;
   let currentNode = rootNode;
   while (!currentNode.isLeaf) {
@@ -29,11 +36,15 @@ export const getLeafNodeOfSample = (sample:TreeGardenDataSample, rootNode:TreeGa
       // lets return this one even if it is not leaf
       // example: we have 3 sizes of apartmans - small medium and large, but all training samples reached this nodes were only 'small'
       // but validation data here has 'medium'
-      return currentNode;
+      return currentNode as NodeOrIdArray<T>;
     }
     currentNode = currentNode.childNodes![tagOfSample];
+    visitedNodeIds.push(currentNode.id);
   }
-  return currentNode;
+  if (retrieveIds) {
+    return visitedNodeIds as NodeOrIdArray<T>;
+  }
+  return currentNode as NodeOrIdArray<T>;
 };
 
 
@@ -51,7 +62,7 @@ export const getLeafNodesForSamples = (
   }) : [...samplesToClassify];
 
   return readyToClassifySamples
-    .map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration)] as const);
+    .map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration, false)] as const);
 };
 
 
