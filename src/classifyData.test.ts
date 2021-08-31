@@ -1,7 +1,7 @@
 
 
 import { getPredictedClassesOfSamples, getLeafNodesForSamples, getLeafNodeOfSample } from './classifyData';
-import { buildAlgorithmConfiguration } from './algorithmConfiguration/buildAlgorithmConfiguration';
+import { buildAlgorithmConfiguration } from './algorithmConfiguration';
 import { tennisSet } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
 import { getTreeNodeById } from './treeNode';
