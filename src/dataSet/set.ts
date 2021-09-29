@@ -1,5 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
+import { AlgorithmConfiguration } from '../algorithmConfiguration';
+
 export type TreeGardenDataSample = {
   _class?:string,
   _label?:string|number,
@@ -52,5 +54,30 @@ export const consistentDataSetGuard = (dataSet:TreeGardenDataSample[], parentFnN
   const sampleWithoutClass = dataSet.find((sample) => sample._class === undefined);
   if (sampleWithoutClass) {
     throw new Error(`While calling '${parentFnName}' '_class' must be defined on every sample `);
+  }
+};
+
+export const continuousAttributesGuard = (algorithmConfig:AlgorithmConfiguration, dataSet:TreeGardenDataSample[], fnName = 'unknown') => {
+  let foundTypeInconsistency = false;
+  const continuousAttributes = Object.entries(algorithmConfig.attributes)
+    .filter(([_attributeId, attrConfig]) => attrConfig.dataType === 'continuous')
+    .map(([attributeId]) => attributeId);
+
+  dataSet.forEach((sample) => {
+    continuousAttributes.forEach((attributeId) => {
+      const value = sample[attributeId];
+      if (value !== algorithmConfig.attributes[attributeId].missingValue && typeof value !== 'number') {
+        const parsedNumber = parseFloat(value);
+        if (Number.isNaN(parsedNumber)) {
+          throw new Error(`When checked continuous attribute '${attributeId}' when calling '${fnName}', value ${value} id not parsable as number!`);
+        }
+        foundTypeInconsistency = true;
+        // eslint-disable-next-line no-param-reassign
+        sample[attributeId] = parsedNumber;
+      }
+    });
+  });
+  if (foundTypeInconsistency) {
+    console.warn(`When calling '${fnName}', checked continuous values some items were changed from string => number. Your dataset was mutated!`);
   }
 };

@@ -1,7 +1,7 @@
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { dataSetToTreeNode } from './treeNode';
 import { AlgorithmConfiguration } from './algorithmConfiguration';
-import { consistentDataSetGuard, TreeGardenDataSample } from './dataSet/set';
+import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample } from './dataSet/set';
 
 
 export const induceTree = (fullConfiguration:AlgorithmConfiguration, dataSet:TreeGardenDataSample[]) => {
@@ -10,6 +10,7 @@ export const induceTree = (fullConfiguration:AlgorithmConfiguration, dataSet:Tre
   }
   consistentDataSetGuard(dataSet, 'induceTree');
   const shouldWeStop = fullConfiguration.shouldWeStopGrowth;
+  continuousAttributesGuard(fullConfiguration, dataSet, 'induceTree');
   const readyToGoDataSet = getDataSetWithReplacedValues({ samplesToReplace: dataSet, algorithmConfiguration: fullConfiguration });
   const rootNode = dataSetToTreeNode(readyToGoDataSet, fullConfiguration);
   const stack = [rootNode];
