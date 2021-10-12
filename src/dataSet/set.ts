@@ -3,7 +3,7 @@
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 
 export type TreeGardenDataSample = {
-  _class?:string,
+  _class?:string|number,
   _label?:string|number,
   [key:string]:any
 };
@@ -12,8 +12,8 @@ export const getClassesOfDataSet = (dataSet:TreeGardenDataSample[], alreadyKnown
   const classesSet = dataSet
     .reduce(
       (allKnownClasses, currentSample) => {
-        if (!allKnownClasses.has(currentSample._class!)) {
-          allKnownClasses.add(currentSample._class!);
+        if (!allKnownClasses.has(currentSample._class! as string)) {
+          allKnownClasses.add(currentSample._class! as string);
         }
         return allKnownClasses;
       },

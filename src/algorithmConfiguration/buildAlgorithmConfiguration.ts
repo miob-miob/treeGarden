@@ -50,7 +50,7 @@ export const buildAlgorithmConfiguration = (dataSet:TreeGardenDataSample[], conf
   }
   const mergedConfiguration = { ...defaultConfiguration, ...(configuration || {}) } as AlgorithmConfiguration;
   if (!mergedConfiguration.allClasses) {
-    mergedConfiguration.allClasses = getClassesOfDataSet(dataSet);
+    mergedConfiguration.allClasses = mergedConfiguration.treeType === 'classification' ? getClassesOfDataSet(dataSet) : [];
   }
   mergedConfiguration.attributes = buildAttributesConfiguration(mergedConfiguration, dataSet);
   mergedConfiguration.buildTime = Date.now();
