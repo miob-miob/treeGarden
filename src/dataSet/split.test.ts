@@ -8,7 +8,7 @@ import {
 } from './split';
 
 import { simple } from '../sampleDataSets';
-import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 import { consistentDataSetGuard } from './set';
 
 
@@ -103,7 +103,7 @@ test('getBestScoringSplits', () => {
   ];
   const result = getBestScoringSplits(dataSet, possibleSplits, conf).map((item) => item.split);
   expect(result).toStrictEqual(expectedBestSplits);
-  conf.biggerImpurityScoreBetterSplit = false;
+  conf.biggerScoreBetterSplit = false;
   const reversedResult = getBestScoringSplits(dataSet, possibleSplits, conf).map((item) => item.split);
   expectedBestSplits.reverse();
   expect(reversedResult).toStrictEqual(expectedBestSplits);

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { existingValueGuard } from './sample';
-import { getFrequenciesOfClasses } from '../statistic/frequencies';
 import { TreeGardenDataSample, getAllUniqueValuesOfAttribute } from './set';
+import { AlgorithmConfiguration } from '../algorithmConfiguration';
 
 
 const supportedMathOperators = new Set([
@@ -20,7 +20,6 @@ const supportedOperators = new Set([
 
 export type SplitOperator = typeof supportedOperators extends Set<infer K>?K:never;
 export type SplitCriteriaFn = ReturnType<typeof getSplitCriteriaFn>;
-export type ImpurityScoringFn = (parentFrequencies:number[], childFrequencies:number[][])=> number;
 export type SplitCriteriaDefinition = any[];
 
 /**
@@ -92,30 +91,6 @@ export const splitDataSet = (dataSet:TreeGardenDataSample[], splitCriteriaFn: Sp
   }
   return tagsAndSamples;
 };
-
-/**
- *
- * @param {Array<Object>} dataSet
- * @param {function(Object):string|Boolean} splitCriteriaFn
- * @param {Array<string>} knownClasses
- * @param {function(Array<number>,Array<Array<number>>):number} scoringFunction
- * @param {Boolean} onlyBinarySplits
- * @return {number}
- */
-export const getScoreForGivenSplitCriteria = (
-  dataSet:TreeGardenDataSample[],
-  splitCriteriaFn:SplitCriteriaFn,
-  knownClasses:string[],
-  scoringFunction: ImpurityScoringFn,
-  onlyBinarySplits:boolean
-) => {
-  const parentFrequencies = Object.values(getFrequenciesOfClasses(dataSet, knownClasses));
-  const childDataSets = splitDataSet(dataSet, splitCriteriaFn, onlyBinarySplits);
-  const childFrequencies = Object.values(childDataSets)
-    .map((childSet) => Object.values(getFrequenciesOfClasses(childSet, knownClasses)));
-  return scoringFunction(parentFrequencies, childFrequencies);
-};
-
 
 export const getCombinationsWithoutRepeats = (
   values: any[],
@@ -247,21 +222,18 @@ export const getAllPossibleSplitCriteriaForDataSet = (
     });
 };
 
-export const getBestScoringSplits = (dataSet:TreeGardenDataSample[], possibleSplits:SplitCriteriaDefinition[], algorithmConfig:{ [key:string]:any }) => {
+export const getBestScoringSplits = (dataSet:TreeGardenDataSample[], possibleSplits:SplitCriteriaDefinition[], algorithmConfig:AlgorithmConfiguration) => {
   const splitsWithScore = possibleSplits.map((splitDefinition) => {
     // @ts-expect-error
     const splitter = getSplitCriteriaFn(...splitDefinition);
-    const score = getScoreForGivenSplitCriteria(
-      dataSet,
-      splitter,
-      algorithmConfig.allClasses,
-      algorithmConfig.impurityScoringForSplit,
-      algorithmConfig.onlyBinarySplits
-    );
+    const childDataSets = splitDataSet(dataSet, splitter, algorithmConfig.onlyBinarySplits);
+
+    const score = algorithmConfig.getScoreForSplit(dataSet, childDataSets, algorithmConfig, splitter);
     return { split: splitDefinition, score };
   });
+
   // @ts-expect-error
-  const comparator = algorithmConfig.biggerImpurityScoreBetterSplit ? (a, b) => b.score - a.score : (a, b) => a.score - b.score;
+  const comparator = algorithmConfig.biggerScoreBetterSplit ? (a, b) => b.score - a.score : (a, b) => a.score - b.score;
   return splitsWithScore
     .sort(comparator)
     .slice(0, algorithmConfig.numberOfSplitsKept);

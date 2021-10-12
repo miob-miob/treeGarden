@@ -1,5 +1,7 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
 import { TreeGardenDataSample } from '../dataSet/set';
+import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { SplitCriteriaFn } from '../dataSet/split';
 
 
 export const getEntropy = (frequenciesOfClasses:number[]) => {
@@ -22,14 +24,14 @@ export const getEntropyForDataSet = (dataSet:TreeGardenDataSample[], knownClasse
   return getEntropy(Object.values(frequencies));
 };
 
-/**
- *
- * @param {Array<number>} frequenciesOfClasses frequency of occurrence in given classes
- * @param {Array<Array<number>>} frequenciesOfClassesChildren same as frequenciesOfClasses but after split
- * that means array of arrays of frequencies for binary split you will have two arrays one for left node second for right node
- * @returns {number}
- */
-export const getInformationGainForSplit = (frequenciesOfClasses:number[], frequenciesOfClassesChildren:number[][]) => {
+export const getInformationGainForSplit = (
+  parentSet:TreeGardenDataSample[],
+  childrenSets:{ [key:string]:TreeGardenDataSample[] },
+  config:AlgorithmConfiguration,
+  _splitFn: SplitCriteriaFn
+) => {
+  const frequenciesOfClasses = Object.values(getFrequenciesOfClasses(parentSet, config.allClasses!));
+  const frequenciesOfClassesChildren = Object.values(childrenSets).map((set) => Object.values(getFrequenciesOfClasses(set, config.allClasses!)));
   const nItems = frequenciesOfClasses.reduce((sum, current) => sum + current, 0);
   const parentEntropy = getEntropy(frequenciesOfClasses);
   const childEntropy = frequenciesOfClassesChildren.reduce((entropy, currentFrequencies) => {
@@ -43,13 +45,14 @@ export const getInformationGainForSplit = (frequenciesOfClasses:number[], freque
 
 /**
  * gain ratio is similar like information gain, but  penalizes  splits that have many distinct values (like dates, IDs or names)
- *
- * @param {Array<number>} frequenciesOfClasses frequency of occurrence in given classes
- * @param {Array<Array<number>>} frequenciesOfClassesChildren same as frequenciesOfClasses but after split
- * that means array of arrays of frequencies for binary split you will have two arrays one for left node second for right node
- * @returns {number}
  */
-export const getInformationGainRatioForSplit = (frequenciesOfClasses:number[], frequenciesOfClassesChildren:number[][]) => {
+export const getInformationGainRatioForSplit = (
+  parentSet:TreeGardenDataSample[],
+  childrenSets:{ [key:string]:TreeGardenDataSample[] },
+  config:AlgorithmConfiguration,
+  splitFn:SplitCriteriaFn
+) => {
+  const frequenciesOfClassesChildren = Object.values(childrenSets).map((set) => Object.values(getFrequenciesOfClasses(set, config.allClasses!)));
   const splitSizes = frequenciesOfClassesChildren.reduce((result, currentSplit) => {
     result.push(currentSplit.reduce((all, item) => all + item, 0));
     return result;
@@ -60,5 +63,5 @@ export const getInformationGainRatioForSplit = (frequenciesOfClasses:number[], f
   if (splitInformation === 0) {
     return 0;
   }
-  return getInformationGainForSplit(frequenciesOfClasses, frequenciesOfClassesChildren) / splitInformation;
+  return getInformationGainForSplit(parentSet, childrenSets, config, splitFn) / splitInformation;
 };

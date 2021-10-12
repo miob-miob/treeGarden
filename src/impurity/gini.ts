@@ -1,5 +1,7 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
 import { TreeGardenDataSample } from '../dataSet/set';
+import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { SplitCriteriaFn } from '../dataSet/split';
 
 
 /**
@@ -28,15 +30,14 @@ export const getGiniIndexForDataSet = (dataSet:TreeGardenDataSample[], knownClas
   return getGiniIndex(Object.values(frequencies));
 };
 
-/**
- *
- * @param {Array<number>} frequenciesOfClasses frequency of occurrence in given classes
- * @param {Array<Array<number>>} frequenciesOfClassesChildren same as frequenciesOfClasses but after split
- * that means array of arrays of frequencies for binary split you will have two arrays one for left node second for right node
- * @returns {number}
- */
-export const getGiniIndexForSplit = (frequenciesOfClasses:number[], frequenciesOfClassesChildren:number[][]) => {
-  const totalSamples = frequenciesOfClasses.reduce((sum, current) => current + sum, 0);
+export const getGiniIndexForSplit = (
+  parentSet:TreeGardenDataSample[],
+  childrenSets:{ [key:string]:TreeGardenDataSample[] },
+  config:AlgorithmConfiguration,
+  _splitter:SplitCriteriaFn
+) => {
+  const frequenciesOfClassesChildren = Object.values(childrenSets).map((set) => Object.values(getFrequenciesOfClasses(set, config.allClasses!)));
+  const totalSamples = parentSet.length;
   return frequenciesOfClassesChildren.reduce((weightedSum, currentFrequencies) => {
     const totalSamplesInPartition = currentFrequencies.reduce((sum, current) => current + sum, 0);
     const giniForPartition = getGiniIndex(currentFrequencies);

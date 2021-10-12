@@ -6,16 +6,19 @@ import {
   getPossibleSpitCriteriaForDiscreteAttribute
 } from '../dataSet/split';
 // eslint-disable-next-line import/no-cycle
-import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../pruneTree/prePrunning';
+import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../pruneTree';
 // eslint-disable-next-line import/no-cycle
 import { getMostCommonClassForNode } from '../treeNode';
 // eslint-disable-next-line import/no-cycle
 import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
+// eslint-disable-next-line import/no-cycle
+import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
 
-export const defaultConfiguration = {
+export const defaultConfiguration: AlgorithmConfiguration = {
+  treeType: 'classification',
   // key is attributeId, value is attributeMeta object
   attributes: {},
 
@@ -26,10 +29,10 @@ export const defaultConfiguration = {
   excludedAttributes: [],
 
   // impurity scoring function see default for more information
-  impurityScoringForSplit: getInformationGainForSplit,
+  getScoreForSplit: getInformationGainForSplit,
 
   // for information gain bigger score means better split, but for gini, opposite is true
-  biggerImpurityScoreBetterSplit: true,
+  biggerScoreBetterSplit: true,
 
   // when this function evaluates to to true then next split will be made if false grow is stopped and node is leaf one
   shouldWeStopGrowth: composeStopFunctions(stopIfPure, stopIfNoSplitsAvailable),

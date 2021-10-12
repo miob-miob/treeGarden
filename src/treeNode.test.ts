@@ -43,8 +43,8 @@ nodeFour.childNodes = {
 // bit of e2e test
 test('dataSetToTreeNode', () => {
   const config = buildAlgorithmConfiguration(simple, {
-    biggerImpurityScoreBetterSplit: false,
-    impurityScoringForSplit: getGiniIndexForSplit
+    biggerScoreBetterSplit: false,
+    getScoreForSplit: getGiniIndexForSplit
   });
   const expectedNewTreeNode = {
     isLeaf: false,
