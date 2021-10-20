@@ -2,7 +2,7 @@
 import { getMostCommonValues } from '../statistic/getMostCommonValue';
 import { chooseOne } from '../randomization';
 import { TreeGardenDataSample, getClassesOfDataSet } from './set';
-import { medianAndAverage } from '../statistic/medianAndAverage';
+import { getMedian } from '../statistic/medianAndAverage';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { TreeGardenNode } from '../treeNode';
 
@@ -27,7 +27,7 @@ export const getMostCommonValueFF = (dataSet:TreeGardenDataSample[], attributeId
   if (typeOfAttribute === 'discrete') {
     mostCommonValues = getMostCommonValues(valuesForGivenAttribute);
   } else {
-    median = medianAndAverage(valuesForGivenAttribute);
+    median = getMedian(valuesForGivenAttribute);
   }
   // in case there is more than one most common value, choose one by random
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -42,6 +42,9 @@ export const getMostCommonValueFF = (dataSet:TreeGardenDataSample[], attributeId
 // closure WARNING :D FF stands for Function Factory
 // this is usable only in induction time, evaluation samples do not have _class
 export const getMostCommonValueAmongSameClassFF = (dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
+  if (configuration.treeType === 'regression') {
+    throw new Error('You cannot call \'getMostCommonValueAmongSameClassFF\' on treeType === \'regression\' tree!');
+  }
   const allClassesOfDataSet = getClassesOfDataSet(dataSet);
   const classesAndCommonValuesForGivenAttributeId:{ [key:string]:any[] } = {};
   const attributeDataType = configuration.attributes[attributeId].dataType;
@@ -52,7 +55,7 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:TreeGardenDataSample[
       .map((sample) => sample[attributeId]);
     if (partitionValues.length !== 0) {
       classesAndCommonValuesForGivenAttributeId[currentClass] = (attributeDataType === 'discrete')
-        ? chooseOne(getMostCommonValues(partitionValues)) : medianAndAverage(partitionValues);
+        ? chooseOne(getMostCommonValues(partitionValues)) : getMedian(partitionValues);
     }
   });
   return (sampleWithMissingValue:TreeGardenDataSample) => {
