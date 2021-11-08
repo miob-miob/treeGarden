@@ -49,9 +49,9 @@ console.log(myConfig);
 
 const tree = induceTree(myConfig, training);
 console.log(`UNPRUNED: Number of nodes,${getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
-const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
+// const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
 // const prunedTree = getPrunedTreeByPessimisticPruning(tree);
-// const prunedTree = getPrunedTreeByReducedErrorPruning(tree, pruning, myConfig);
+const prunedTree = getPrunedTreeByReducedErrorPruning(tree, pruning, myConfig);
 console.log(`Pruned: Number of nodes,${getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
 
 console.log(JSON.stringify(prunedTree));

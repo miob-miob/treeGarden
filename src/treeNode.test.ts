@@ -85,7 +85,8 @@ test('dataSetToTreeNode', () => {
       black: { left: 2 },
       white: { right: 3 }
     },
-    classCounts: { left: 2, right: 3 }
+    classCounts: { left: 2, right: 3 },
+    regressionTreeAverageOutcome: undefined
   };
 
   const newNode = dataSetToTreeNode(simple, config);

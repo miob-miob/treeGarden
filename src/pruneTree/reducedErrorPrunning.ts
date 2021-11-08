@@ -3,7 +3,7 @@ import {
   getAllInnerNodes, getTreeCopy, getTreeNodeById, mutateNonLeafNodeIntoLeafOne, TreeGardenNode
 } from '../treeNode';
 import { TreeGardenDataSample } from '../dataSet/set';
-import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 
@@ -22,8 +22,7 @@ export const getPrunedTreeScore = (
 export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, pruningDataSet:TreeGardenDataSample[], configuration:AlgorithmConfiguration) => {
   const readyToGoValidationSet = getDataSetWithReplacedValues({ samplesToReplace: pruningDataSet, algorithmConfiguration: configuration });
   let currentTree = getTreeCopy(treeRoot);
-  let currentScore = 0;
-  while (currentScore >= 0) {
+  while (true) {
     const treesAndScores = getAllInnerNodes(currentTree)
     // eslint-disable-next-line @typescript-eslint/no-loop-func
       .map((consideredNode) => {
@@ -37,9 +36,12 @@ export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, prun
           score: configuration.reducedErrorPruningGetScore(accuracyBeforePruning, accuracyAfterPruning, getNumberOfTreeNodes(treeCopy))
         };
       });
+
     const { score, tree } = treesAndScores.sort((a, b) => b.score - a.score)[0];
+    if (score < 0) {
+      // if score is less then 0 do not perform further pruning and use tree from previous step
+      return currentTree;
+    }
     currentTree = tree;
-    currentScore = score;
   }
-  return currentTree;
 };

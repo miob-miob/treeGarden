@@ -10,6 +10,7 @@ import {
 import { TreeGardenDataSample } from './dataSet/set';
 // eslint-disable-next-line import/no-cycle
 import { AlgorithmConfiguration } from './algorithmConfiguration';
+import { getArithmeticAverage } from './statistic/medianAndAverage';
 
 export type TreeGardenNode = {
   id:string,
@@ -23,7 +24,8 @@ export type TreeGardenNode = {
   bestSplits:ReturnType<typeof getBestScoringSplits>,
   dataPartitions?:ReturnType<typeof splitDataSet>, // split outcome - {tag:[sample,sample,sample]}
   dataPartitionsCounts:ReturnType<typeof dataPartitionsToDataPartitionCounts>, // {tag:{classOne:3, classTwo:3}, anotherTag:{classOne:1, classTwo:6}}
-  classCounts:ReturnType<typeof dataPartitionsToClassCounts> // {classOne:8, classTwo:7}
+  classCounts:ReturnType<typeof dataPartitionsToClassCounts>, // {classOne:8, classTwo:7}
+  regressionTreeAverageOutcome?:number
 };
 
 
@@ -56,6 +58,8 @@ export const dataPartitionsToClassCounts = (dataSet:TreeGardenDataSample[]) => d
   return result;
 }, {});
 
+const getAverageOutcomeForDataSet = (dataSet:TreeGardenDataSample[]) => getArithmeticAverage(dataSet.map((sample) => sample._class as number));
+
 export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:AlgorithmConfiguration, parentNode?:TreeGardenNode) => {
   const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, configuration, parentNode?.alreadyUsedSplits ?? []);
   const bestScoringCriteria = getBestScoringSplits(dataSet, possibleSplits, configuration);
@@ -74,13 +78,16 @@ export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:
   if (winnerCriteria) {
     usedCriteria.push(winnerCriteria);
   }
+
+  const regressionTree = configuration.treeType === 'regression';
   const newNode = createTreeNode({
     chosenSplitCriteria: winnerCriteria,
     impurityScore: winnerScore,
     bestSplits: bestScoringCriteria,
     dataPartitions: partitions,
-    dataPartitionsCounts: dataPartitionsToDataPartitionCounts(partitions),
-    classCounts: dataPartitionsToClassCounts(dataSet),
+    dataPartitionsCounts: regressionTree ? undefined : dataPartitionsToDataPartitionCounts(partitions),
+    classCounts: regressionTree ? { no_classes_in_regression_tree: dataSet.length } : dataPartitionsToClassCounts(dataSet),
+    regressionTreeAverageOutcome: regressionTree ? getAverageOutcomeForDataSet(dataSet) : undefined,
     depth: parentNode ? parentNode.depth + 1 : 0,
     alreadyUsedSplits: usedCriteria
   });
