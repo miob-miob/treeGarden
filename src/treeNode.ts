@@ -12,6 +12,9 @@ import { TreeGardenDataSample } from './dataSet/set';
 import { AlgorithmConfiguration } from './algorithmConfiguration';
 import { getArithmeticAverage } from './statistic/medianAndAverage';
 
+
+export const SINGLE_CLASS_FOR_REGRESSION_TREE = 'no_classes_in_regression_tree';
+
 export type TreeGardenNode = {
   id:string,
   parentId?:string,
@@ -33,7 +36,7 @@ const defaultTreeNode = {
   isLeaf: false
 };
 
-// todo consider to keep labels of samples in every node
+// todo consider to keep labels of samples in every node (use median value)
 export const createTreeNode = (node:Partial<TreeGardenNode> = {}) => ({ ...defaultTreeNode, ...node, id: uuidV4() } as TreeGardenNode);
 
 export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string]:TreeGardenDataSample[] }) => Object.fromEntries(Object.entries(dataPartitions)
@@ -47,6 +50,9 @@ export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string
     });
     return [tag, resultForSubset];
   }));
+
+export const dataPartitionToPartitionCountsForRegressionTrees = (dataPartitions:{ [key:string]:TreeGardenDataSample[] }) => Object.fromEntries(Object.entries(dataPartitions)
+  .map(([tag, subset]) => ([tag, { [SINGLE_CLASS_FOR_REGRESSION_TREE]: subset.length }])));
 
 export const dataPartitionsToClassCounts = (dataSet:TreeGardenDataSample[]) => dataSet.reduce((result:Record<string, number>, currentSample:TreeGardenDataSample) => {
   if (!result[currentSample._class!]) {
@@ -85,8 +91,8 @@ export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:
     impurityScore: winnerScore,
     bestSplits: bestScoringCriteria,
     dataPartitions: partitions,
-    dataPartitionsCounts: regressionTree ? undefined : dataPartitionsToDataPartitionCounts(partitions),
-    classCounts: regressionTree ? { no_classes_in_regression_tree: dataSet.length } : dataPartitionsToClassCounts(dataSet),
+    dataPartitionsCounts: regressionTree ? dataPartitionToPartitionCountsForRegressionTrees(partitions) : dataPartitionsToDataPartitionCounts(partitions),
+    classCounts: regressionTree ? { [SINGLE_CLASS_FOR_REGRESSION_TREE]: dataSet.length } : dataPartitionsToClassCounts(dataSet),
     regressionTreeAverageOutcome: regressionTree ? getAverageOutcomeForDataSet(dataSet) : undefined,
     depth: parentNode ? parentNode.depth + 1 : 0,
     alreadyUsedSplits: usedCriteria
@@ -97,9 +103,7 @@ export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:
   return newNode;
 };
 
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getMostCommonClassForNode = (leafNode:TreeGardenNode, sample?:TreeGardenDataSample) => {
+export const getMostCommonClassForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenDataSample) => {
   const sortedClasses = Object.entries(leafNode.classCounts)
     .sort(([classOne, countOne], [classTwo, countTwo]) => {
       if (countOne === countTwo) {

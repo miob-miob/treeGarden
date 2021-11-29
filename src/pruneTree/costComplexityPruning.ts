@@ -104,6 +104,9 @@ export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:Tree
 };
 
 export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fullTrainingData:TreeGardenDataSample[], configuration:AlgorithmConfiguration) => {
+  if (configuration.treeType === 'regression') {
+    throw new Error('\'getPrunedTreeByCostComplexityPruning\' can not be used with regression trees!');
+  }
   const readyToGoTrainingSet = getDataSetWithReplacedValues({
     samplesToReplace: fullTrainingData,
     algorithmConfiguration: configuration

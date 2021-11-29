@@ -65,7 +65,7 @@ export const getLeafNodesForSamples = (
     .map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration, false)] as const);
 };
 
-
+// todo implement similar function for regression trees
 export const getPredictedClassesOfSamples = (
   samplesToClassify:TreeGardenDataSample[],
   decisionTreeRoot:TreeGardenNode,
