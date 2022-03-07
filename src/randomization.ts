@@ -18,3 +18,15 @@ export const shuffleArray = (array:any[]) => {
   }
   return array;
 };
+
+export const chooseManyWithoutRepeats = <T>(arrayToChooseFrom:Array<T>, nItems:number) => {
+  let countDown = nItems;
+  const workArray = [...arrayToChooseFrom];
+  const result = [];
+  // eslint-disable-next-line no-plusplus
+  while (countDown-- > 0 && workArray.length > 0) {
+    const index = randInt(0, workArray.length - 1);
+    result.push(...workArray.splice(index, 1));
+  }
+  return result;
+};
