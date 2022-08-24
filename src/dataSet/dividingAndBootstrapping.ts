@@ -19,11 +19,7 @@ export const getDividedSet = (dataSet:TreeGardenDataSample[], portionGoesToFirst
 // sampling with replacement
 export const getBootstrappedDataSet = (dataSet:TreeGardenDataSample[], howMany?:number) => {
   const readyHowMany = howMany || dataSet.length;
-  const bootstrappedSet = [];
-  for (let counter = 0; counter < readyHowMany; counter += 1) {
-    bootstrappedSet.push(chooseOne(dataSet));
-  }
-  return bootstrappedSet;
+  return Array.from(Array(readyHowMany)).map(() => chooseOne(dataSet));
 };
 
 export const getKFoldCrossValidationDataSets = (dataSet:TreeGardenDataSample[], kFold = 10) => {

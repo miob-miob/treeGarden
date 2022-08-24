@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { simple } from '../sampleDataSets';
-import { induceTree } from '../induceTree';
+import { growTree } from '../growTree';
 import { getNumberOfSamplesInNode, getNumberOfTreeNodes, getTreeAccuracy } from './treeStats';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 import { simpleTree } from '../sampleTrainedTrees/simpleTree';
@@ -8,7 +8,7 @@ import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 
 
 const config = buildAlgorithmConfiguration(simple);
-const tree = induceTree(config, simple);
+const tree = growTree(config, simple);
 
 describe('getTreeAccuracy', () => {
   test('should be absolute', () => {

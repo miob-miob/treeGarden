@@ -8,7 +8,7 @@ import {
 import { TreeGardenDataSample } from '../dataSet/set';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { getKFoldCrossValidationDataSets } from '../dataSet/dividingAndBootstrapping';
-import { induceTree } from '../induceTree';
+import { growTree } from '../growTree';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 import { getNumberOfSamplesInNode, getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
 import { getMedian } from '../statistic/medianAndAverage';
@@ -117,7 +117,7 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
   // });
   const nFoldCrossValidationSets = getKFoldCrossValidationDataSets(readyToGoTrainingSet, 5);
   const bestAlphaFromEachTree = nFoldCrossValidationSets.map(({ validation, training }) => {
-    const fullTree = induceTree(configuration, training);
+    const fullTree = growTree(configuration, training);
 
     // best scoring alphas
     const bestAlphas = alphasAndSubTrees

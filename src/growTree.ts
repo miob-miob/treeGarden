@@ -4,15 +4,10 @@ import { AlgorithmConfiguration } from './algorithmConfiguration';
 import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample } from './dataSet/set';
 
 
-export const induceTree = (fullConfiguration:AlgorithmConfiguration, dataSet:TreeGardenDataSample[]) => {
-  if (!fullConfiguration.buildTime) {
-    throw new Error('You cannot use just partial configuration in "induceTree" function, build it with "buildAlgorithmConfiguration"');
-  }
-  consistentDataSetGuard(dataSet, 'induceTree');
+// induce tree from dataset wo any preprocessing/runtime checks
+const rawInduceTree = (dataSet:TreeGardenDataSample[], fullConfiguration:AlgorithmConfiguration) => {
   const shouldWeStop = fullConfiguration.shouldWeStopGrowth;
-  continuousAttributesGuard(fullConfiguration, dataSet, 'induceTree');
-  const readyToGoDataSet = getDataSetWithReplacedValues({ samplesToReplace: dataSet, algorithmConfiguration: fullConfiguration });
-  const rootNode = dataSetToTreeNode(readyToGoDataSet, fullConfiguration);
+  const rootNode = dataSetToTreeNode(dataSet, fullConfiguration);
   const stack = [rootNode];
   while (stack.length > 0) {
     const currentNode = stack.splice(0, 1)[0];
@@ -35,4 +30,14 @@ export const induceTree = (fullConfiguration:AlgorithmConfiguration, dataSet:Tre
   return rootNode;
 };
 
+export const growTree = (fullConfiguration:AlgorithmConfiguration, dataSet:TreeGardenDataSample[]) => {
+  if (!fullConfiguration.buildTime) {
+    throw new Error('You cannot use just partial configuration in "induceTree" function, build it with "buildAlgorithmConfiguration"');
+  }
+  consistentDataSetGuard(dataSet, 'induceTree');
+
+  continuousAttributesGuard(fullConfiguration, dataSet, 'induceTree');
+  const readyToGoDataSet = getDataSetWithReplacedValues({ samplesToReplace: dataSet, algorithmConfiguration: fullConfiguration });
+  return rawInduceTree(readyToGoDataSet, fullConfiguration);
+};
 

@@ -3,7 +3,7 @@ import {
 } from './src';
 
 import {housePrices} from "./src/sampleDataSets";
-import { induceTree } from './src';
+import { growTree } from './src';
 import {
   composeStopFunctions,
   getPrunedTreeByReducedErrorPruning,
@@ -38,7 +38,7 @@ console.log(myConfig);
 
 
 
-const tree = induceTree(myConfig, training);
+const tree = growTree(myConfig, training);
 console.log(`UNPRUNED: Number of nodes,${getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
 const prunedTree = getPrunedTreeByReducedErrorPruning(tree, pruning, myConfig);
 console.log(`Pruned: Number of nodes,${getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);

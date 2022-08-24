@@ -5,7 +5,7 @@ import {
 import {c45Config} from "./src/algorithmConfiguration";
 
 import { titanicSet,irisSet } from './src/sampleDataSets';
-import { induceTree } from './src';
+import { growTree } from './src';
 import {
   composeStopFunctions,
   getPrunedTreeByCostComplexityPruning,
@@ -45,9 +45,11 @@ const myConfig = buildAlgorithmConfiguration(titanicSet, {
     // stopIfMinimalNumberOfSamplesInLeafNode(3)
   )
 });
+
+
 console.log(myConfig);
 
-const tree = induceTree(myConfig, training);
+const tree = growTree(myConfig, training);
 console.log(`UNPRUNED: Number of nodes,${getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
 // const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
 // const prunedTree = getPrunedTreeByPessimisticPruning(tree);
