@@ -1,7 +1,7 @@
-import { getAlgorithmConfigurationsForRandomForest } from './randomForest';
+import { getAlgorithmConfigurationsForRandomForest } from './randomForestConfiguration';
 
-import { irisSet } from './sampleDataSets';
-import { buildAlgorithmConfiguration } from './algorithmConfiguration';
+import { irisSet } from '../sampleDataSets';
+import { buildAlgorithmConfiguration } from './index';
 
 test('getAlgorithmConfigurationsForRandomForest', () => {
   const fullConfig = buildAlgorithmConfiguration(irisSet, {});

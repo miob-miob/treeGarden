@@ -42,7 +42,7 @@ export const defaultConfiguration: AlgorithmConfiguration = {
   // used if attribute does not define its own
   // strategy used during tree induction (learning phase)
   // replace missing values - by default most common value for given attribute is used.
-  induceMissingValueReplacement: getMostCommonValueFF,
+  growMissingValueReplacement: getMostCommonValueFF,
 
   // used if attribute does not define its own
   // strategy used during evaluation of unknown samples (classification of instances)

@@ -5,7 +5,7 @@ import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
 
 export const keysInheritedFromAlgorithmConfigurationIfNotDefined = [
-  'induceMissingValueReplacement',
+  'growMissingValueReplacement',
   'evaluateMissingValueReplacement',
   'missingValue',
   'getAllPossibleSplitCriteriaForDiscreteAttribute',

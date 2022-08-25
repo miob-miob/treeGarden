@@ -21,7 +21,7 @@ export type AlgorithmConfiguration = {
   biggerScoreBetterSplit:boolean,
   shouldWeStopGrowth:(node:TreeGardenNode, configuration:AlgorithmConfiguration)=>boolean,
   numberOfSplitsKept: number,
-  induceMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:TreeGardenDataSample)=>any,
+  growMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:TreeGardenDataSample)=>any,
   evaluateMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:TreeGardenDataSample)=>any,
   getTagOfSampleWithMissingValueWhileClassifying?:(sample:TreeGardenDataSample, attributeId:string, nodeWhereWeeNeedValue:TreeGardenNode, config:AlgorithmConfiguration)=>any
   getClassFromLeafNode:(node:TreeGardenNode, sample?:TreeGardenDataSample)=>string,

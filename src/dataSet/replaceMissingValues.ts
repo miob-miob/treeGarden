@@ -74,7 +74,7 @@ type ReplaceOptions = {
   samplesToReplace:TreeGardenDataSample[],
   referenceDataSet?:TreeGardenDataSample[],
   algorithmConfiguration:AlgorithmConfiguration,
-  replacerFactoryKey?: 'induceMissingValueReplacement' | 'evaluateMissingValueReplacement'
+  replacerFactoryKey?: 'growMissingValueReplacement' | 'evaluateMissingValueReplacement'
 };
 
 // this will create copy of samplesToReplace with replaced values
@@ -82,7 +82,7 @@ export const getDataSetWithReplacedValues = ({
   samplesToReplace,
   algorithmConfiguration,
   referenceDataSet,
-  replacerFactoryKey = 'induceMissingValueReplacement'
+  replacerFactoryKey = 'growMissingValueReplacement'
 }:ReplaceOptions) => {
   const usedReferenceSet = referenceDataSet || samplesToReplace;
   // cache replacers because if replacer is build it will iterate whole dataset
