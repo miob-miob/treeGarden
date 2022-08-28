@@ -9,7 +9,7 @@ import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 
 const config = buildAlgorithmConfiguration(simple);
 const tree = growTree(config, simple);
-
+// todo test for regression tree
 describe('getTreeAccuracy', () => {
   test('should be absolute', () => {
     expect(getTreeAccuracy(tree, simple, config)).toBeCloseTo(1);

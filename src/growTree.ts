@@ -4,14 +4,14 @@ import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample
 import { rawGrowTree } from './rawGrowTree';
 
 
-export const growTree = (fullConfiguration:AlgorithmConfiguration, dataSet:TreeGardenDataSample[]) => {
-  if (!fullConfiguration.buildTime) {
+export const growTree = (algorithmConfiguration:AlgorithmConfiguration, dataSet:TreeGardenDataSample[]) => {
+  if (!algorithmConfiguration.buildTime) {
     throw new Error('You cannot use just partial configuration in "growTree" function, build it with "buildAlgorithmConfiguration"');
   }
   consistentDataSetGuard(dataSet, 'growTree');
 
-  continuousAttributesGuard(fullConfiguration, dataSet, 'growTree');
-  const readyToGoDataSet = getDataSetWithReplacedValues({ samplesToReplace: dataSet, algorithmConfiguration: fullConfiguration });
-  return rawGrowTree(readyToGoDataSet, fullConfiguration);
+  continuousAttributesGuard(algorithmConfiguration, dataSet, 'growTree');
+  const readyToGoDataSet = getDataSetWithReplacedValues({ samplesToReplace: dataSet, algorithmConfiguration: algorithmConfiguration });
+  return rawGrowTree(readyToGoDataSet, algorithmConfiguration);
 };
 

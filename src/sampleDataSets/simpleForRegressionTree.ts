@@ -17,4 +17,3 @@ export const simpleDataSetForRegressionTree = [
 
 ];
 
-2

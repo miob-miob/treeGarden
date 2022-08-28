@@ -37,6 +37,10 @@ export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, prun
         };
       });
 
+    // we ended just with root - can happen when pruning data set is too different from training one
+    if (treesAndScores.length === 0) {
+      return currentTree;
+    }
     const { score, tree } = treesAndScores.sort((a, b) => b.score - a.score)[0];
     if (score < 0) {
       // if score is less then 0 do not perform further pruning and use tree from previous step
