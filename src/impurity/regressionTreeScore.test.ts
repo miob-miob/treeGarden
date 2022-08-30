@@ -1,13 +1,13 @@
-import { simpleDataSetForRegressionTree } from '../sampleDataSets/simpleForRegressionTree';
+import { simpleSetForRegression } from '../sampleDataSets/simpleForRegressionTree';
 import { getScoreForRegressionTreeSplit } from './regressionTreeScore';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 import { getSplitCriteriaFn, splitDataSet } from '../dataSet/split';
 
 
-const config = buildAlgorithmConfiguration(simpleDataSetForRegressionTree, { treeType: 'regression' });
+const config = buildAlgorithmConfiguration(simpleSetForRegression, { treeType: 'regression' });
 test('getScoreForRegressionTreeSplit', () => {
   const splitter = getSplitCriteriaFn('color', '==');
-  const childDataSets = splitDataSet(simpleDataSetForRegressionTree, splitter, true);
+  const childDataSets = splitDataSet(simpleSetForRegression, splitter, true);
 
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
@@ -18,5 +18,5 @@ test('getScoreForRegressionTreeSplit', () => {
   // every sample from 'white' - white average + every sample from 'black' - black average
   const expectedResidual = 0.2 + 0.6;
 
-  expect(getScoreForRegressionTreeSplit(simpleDataSetForRegressionTree, childDataSets, config, splitter)).toBeCloseTo(expectedResidual, 5);
+  expect(getScoreForRegressionTreeSplit(simpleSetForRegression, childDataSets, config, splitter)).toBeCloseTo(expectedResidual, 5);
 });

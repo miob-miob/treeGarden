@@ -1,4 +1,4 @@
-export const simpleDataSetForRegressionTree = [
+export const simpleSetForRegression = [
   {
     _class: 0.9, color: 'black', width: 40, _label: '1'
   },

@@ -6,19 +6,6 @@ import {
 import { simple, tennisSet } from '../sampleDataSets';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 import { tennisTree } from '../sampleTrainedTrees/tennisTree';
-import { simpleDataSetForRegressionTree } from '../sampleDataSets/simpleForRegressionTree';
-import { growTree } from '../growTree';
-import { getScoreForRegressionTreeSplit } from '../impurity/regressionTreeScore';
-
-
-const regressionConfig = buildAlgorithmConfiguration(simpleDataSetForRegressionTree, {
-  treeType: 'regression',
-  getScoreForSplit: getScoreForRegressionTreeSplit,
-  biggerScoreBetterSplit: false
-});
-
-// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-const simpleRegressionTree = growTree(regressionConfig, simpleDataSetForRegressionTree);
 
 const configuration = buildAlgorithmConfiguration(simple, {});
 test('getMostCommonValueFF continuous', () => {

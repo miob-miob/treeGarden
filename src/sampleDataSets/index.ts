@@ -5,3 +5,4 @@ export { tennisSet } from './tennis';
 export { simple } from './simple';
 export { irisSet } from './iris';
 export { housePrices } from './housePrices';
+export { simpleSetForRegression } from './simpleForRegressionTree';

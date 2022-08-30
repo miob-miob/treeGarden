@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { composeStopFunctions, stopIfPure } from './prePrunning';
+import { composeStopFunctions, stopIfDepthIs, stopIfPure } from './prePrunning';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 import { simple } from '../sampleDataSets';
 import { TreeGardenNode } from '../treeNode';
@@ -8,7 +8,7 @@ test('willTreeGrowFurther', () => {
   const conf = buildAlgorithmConfiguration(simple);
   const node = {
     id: 'something',
-    depth: 1,
+    depth: 2,
     childNodes: undefined,
     isLeaf: false,
     chosenSplitCriteria: ['color', '=='],
@@ -48,6 +48,17 @@ test('willTreeGrowFurther', () => {
   node.dataPartitions.black[1]._class = 'right';
   // @ts-expect-error
   expect(stopIfPure(node, conf)).toBeTruthy();
+
+  const depthStopperOne = stopIfDepthIs(1);
+  const depthStopperTwo = stopIfDepthIs(2);
+  const depthStopperThree = stopIfDepthIs(3);
+
+  // @ts-expect-error
+  expect(depthStopperOne(node, conf)).toBeTruthy();
+  // @ts-expect-error
+  expect(depthStopperTwo(node, conf)).toBeTruthy();
+  // @ts-expect-error
+  expect(depthStopperThree(node, conf)).toBeFalsy();
 });
 
 

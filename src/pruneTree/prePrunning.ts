@@ -25,10 +25,10 @@ export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmCo
 
 export const stopIfMinimalNumberOfSamplesInLeafNode = (
   nSamples = 5
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-) => (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration) => getNumberOfSamplesInNode(currentNode) <= nSamples;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration) => currentNode.bestSplits.length <= 1;
+) => (currentNode:TreeGardenNode, _configuration:AlgorithmConfiguration) => getNumberOfSamplesInNode(currentNode) <= nSamples;
 
+export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, _configuration:AlgorithmConfiguration) => currentNode.bestSplits.length <= 1;
 
+// first depth  level is zero
+export const stopIfDepthIs = (maxDepth:number) => (currentNode:TreeGardenNode, _configuration:AlgorithmConfiguration) => currentNode.depth >= maxDepth;

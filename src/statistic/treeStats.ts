@@ -6,49 +6,50 @@ import { getLeafNodeOfSample, getPredictedClassesOfSamples } from '../classifyDa
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { getArithmeticAverage } from './medianAndAverage';
 
-
+// used for regression trees
 // https://en.wikipedia.org/wiki/Coefficient_of_determination#Definitions
 // use absolute value instead of pow as it is better for reduced error pruning
-// todo test
 export const getRAbsError = (
   treeRootNode:TreeGardenNode,
-  validationSet:TreeGardenDataSample[],
+  dataSet:TreeGardenDataSample[],
   configuration:AlgorithmConfiguration
 ) => {
-  const values = validationSet.map((sample) => sample._class as number);
+  const values = dataSet.map((sample) => sample._class as number);
   const averageValue = getArithmeticAverage(values);
   let sumOFSquaresOfResiduals = 0; // SSres
   let sumOfSquaresFromAverage = 0; // SStot
 
-  validationSet.forEach((sample) => {
+  dataSet.forEach((sample) => {
     const hitNode = getLeafNodeOfSample(sample, treeRootNode, configuration, false);
-    // eslint-disable-next-line no-restricted-properties
     sumOFSquaresOfResiduals += Math.abs(sample._class as number - hitNode.regressionTreeAverageOutcome!);
-    // eslint-disable-next-line no-restricted-properties
     sumOfSquaresFromAverage += Math.abs(sample._class as number - averageValue);
   });
 
   return 1 - (sumOFSquaresOfResiduals / sumOfSquaresFromAverage);
 };
 
-export const getTreeAccuracy = (
+
+// for classification trees
+export const getMissClassificationRate = (
   treeRootNode:TreeGardenNode,
-  validationSet:TreeGardenDataSample[],
+  dataSet:TreeGardenDataSample[],
   configuration:AlgorithmConfiguration
 ) => {
-  consistentDataSetGuard(validationSet, 'getMisclassificationRate');
-  continuousAttributesGuard(configuration, validationSet, 'getTreeAccuracy');
-  if (configuration.treeType === 'classification') {
-    // validation is also used for replacing itself
-    const samplesAndClasses = getPredictedClassesOfSamples(validationSet, treeRootNode, configuration, validationSet);
-    return samplesAndClasses.filter(([sample, predictedClass]) => sample._class === predictedClass).length / samplesAndClasses.length;
-  }
+  const samplesAndClasses = getPredictedClassesOfSamples(dataSet, treeRootNode, configuration);
+  return samplesAndClasses.filter(([sample, predictedClass]) => predictedClass === sample._class).length / samplesAndClasses.length;
+};
 
-  // return 1 / (validationSet.reduce((error, currentSample) => {
-  //   const hitNode = getLeafNodeOfSample(currentSample, treeRootNode, configuration, false);
-  //   return Math.abs(currentSample._class as number - hitNode.regressionTreeAverageOutcome!) + error;
-  // }, 0) / validationSet.length);
-  return getRAbsError(treeRootNode, validationSet, configuration);
+export const getTreeAccuracy = (
+  treeRootNode:TreeGardenNode,
+  dataSet:TreeGardenDataSample[],
+  configuration:AlgorithmConfiguration
+) => {
+  consistentDataSetGuard(dataSet, 'getTreeAccuracy');
+  continuousAttributesGuard(configuration, dataSet, 'getTreeAccuracy');
+  if (configuration.treeType === 'classification') {
+    return getMissClassificationRate(treeRootNode, dataSet, configuration);
+  }
+  return getRAbsError(treeRootNode, dataSet, configuration);
 };
 
 
