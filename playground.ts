@@ -54,7 +54,7 @@ const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig
 // const prunedTree = getPrunedTreeByPessimisticPruning(tree);
 console.log(`Pruned: Number of nodes,${getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
 
-console.log(JSON.stringify(prunedTree));
+// console.log(JSON.stringify(prunedTree));
 
 // console.log('\n\n\n',JSON.stringify(tree))
 

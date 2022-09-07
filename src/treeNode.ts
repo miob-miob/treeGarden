@@ -10,7 +10,7 @@ import {
 import { TreeGardenDataSample } from './dataSet/set';
 // eslint-disable-next-line import/no-cycle
 import { AlgorithmConfiguration } from './algorithmConfiguration';
-import { getArithmeticAverage } from './statistic/basicStatistic';
+import { getArithmeticAverage, getStandardDeviation } from './statistic/basicStatistic';
 
 
 export const SINGLE_CLASS_FOR_REGRESSION_TREE = 'no_classes_in_regression_tree';
@@ -29,6 +29,7 @@ export type TreeGardenNode = {
   dataPartitionsCounts:ReturnType<typeof dataPartitionsToDataPartitionCounts>, // {tag:{classOne:3, classTwo:3}, anotherTag:{classOne:1, classTwo:6}}
   classCounts:ReturnType<typeof dataPartitionsToClassCounts>, // {classOne:8, classTwo:7}
   regressionTreeAverageOutcome?:number
+  regressionTreeStandardDeviation?:number
 };
 
 
@@ -94,6 +95,7 @@ export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:
     dataPartitionsCounts: regressionTree ? dataPartitionToPartitionCountsForRegressionTrees(partitions) : dataPartitionsToDataPartitionCounts(partitions),
     classCounts: regressionTree ? { [SINGLE_CLASS_FOR_REGRESSION_TREE]: dataSet.length } : dataPartitionsToClassCounts(dataSet),
     regressionTreeAverageOutcome: regressionTree ? getAverageOutcomeForDataSet(dataSet) : undefined,
+    regressionTreeStandardDeviation: regressionTree ? getStandardDeviation(dataSet.map((sample) => sample._class as number)) : undefined,
     depth: parentNode ? parentNode.depth + 1 : 0,
     alreadyUsedSplits: usedCriteria
   });

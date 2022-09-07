@@ -16,28 +16,33 @@ import { getMedian } from '../statistic/basicStatistic';
 // implemented with help of https://online.stat.psu.edu/stat508/lesson/11/11.8/11.8.2, http://mlwiki.org/index.php/Cost-Complexity_Pruning
 // https://link.springer.com/content/pdf/10.1023/A:1022604100933.pdf
 
-export const getMissClassificationRateOfNode = (treeNode:TreeGardenNode, nSamplesInTree:number) => {
+export const getMissClassificationRateOfNode = (treeNode:TreeGardenNode, nSamplesInTree:number, config:AlgorithmConfiguration) => {
   const nSamplesInNode = getNumberOfSamplesInNode(treeNode);
+
+  if (config.treeType === 'regression') {
+    return treeNode.regressionTreeStandardDeviation as number * (nSamplesInNode / nSamplesInTree);
+  }
   const mostCommonClass = getMostCommonClassForNode(treeNode);
   return (1 - (treeNode.classCounts[mostCommonClass] / nSamplesInNode)) * (nSamplesInNode / nSamplesInTree);
 };
 
 
 // in fact weighted missclasification rate of leaf nodes
-export const getMissClassificationRateOfTree = (treeRoot:TreeGardenNode, nSamplesInTree:number) => {
+export const getMissClassificationRateOfTree = (treeRoot:TreeGardenNode, nSamplesInTree:number, config:AlgorithmConfiguration) => {
   const leafNodes = getAllLeafNodes(treeRoot);
-  return leafNodes.reduce((totalMissClassificationRate, currentNode) => totalMissClassificationRate + getMissClassificationRateOfNode(currentNode, nSamplesInTree), 0);
+  return leafNodes.reduce((totalMissClassificationRate, currentNode) => totalMissClassificationRate + getMissClassificationRateOfNode(currentNode, nSamplesInTree, config), 0);
 };
 
 
 export const getAlphaForNode = (
   node:TreeGardenNode,
-  nSamplesInWholeDataSet:number
+  nSamplesInWholeDataSet:number,
+  config:AlgorithmConfiguration
 ) => {
   // this can happen if there is just one leaf node - which can be true (more classes with same value of attribute)
   const leafNodesMinusOne = getAllLeafNodes(node).length > 1 ? getAllLeafNodes(node).length - 1 : 1;
   const alpha = (
-    getMissClassificationRateOfNode(node, nSamplesInWholeDataSet) - getMissClassificationRateOfTree(node, nSamplesInWholeDataSet)) / leafNodesMinusOne;
+    getMissClassificationRateOfNode(node, nSamplesInWholeDataSet, config) - getMissClassificationRateOfTree(node, nSamplesInWholeDataSet, config)) / leafNodesMinusOne;
 
   if (alpha < 0) {
     return 0;
@@ -46,14 +51,14 @@ export const getAlphaForNode = (
 };
 
 // todo do better tests
-export const getAlphasAndSubTreesForFullTree = (unPrunedTreeRoot:TreeGardenNode) => {
+export const getAlphasAndSubTreesForFullTree = (unPrunedTreeRoot:TreeGardenNode, config:AlgorithmConfiguration) => {
   let currentTree = unPrunedTreeRoot;
   const result : { alpha:number, subTree:TreeGardenNode }[] = [];
   while (getNumberOfTreeNodes(currentTree) > 1) {
     currentTree = getTreeCopy(currentTree);
     const innerNodes = getAllInnerNodes(currentTree);
 
-    const alphasAndNodes = innerNodes.map((node) => [getAlphaForNode(node, getNumberOfSamplesInNode(unPrunedTreeRoot)), node] as const);
+    const alphasAndNodes = innerNodes.map((node) => [getAlphaForNode(node, getNumberOfSamplesInNode(unPrunedTreeRoot), config), node] as const);
     // lets find node/nodes with minimal alpha - also known as weakest links
     const minAlpha = Math.min(...alphasAndNodes.map(([alphaOfInternalNode]) => alphaOfInternalNode));
     // as there can be more of nodes with lowest alpha - prune out them all
@@ -72,16 +77,16 @@ export const getAlphasAndSubTreesForFullTree = (unPrunedTreeRoot:TreeGardenNode)
 };
 
 
-export const getComplexityScoreForGivenTreeAndAlpha = (treeRoot:TreeGardenNode, alpha:number) => {
+export const getComplexityScoreForGivenTreeAndAlpha = (treeRoot:TreeGardenNode, alpha:number, config:AlgorithmConfiguration) => {
   const nSamplesInTree = getNumberOfSamplesInNode(treeRoot);
-  return getMissClassificationRateOfTree(treeRoot, nSamplesInTree) + getAllLeafNodes(treeRoot).length * alpha;
+  return getMissClassificationRateOfTree(treeRoot, nSamplesInTree, config) + getAllLeafNodes(treeRoot).length * alpha;
 };
 
-export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:TreeGardenNode, alpha :number) => {
+export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:TreeGardenNode, alpha :number, config:AlgorithmConfiguration) => {
   // alphas produced are ignored, we are just interested in set of subtrees, and we will get one
   // that minimizes costComplexityScore score = missClassificationRate  + (numberOfLeafNodes) * alpha
-  const consideredSubtreesAndComplexityScore = getAlphasAndSubTreesForFullTree(fullTree)
-    .map(({ subTree }) => ({ costComplexityScore: getComplexityScoreForGivenTreeAndAlpha(subTree, alpha), subTree }));
+  const consideredSubtreesAndComplexityScore = getAlphasAndSubTreesForFullTree(fullTree, config)
+    .map(({ subTree }) => ({ costComplexityScore: getComplexityScoreForGivenTreeAndAlpha(subTree, alpha, config), subTree }));
   // lets choose tree with minimal score
   return consideredSubtreesAndComplexityScore
     .sort((a, b) => {
@@ -104,15 +109,11 @@ export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:Tree
 };
 
 export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fullTrainingData:TreeGardenDataSample[], configuration:AlgorithmConfiguration) => {
-  // todo if we use correct measurement of 'miss-classification rate' we can do cost complexity pruning for regression tree as well.
-  if (configuration.treeType === 'regression') {
-    throw new Error('\'getPrunedTreeByCostComplexityPruning\' can not be used with regression trees yet!!');
-  }
   const readyToGoTrainingSet = getDataSetWithReplacedValues({
     samplesToReplace: fullTrainingData,
     algorithmConfiguration: configuration
   });
-  const alphasAndSubTrees = getAlphasAndSubTreesForFullTree(treeRoot);
+  const alphasAndSubTrees = getAlphasAndSubTreesForFullTree(treeRoot, configuration);
   // alphasAndSubTrees.forEach((item) => {
   //   console.log(item.alpha, getNumberOfTreeNodes(item.subTree));
   // });
@@ -124,7 +125,7 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
     // best scoring alphas
     const bestAlphas = alphasAndSubTrees
       .map(({ alpha }) => {
-        const treeForAlpha = getSubTreeThanMinimizesCostComplexityForGivenAlpha(fullTree, alpha);
+        const treeForAlpha = getSubTreeThanMinimizesCostComplexityForGivenAlpha(fullTree, alpha, configuration);
         const accuracy = configuration.getTreeAccuracy(treeForAlpha, validation, configuration);
         return { accuracy, alpha };
       })
@@ -136,7 +137,6 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
   });
   // console.log(bestAlphaFromEachTree);
   const chosenAlpha = getMedian(bestAlphaFromEachTree);
-  console.log('Chosen alpha:', chosenAlpha);
 
   // because of median (even number /2 ) it does not have to be among original alphas
   const closestALphas = alphasAndSubTrees
@@ -147,7 +147,7 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
     }))
     .sort((a, b) => a.sortValue - b.sortValue);
 
-  // console.log(closestALphas);
+  console.log('Chosen alpha:', closestALphas[0].alpha);
 
   // our tree
   return closestALphas[0].subTree;
