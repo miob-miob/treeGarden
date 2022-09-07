@@ -36,6 +36,10 @@ export type AlgorithmConfiguration = {
     configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[],
   reducedErrorPruningGetScore:(accuracyBeforePruning:number, accuracyAfterPruning:number, numberOfRemovedNodes:number)=>number,
   allClasses?:string[],
+  getTreeAccuracy:(
+    treeRootNode:TreeGardenNode,
+    dataSet:TreeGardenDataSample[],
+    configuration:AlgorithmConfiguration)=>number,
   buildTime?:number
 };
 export type PartialAlgorithmConfiguration =

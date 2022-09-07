@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
-import { getArithmeticAverage } from '../statistic/medianAndAverage';
+import { getArithmeticAverage } from '../statistic/basicStatistic';
 
 
 type ImpurityScoringFn = AlgorithmConfiguration['getScoreForSplit'];

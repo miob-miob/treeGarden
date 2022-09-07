@@ -13,6 +13,7 @@ import { getMostCommonClassForNode } from '../treeNode';
 import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
 // eslint-disable-next-line import/no-cycle
 import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
+import { getTreeAccuracy } from '../statistic/treeStats';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
@@ -71,6 +72,9 @@ export const defaultConfiguration: AlgorithmConfiguration = {
 
   // while using reduced errorPruning best scoring tree is kept
   reducedErrorPruningGetScore: getPrunedTreeScore,
+
+  // measure accuracy of tree on given dataset, used while pruning tree during cost complexity pruning or reduced error prunning
+  getTreeAccuracy,
 
   // below are runtime configs !!!
   // all classes of initial data set (will be populated automatically)

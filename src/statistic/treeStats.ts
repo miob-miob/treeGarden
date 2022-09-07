@@ -4,7 +4,7 @@ import { getFlattenTree, TreeGardenNode } from '../treeNode';
 import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample } from '../dataSet/set';
 import { getLeafNodeOfSample, getPredictedClassesOfSamples } from '../classifyData';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
-import { getArithmeticAverage } from './medianAndAverage';
+import { getArithmeticAverage } from './basicStatistic';
 
 // used for regression trees
 // https://en.wikipedia.org/wiki/Coefficient_of_determination#Definitions
@@ -38,7 +38,7 @@ export const getMissClassificationRate = (
   const samplesAndClasses = getPredictedClassesOfSamples(dataSet, treeRootNode, configuration);
   return samplesAndClasses.filter(([sample, predictedClass]) => predictedClass === sample._class).length / samplesAndClasses.length;
 };
-
+// todo put it to configuration  as well? (used by cost complexity pruning)
 export const getTreeAccuracy = (
   treeRootNode:TreeGardenNode,
   dataSet:TreeGardenDataSample[],
@@ -56,4 +56,5 @@ export const getTreeAccuracy = (
 export const getNumberOfTreeNodes = (treeRoot: TreeGardenNode) => getFlattenTree(treeRoot).length;
 export const getNumberOfSamplesInNode = (node: TreeGardenNode) => Object.values(node.classCounts)
   .reduce((acc, current) => acc + current, 0);
+
 

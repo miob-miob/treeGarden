@@ -28,8 +28,7 @@ const irisAsNumbers = irisSet.map((sample)=>{
   }))
 })
 
-const [rest, validation] = getDividedSet(titanicSet, 0.95);
-const [training, pruning] = getDividedSet(rest, 0.8);
+const [training, validation] = getDividedSet(titanicSet, 0.90);
 console.log(`length of validation: ${validation.length}, length of training: ${training.length} `);
 
 
@@ -51,9 +50,8 @@ console.log(myConfig);
 
 const tree = growTree(myConfig, training);
 console.log(`UNPRUNED: Number of nodes,${getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
-// const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
+const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
 // const prunedTree = getPrunedTreeByPessimisticPruning(tree);
-const prunedTree = getPrunedTreeByReducedErrorPruning(tree, pruning, myConfig);
 console.log(`Pruned: Number of nodes,${getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
 
 console.log(JSON.stringify(prunedTree));

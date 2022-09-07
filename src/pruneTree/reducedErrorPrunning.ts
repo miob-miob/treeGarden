@@ -4,10 +4,10 @@ import {
 } from '../treeNode';
 import { TreeGardenDataSample } from '../dataSet/set';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
-import { getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
+import { getNumberOfTreeNodes } from '../statistic/treeStats';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 
-// simple implementation - prefer trees  with best accuray
+// simple implementation - prefer trees  with best accuracy
 
 export const getPrunedTreeScore = (
   accuracyBeforePruning:number,
@@ -27,10 +27,10 @@ export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, prun
     // eslint-disable-next-line @typescript-eslint/no-loop-func
       .map((consideredNode) => {
         const treeCopy = getTreeCopy(currentTree);
-        const accuracyBeforePruning = getTreeAccuracy(treeCopy, readyToGoValidationSet, configuration);
+        const accuracyBeforePruning = configuration.getTreeAccuracy(treeCopy, readyToGoValidationSet, configuration);
         const prunedNode = getTreeNodeById(treeCopy, consideredNode.id);
         mutateNonLeafNodeIntoLeafOne(prunedNode);
-        const accuracyAfterPruning = getTreeAccuracy(treeCopy, readyToGoValidationSet, configuration);
+        const accuracyAfterPruning = configuration.getTreeAccuracy(treeCopy, readyToGoValidationSet, configuration);
         return {
           tree: treeCopy,
           score: configuration.reducedErrorPruningGetScore(accuracyBeforePruning, accuracyAfterPruning, getNumberOfTreeNodes(treeCopy))

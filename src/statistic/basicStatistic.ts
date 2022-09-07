@@ -23,3 +23,18 @@ export const getArithmeticAverage = (values:number[]) => {
   const sum = values.reduce((acc, curr) => acc + curr, 0);
   return sum / values.length;
 };
+// for equally probable values
+export const getVariance = (values:number[]) => {
+  if (values.length === 0) {
+    throw new Error('\'getVariance\' - cannot calculate variance of empty array!');
+  }
+  const mean = getArithmeticAverage(values);
+  return (values.reduce((sum, current) => sum + (current - mean) ** 2, 0) / values.length);
+};
+
+export const getStandardDeviation = (values:number[]) => {
+  if (values.length === 0) {
+    throw new Error('\'getStandardDeviation\' - cannot calculate standard deviation of empty array!');
+  }
+  return Math.sqrt(getVariance(values));
+};

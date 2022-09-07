@@ -10,7 +10,7 @@ import {
 import { TreeGardenDataSample } from './dataSet/set';
 // eslint-disable-next-line import/no-cycle
 import { AlgorithmConfiguration } from './algorithmConfiguration';
-import { getArithmeticAverage } from './statistic/medianAndAverage';
+import { getArithmeticAverage } from './statistic/basicStatistic';
 
 
 export const SINGLE_CLASS_FOR_REGRESSION_TREE = 'no_classes_in_regression_tree';

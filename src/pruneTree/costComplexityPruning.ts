@@ -10,8 +10,8 @@ import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { getKFoldCrossValidationDataSets } from '../dataSet/dividingAndBootstrapping';
 import { growTree } from '../growTree';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
-import { getNumberOfSamplesInNode, getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
-import { getMedian } from '../statistic/medianAndAverage';
+import { getNumberOfSamplesInNode, getNumberOfTreeNodes } from '../statistic/treeStats';
+import { getMedian } from '../statistic/basicStatistic';
 
 // implemented with help of https://online.stat.psu.edu/stat508/lesson/11/11.8/11.8.2, http://mlwiki.org/index.php/Cost-Complexity_Pruning
 // https://link.springer.com/content/pdf/10.1023/A:1022604100933.pdf
@@ -26,7 +26,7 @@ export const getMissClassificationRateOfNode = (treeNode:TreeGardenNode, nSample
 // in fact weighted missclasification rate of leaf nodes
 export const getMissClassificationRateOfTree = (treeRoot:TreeGardenNode, nSamplesInTree:number) => {
   const leafNodes = getAllLeafNodes(treeRoot);
-  return leafNodes.reduce((acc, currentNode) => acc + getMissClassificationRateOfNode(currentNode, nSamplesInTree), 0);
+  return leafNodes.reduce((totalMissClassificationRate, currentNode) => totalMissClassificationRate + getMissClassificationRateOfNode(currentNode, nSamplesInTree), 0);
 };
 
 
@@ -104,8 +104,9 @@ export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:Tree
 };
 
 export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fullTrainingData:TreeGardenDataSample[], configuration:AlgorithmConfiguration) => {
+  // todo if we use correct measurement of 'miss-classification rate' we can do cost complexity pruning for regression tree as well.
   if (configuration.treeType === 'regression') {
-    throw new Error('\'getPrunedTreeByCostComplexityPruning\' can not be used with regression trees!');
+    throw new Error('\'getPrunedTreeByCostComplexityPruning\' can not be used with regression trees yet!!');
   }
   const readyToGoTrainingSet = getDataSetWithReplacedValues({
     samplesToReplace: fullTrainingData,
@@ -115,6 +116,7 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
   // alphasAndSubTrees.forEach((item) => {
   //   console.log(item.alpha, getNumberOfTreeNodes(item.subTree));
   // });
+  // todo nfold cross validation into config=> prunning itself
   const nFoldCrossValidationSets = getKFoldCrossValidationDataSets(readyToGoTrainingSet, 5);
   const bestAlphaFromEachTree = nFoldCrossValidationSets.map(({ validation, training }) => {
     const fullTree = growTree(configuration, training);
@@ -123,7 +125,7 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
     const bestAlphas = alphasAndSubTrees
       .map(({ alpha }) => {
         const treeForAlpha = getSubTreeThanMinimizesCostComplexityForGivenAlpha(fullTree, alpha);
-        const accuracy = getTreeAccuracy(treeForAlpha, validation, configuration);
+        const accuracy = configuration.getTreeAccuracy(treeForAlpha, validation, configuration);
         return { accuracy, alpha };
       })
       .sort((a, b) => b.accuracy - a.accuracy);
@@ -132,8 +134,11 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
       .map(({ alpha }) => alpha);
     return getMedian(alphasForSameAccuracy);
   });
-
+  // console.log(bestAlphaFromEachTree);
   const chosenAlpha = getMedian(bestAlphaFromEachTree);
+  console.log('Chosen alpha:', chosenAlpha);
+
+  // because of median (even number /2 ) it does not have to be among original alphas
   const closestALphas = alphasAndSubTrees
     .map(({ alpha, subTree }) => ({
       sortValue: Math.abs(chosenAlpha - alpha),
@@ -141,6 +146,8 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
       subTree
     }))
     .sort((a, b) => a.sortValue - b.sortValue);
+
+  // console.log(closestALphas);
 
   // our tree
   return closestALphas[0].subTree;

@@ -2,7 +2,7 @@
 import { getMostCommonValues } from '../statistic/getMostCommonValue';
 import { chooseOne } from '../randomization';
 import { TreeGardenDataSample, getClassesOfDataSet } from './set';
-import { getMedian } from '../statistic/medianAndAverage';
+import { getMedian } from '../statistic/basicStatistic';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { TreeGardenNode } from '../treeNode';
 
