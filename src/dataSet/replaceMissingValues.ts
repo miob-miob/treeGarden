@@ -116,8 +116,7 @@ export const getMostCommonTagOfSamplesInNode = (
   sample:TreeGardenDataSample,
   attributeId:string,
   nodeWhereWeeNeedValue:TreeGardenNode,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  config:AlgorithmConfiguration
+  _config:AlgorithmConfiguration
 ) => {
   // returns most common value from partitions
   const valuesAndCounts = Object.entries(nodeWhereWeeNeedValue.dataPartitionsCounts!)

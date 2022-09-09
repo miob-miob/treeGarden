@@ -32,7 +32,7 @@ const myConfig = buildAlgorithmConfiguration(irisSet, {
   shouldWeStopGrowth: composeStopFunctions(
     stopIfPure,
     stopIfNoSplitsAvailable,
-    // stopIfMinimalNumberOfSamplesInLeafNode(3)
+    // stopIfMinimalNumberOfSamplesInInnerNode(3)
   )
 });
 console.log(myConfig);

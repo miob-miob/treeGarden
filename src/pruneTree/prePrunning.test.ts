@@ -1,6 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import { composeStopFunctions, stopIfDepthIs, stopIfPure } from './prePrunning';
-import { buildAlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import {
+  composeStopFunctions, stopIfDepthIs, stopIfMinimalNumberOfSamplesInInnerNode, stopIfPure
+} from './prePrunning';
+import {
+  AlgorithmConfiguration,
+  buildAlgorithmConfiguration
+} from '../algorithmConfiguration/buildAlgorithmConfiguration';
 import { simple } from '../sampleDataSets';
 import { TreeGardenNode } from '../treeNode';
 
@@ -61,6 +66,27 @@ test('willTreeGrowFurther', () => {
   expect(depthStopperThree(node, conf)).toBeFalsy();
 });
 
+test('stopIfMinimalNumberOfSamplesInLeafNode', () => {
+  const nodeWith4 = {
+    classCounts: { left: 2, right: 1, white: 1 }
+  };
+
+  const nodeWith3Minimal = {
+    classCounts: { left: 1, right: 1, white: 1 }
+  };
+
+  const stopper5 = stopIfMinimalNumberOfSamplesInInnerNode(5);
+  const stopper2 = stopIfMinimalNumberOfSamplesInInnerNode(2);
+  const stopper3 = stopIfMinimalNumberOfSamplesInInnerNode(3);
+
+  expect(stopper3(nodeWith4 as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeFalsy();
+  expect(stopper2(nodeWith4 as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeFalsy();
+  expect(stopper5(nodeWith4 as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeTruthy();
+
+  expect(stopper3(nodeWith3Minimal as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeTruthy();
+  expect(stopper2(nodeWith3Minimal as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeFalsy();
+  expect(stopper5(nodeWith3Minimal as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeTruthy();
+});
 
 test('composeStopFunctions', () => {
   const config = buildAlgorithmConfiguration(simple, {});

@@ -4,44 +4,36 @@ import {
 
 import {c45Config} from "./src/algorithmConfiguration";
 
-import { titanicSet,irisSet } from './src/sampleDataSets';
+import { titanicSet } from './src/sampleDataSets';
 import { growTree } from './src';
 import {
   composeStopFunctions,
   getPrunedTreeByCostComplexityPruning,
   getPrunedTreeByPessimisticPruning,
   getPrunedTreeByReducedErrorPruning,
-  stopIfMinimalNumberOfSamplesInLeafNode,
+  stopIfMinimalNumberOfSamplesInInnerNode,
   stopIfNoSplitsAvailable,
   stopIfPure
 } from './src/pruneTree';
 import { getDividedSet } from './src/dataSet/dividingAndBootstrapping';
 import { getNumberOfTreeNodes, getTreeAccuracy } from './src/statistic/treeStats';
+import {stopIfDepthIs} from "./src/pruneTree/prePrunning";
+import {cartConfig} from './src/algorithmConfiguration';
+import {getDataSetWithReplacedValues} from "./src/dataSet/replaceMissingValues";
 
-const irisAsNumbers = irisSet.map((sample)=>{
-  return Object.fromEntries(Object.entries(sample).map(([key,value])=>{
-    if(isNaN(parseFloat(value))){
-      return [key, value]
-    }
-
-    return [key,parseFloat(value)]
-  }))
-})
 
 const [training, validation] = getDividedSet(titanicSet, 0.90);
 console.log(`length of validation: ${validation.length}, length of training: ${training.length} `);
 
 
-
+// todo check miniml number of samples in leaf node  - we should check parent
 const myConfig = buildAlgorithmConfiguration(titanicSet, {
-  ...c45Config,
-  // ...cartConfig,
   excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
-  attributes: { sibsp: { dataType: 'discrete' }, pclass:{dataType: 'discrete'},parch:{dataType: "discrete"} },
+  attributes: { sibsp: { dataType: 'continuous' }, pclass:{dataType: 'discrete'},parch:{dataType: "discrete"} },
   shouldWeStopGrowth: composeStopFunctions(
     stopIfPure,
     stopIfNoSplitsAvailable,
-    // stopIfMinimalNumberOfSamplesInLeafNode(3)
+    // stopIfDepthIs(5)
   )
 });
 
@@ -49,12 +41,16 @@ const myConfig = buildAlgorithmConfiguration(titanicSet, {
 console.log(myConfig);
 
 const tree = growTree(myConfig, training);
-console.log(`UNPRUNED: Number of nodes,${getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
+const replacedValidation  = getDataSetWithReplacedValues({
+  samplesToReplace: validation,
+  algorithmConfiguration: myConfig
+});
+console.log(`UNPRUNED: Number of nodes,${getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, replacedValidation, myConfig)}`);
 const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
 // const prunedTree = getPrunedTreeByPessimisticPruning(tree);
-console.log(`Pruned: Number of nodes,${getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
+console.log(`Pruned: Number of nodes,${getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, replacedValidation, myConfig)}`);
 
-// console.log(JSON.stringify(prunedTree));
+console.log(JSON.stringify(prunedTree));
 
 // console.log('\n\n\n',JSON.stringify(tree))
 

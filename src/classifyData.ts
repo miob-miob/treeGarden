@@ -21,7 +21,7 @@ export const getLeafNodeOfSample = <T extends boolean>(
     const sampleValueForGivenAttribute = sample[attributeId];
     const { missingValue } = algorithmConfiguration.attributes[attributeId];
     if (sampleValueForGivenAttribute === missingValue && !getTagOfSampleWithMissingValue) {
-      throw new Error(`When classifying sample with label: '${sample._label}', its value: '${sample[attributeId]}' is considered 
+      throw new Error(`When classifying sample with label: '${sample._label}', its value: '${sample[attributeId]}' for attribute '${attributeId}' is considered 
       as missing, it should be replaced using 'referenceDataSetForReplacing', or you should define 'replaceMissingValuesWhileEvaluating'
        function in configuration!`);
     }

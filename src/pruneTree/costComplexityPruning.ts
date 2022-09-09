@@ -50,7 +50,7 @@ export const getAlphaForNode = (
   return alpha;
 };
 
-// todo do better tests
+// todo do better tests - this may be bottleneck
 export const getAlphasAndSubTreesForFullTree = (unPrunedTreeRoot:TreeGardenNode, config:AlgorithmConfiguration) => {
   let currentTree = unPrunedTreeRoot;
   const result : { alpha:number, subTree:TreeGardenNode }[] = [];

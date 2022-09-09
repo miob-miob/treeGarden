@@ -23,10 +23,10 @@ export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmCo
   return getClassesOfDataSet(wholeIncomingSet).length === 1;
 };
 
-export const stopIfMinimalNumberOfSamplesInLeafNode = (
-  nSamples = 5
-
-) => (currentNode:TreeGardenNode, _configuration:AlgorithmConfiguration) => getNumberOfSamplesInNode(currentNode) <= nSamples;
+export const stopIfMinimalNumberOfSamplesInInnerNode = (nSamples = 5) => (
+  currentNode:TreeGardenNode,
+  _configuration:AlgorithmConfiguration
+) => getNumberOfSamplesInNode(currentNode) <= nSamples;
 
 export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, _configuration:AlgorithmConfiguration) => currentNode.bestSplits.length <= 1;
 

@@ -4,6 +4,7 @@ export { getPrunedTreeByPessimisticPruning } from './pessimisticPrunning';
 export {
   composeStopFunctions,
   stopIfPure,
-  stopIfMinimalNumberOfSamplesInLeafNode,
-  stopIfNoSplitsAvailable
+  stopIfMinimalNumberOfSamplesInInnerNode,
+  stopIfNoSplitsAvailable,
+  stopIfDepthIs
 } from './prePrunning';

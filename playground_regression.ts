@@ -8,7 +8,7 @@ import {
   composeStopFunctions,
   getPrunedTreeByReducedErrorPruning,
   getPrunedTreeByCostComplexityPruning,
-  stopIfMinimalNumberOfSamplesInLeafNode,
+  stopIfMinimalNumberOfSamplesInInnerNode,
   stopIfNoSplitsAvailable,
   stopIfPure
 } from './src/pruneTree';
@@ -31,7 +31,7 @@ const myConfig = buildAlgorithmConfiguration(housePrices, {
   shouldWeStopGrowth: composeStopFunctions(
     stopIfPure,
     stopIfNoSplitsAvailable,
-    stopIfMinimalNumberOfSamplesInLeafNode(10)
+    stopIfMinimalNumberOfSamplesInInnerNode(10)
   )
 });
 console.log(myConfig);
