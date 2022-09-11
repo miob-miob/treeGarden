@@ -5,6 +5,7 @@ import { AlgorithmConfiguration } from '../algorithmConfiguration';
 export type TreeGardenDataSample = {
   _class?:string|number,
   _label?:string|number,
+  _id?:string|number,
   [key:string]:any
 };
 

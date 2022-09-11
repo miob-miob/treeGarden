@@ -1,5 +1,9 @@
-import { getBootstrappedDataSet, getDividedSet, getKFoldCrossValidationDataSets } from './dividingAndBootstrapping';
+/* eslint-disable no-underscore-dangle */
+import {
+  getBootstrappedDataSet, getBootstrappedDataSetAndOutOfTheBagRest, getDividedSet, getKFoldCrossValidationDataSets
+} from './dividingAndBootstrapping';
 import { tennisSet } from '../sampleDataSets';
+import { TreeGardenDataSample } from './set';
 
 const buildDataSet = (nItems: number) => Array.from(Array(nItems))
   .map((item, index) => ({ value: index, _class: 'someClass' }));
@@ -30,4 +34,13 @@ test('getNFoldCrossValidationDataSets', () => {
   const uniqueSums = Array.from(new Set(sums));
   expect(uniqueSums.length).toBe(1);
   expect(uniqueSums[0]).toBe(14);
+});
+
+test('getBootstrappedDataSetAndOutOfTheBagRest', () => {
+  const length = 100;
+  const dataSet = Array.from(Array(length)).map((item, index) => ({ _label: index, _id: index })) as TreeGardenDataSample[];
+  const [bootstrapped, oobSet] = getBootstrappedDataSetAndOutOfTheBagRest(dataSet);
+  expect(bootstrapped.length > oobSet.size).toBeTruthy();
+  const shouldBeEmpty = bootstrapped.filter((item) => oobSet.has(item._id));
+  expect(shouldBeEmpty.length).toBe(0);
 });

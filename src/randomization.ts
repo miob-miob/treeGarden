@@ -1,7 +1,7 @@
 
 export const randInt = (min:number, max:number) => Math.floor(Math.random() * ((max - min) + 1)) + min;
 
-export const chooseOne = (arrayToChooseFrom:any[]) => arrayToChooseFrom[randInt(0, arrayToChooseFrom.length - 1)];
+export const chooseOne = <T> (arrayToChooseFrom:T[]) => arrayToChooseFrom[randInt(0, arrayToChooseFrom.length - 1)];
 
 export const shuffleArray = (array:any[]) => {
   let { length } = array;
