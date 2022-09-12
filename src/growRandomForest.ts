@@ -34,10 +34,12 @@ export const growRandomForest = (
         ? getBootstrappedDataSetAndOutOfTheBagRest(readyDataSet, numberOfSamplesToBootstrap)
         : [getBootstrappedDataSet(readyDataSet, numberOfSamplesToBootstrap)];
 
-      // todo place ideal for parallelization
+      // todo place for parallelization (but limited to clonable object)
       return [growTree(singleTreeConfig, trainingDataSet), outOfBagSet];
     });
 
-
-
+  return {
+    trees: trainedTreesAndOutOfBagSets.map((treeAndOobSet) => treeAndOobSet[0]),
+    oobError: randomForestAlgorithmConfiguration.calculateOutOfTheBagError ? 5 : 6
+  };
 };

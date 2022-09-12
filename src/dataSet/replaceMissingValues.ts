@@ -46,7 +46,7 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:TreeGardenDataSample[
     throw new Error('You cannot call \'getMostCommonValueAmongSameClassFF\' on treeType === \'regression\' tree!');
   }
   const allClassesOfDataSet = getClassesOfDataSet(dataSet);
-  const classesAndCommonValuesForGivenAttributeId:{ [key:string]:any[] } = {};
+  const classesAndCommonValuesForGivenAttributeId:{ [key:string]:string|number } = {};
   const attributeDataType = configuration.attributes[attributeId].dataType;
   const { missingValue } = configuration.attributes[attributeId];
   allClassesOfDataSet.forEach((currentClass) => {

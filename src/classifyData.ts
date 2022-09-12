@@ -4,6 +4,8 @@ import { AlgorithmConfiguration } from './algorithmConfiguration';
 import { TreeGardenNode } from './treeNode';
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { getSplitCriteriaFn } from './dataSet/split';
+import { getMostCommonValues } from './statistic/getMostCommonValue';
+import { getMedian } from './statistic/basicStatistic';
 
 
 type NodeOrIdArray<T extends boolean> = T extends true?string[]:TreeGardenNode;
@@ -97,3 +99,15 @@ export const getPredictedValuesOfSamples = (
     .map(([sample, leafNode]) => [sample, extractFromNode(leafNode, sample)] as const);
 };
 
+// todo test!!!! + wrappers for public API
+export const getResultFromMultipleTrees = (treeRoots:TreeGardenNode[], dataSample:TreeGardenDataSample, config:AlgorithmConfiguration) => {
+  const valueFromNodeFn = config.treeType === 'classification' ? config.getClassFromLeafNode : config.getValueFromLeafNode;
+  const values = treeRoots.map((tree) => {
+    const hitNode = getLeafNodeOfSample(dataSample, tree, config, false);
+    return valueFromNodeFn(hitNode, dataSample);
+  });
+  if (config.treeType === 'classification') {
+    return getMostCommonValues(values as string[]).sort()[0];
+  }
+  return getMedian(values as number[]);
+};

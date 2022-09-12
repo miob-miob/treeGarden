@@ -1,6 +1,7 @@
 import { AlgorithmConfiguration } from './index';
 import { chooseManyWithoutRepeats } from '../randomization';
 import { TreeGardenDataSample } from '../dataSet/set';
+import { getResultFromMultipleTrees } from '../classifyData';
 
 
 // todo  master growForest  - replace dataset, subsets + sample hash for oobe
@@ -16,7 +17,8 @@ export const defaultRandomForestConfiguration = {
     return chooseManyWithoutRepeats(attributeKeys, nAttributes);
   },
   calculateOutOfTheBagError: true, // https://en.wikipedia.org/wiki/Out-of-bag_error
-  numberOfBootstrappedSamples: 0 //
+  numberOfBootstrappedSamples: 0, // number of samples bootstrapped from original dataset - 0 = all,
+  getResultFromMultipleTrees
 };
 
 export type RandomForestConfiguration = typeof defaultRandomForestConfiguration;

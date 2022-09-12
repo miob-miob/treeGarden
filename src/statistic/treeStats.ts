@@ -6,6 +6,27 @@ import { getLeafNodeOfSample, getPredictedValuesOfSamples } from '../classifyDat
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { getArithmeticAverage } from './basicStatistic';
 
+
+// todo lot of space for optimization
+// used in calculation of oob error
+export const getRAbsErrorRaw = (realValues:number[], predictedValues:number[]) => {
+  if (realValues.length !== predictedValues.length) {
+    throw new Error('Must be equal length as corresponds to real sample values and predicted ones !');
+  }
+  const averageValue = getArithmeticAverage(realValues);
+  let sumOFSquaresOfResiduals = 0; // SSres
+  let sumOfSquaresFromAverage = 0; // SStot
+
+  realValues.forEach((realValue, index) => {
+    const predictedValue = predictedValues[index];
+    sumOFSquaresOfResiduals += Math.abs(realValue as number - predictedValue);
+    sumOfSquaresFromAverage += Math.abs(realValue - averageValue);
+  });
+
+  return 1 - (sumOFSquaresOfResiduals / sumOfSquaresFromAverage);
+};
+
+
 // used for regression trees
 // https://en.wikipedia.org/wiki/Coefficient_of_determination#Definitions
 // use absolute value instead of pow as it is better for reduced error pruning
@@ -14,31 +35,42 @@ export const getRAbsError = (
   dataSet:TreeGardenDataSample[],
   configuration:AlgorithmConfiguration
 ) => {
+  // todo we can skip one iteration here
   const values = dataSet.map((sample) => sample._class as number);
-  const averageValue = getArithmeticAverage(values);
-  let sumOFSquaresOfResiduals = 0; // SSres
-  let sumOfSquaresFromAverage = 0; // SStot
-
-  dataSet.forEach((sample) => {
+  const predictedValues = dataSet.map((sample) => {
     const hitNode = getLeafNodeOfSample(sample, treeRootNode, configuration, false);
-    sumOFSquaresOfResiduals += Math.abs(sample._class as number - hitNode.regressionTreeAverageOutcome!);
-    sumOfSquaresFromAverage += Math.abs(sample._class as number - averageValue);
+    return configuration.getValueFromLeafNode(hitNode, sample);
   });
-
-  return 1 - (sumOFSquaresOfResiduals / sumOfSquaresFromAverage);
+  return getRAbsErrorRaw(values, predictedValues);
 };
 
+type ClassOfSample = TreeGardenDataSample['_class'];
 
-// for classification trees
+// used in calculation of oob error
+export const getMissClassificationRateRaw = (realClasses:ClassOfSample[], predictedClasses:ClassOfSample[]) => {
+  if (realClasses.length !== predictedClasses.length) {
+    throw new Error('Must be equal length as corresponds to real sample classes and predicted ones !');
+  }
+  return realClasses.filter((realClass, index) => realClass === predictedClasses[index]).length / realClasses.length;
+};
+
+// for classification trees - but this should be accuracy - miss classification rate would be 1- accuracy
 export const getMissClassificationRate = (
   treeRootNode:TreeGardenNode,
   dataSet:TreeGardenDataSample[],
   configuration:AlgorithmConfiguration
 ) => {
-  const samplesAndClasses = getPredictedValuesOfSamples(dataSet, treeRootNode, configuration);
-  return samplesAndClasses.filter(([sample, predictedClass]) => predictedClass === sample._class).length / samplesAndClasses.length;
+  const realClasses: ClassOfSample[] = [];
+  const predictedClasses :ClassOfSample[] = [];
+  getPredictedValuesOfSamples(dataSet, treeRootNode, configuration)
+    .forEach(([sample, classOfSample]) => {
+      realClasses.push(sample._class);
+      predictedClasses.push(classOfSample);
+    });
+
+  return getMissClassificationRateRaw(realClasses, predictedClasses);
 };
-// todo put it to configuration  as well? (used by cost complexity pruning)
+
 export const getTreeAccuracy = (
   treeRootNode:TreeGardenNode,
   dataSet:TreeGardenDataSample[],
