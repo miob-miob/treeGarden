@@ -65,11 +65,35 @@ export const getLeafNodesForSamples = (
     .map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration, false)] as const);
 };
 
-// todo implement similar function for regression trees
-export const getPredictedClassesOfSamples = (
+export const getMostCommonClassForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenDataSample) => {
+  const sortedClasses = Object.entries(leafNode.classCounts)
+    .sort(([classOne, countOne], [classTwo, countTwo]) => {
+      if (countOne === countTwo) {
+        if (classOne < classTwo) {
+          return -1;
+        }
+        if (classOne === classTwo) {
+          return 0;
+        }
+        return 1;
+      }
+      return countTwo - countOne;
+    });
+
+  return sortedClasses[0][0];
+};
+
+export const getValueForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenDataSample) => leafNode.regressionTreeAverageOutcome as number;
+
+
+export const getPredictedValuesOfSamples = (
   samplesToClassify:TreeGardenDataSample[],
   decisionTreeRoot:TreeGardenNode,
   algorithmConfiguration:AlgorithmConfiguration,
   referenceDataSetForReplacing?:TreeGardenDataSample[]
-) => getLeafNodesForSamples(samplesToClassify, decisionTreeRoot, algorithmConfiguration, referenceDataSetForReplacing)
-  .map(([sample, leafNode]) => [sample, algorithmConfiguration.getClassFromLeafNode(leafNode, sample)] as const);
+) => {
+  const extractFromNode = algorithmConfiguration.treeType === 'classification' ? algorithmConfiguration.getClassFromLeafNode : algorithmConfiguration.getValueFromLeafNode;
+  return getLeafNodesForSamples(samplesToClassify, decisionTreeRoot, algorithmConfiguration, referenceDataSetForReplacing)
+    .map(([sample, leafNode]) => [sample, extractFromNode(leafNode, sample)] as const);
+};
+

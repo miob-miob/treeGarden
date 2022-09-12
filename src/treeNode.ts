@@ -105,24 +105,6 @@ export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:
   return newNode;
 };
 
-export const getMostCommonClassForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenDataSample) => {
-  const sortedClasses = Object.entries(leafNode.classCounts)
-    .sort(([classOne, countOne], [classTwo, countTwo]) => {
-      if (countOne === countTwo) {
-        if (classOne < classTwo) {
-          return -1;
-        }
-        if (classOne === classTwo) {
-          return 0;
-        }
-        return 1;
-      }
-      return countTwo - countOne;
-    });
-
-  return sortedClasses[0][0];
-};
-
 // returns all nodes of tree in array
 export const getFlattenTree = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
   if (treeRoot.isLeaf) {

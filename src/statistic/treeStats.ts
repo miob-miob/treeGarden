@@ -2,7 +2,7 @@
 
 import { getFlattenTree, TreeGardenNode } from '../treeNode';
 import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample } from '../dataSet/set';
-import { getLeafNodeOfSample, getPredictedClassesOfSamples } from '../classifyData';
+import { getLeafNodeOfSample, getPredictedValuesOfSamples } from '../classifyData';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { getArithmeticAverage } from './basicStatistic';
 
@@ -35,7 +35,7 @@ export const getMissClassificationRate = (
   dataSet:TreeGardenDataSample[],
   configuration:AlgorithmConfiguration
 ) => {
-  const samplesAndClasses = getPredictedClassesOfSamples(dataSet, treeRootNode, configuration);
+  const samplesAndClasses = getPredictedValuesOfSamples(dataSet, treeRootNode, configuration);
   return samplesAndClasses.filter(([sample, predictedClass]) => predictedClass === sample._class).length / samplesAndClasses.length;
 };
 // todo put it to configuration  as well? (used by cost complexity pruning)

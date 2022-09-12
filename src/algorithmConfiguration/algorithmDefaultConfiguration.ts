@@ -7,13 +7,13 @@ import {
 } from '../dataSet/split';
 // eslint-disable-next-line import/no-cycle
 import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../pruneTree';
-// eslint-disable-next-line import/no-cycle
-import { getMostCommonClassForNode } from '../treeNode';
+
 // eslint-disable-next-line import/no-cycle
 import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
 // eslint-disable-next-line import/no-cycle
 import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
 import { getTreeAccuracy } from '../statistic/treeStats';
+import { getValueForNode, getMostCommonClassForNode } from '../classifyData';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
@@ -54,6 +54,9 @@ export const defaultConfiguration: AlgorithmConfiguration = {
 
   // how to obtain class from node where unknown sample lands
   getClassFromLeafNode: getMostCommonClassForNode,
+
+  // how to obtain class from node where unknown sample lands for regression tree
+  getValueFromLeafNode: getValueForNode,
 
   // every node in decision tree can have maximal two branches (true/false) - CART uses usually this condition
   onlyBinarySplits: false,

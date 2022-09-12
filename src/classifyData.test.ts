@@ -1,10 +1,14 @@
 
-
-import { getPredictedClassesOfSamples, getLeafNodesForSamples, getLeafNodeOfSample } from './classifyData';
+import {
+  getPredictedValuesOfSamples,
+  getLeafNodesForSamples,
+  getLeafNodeOfSample,
+  getMostCommonClassForNode
+} from './classifyData';
 import { buildAlgorithmConfiguration } from './algorithmConfiguration';
 import { tennisSet } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
-import { getTreeNodeById } from './treeNode';
+import { getTreeNodeById, TreeGardenNode } from './treeNode';
 
 
 const samples = [
@@ -39,11 +43,26 @@ test('getLeafNodesForSamples', () => {
   expect(result[1][1]).toEqual(leafNodes[1]);
 });
 
-test('getPredictedClassesOfSamples', () => {
-  const result = getPredictedClassesOfSamples(samples, tennisTree, config);
+test('getPredictedValuesOfSamples', () => {
+  const result = getPredictedValuesOfSamples(samples, tennisTree, config);
   expect(result[0][0]).toEqual(samples[0]);
   expect(result[0][1]).toEqual('No');
 
   expect(result[1][0]).toEqual(samples[1]);
   expect(result[1][1]).toEqual('Yes');
+});
+
+test('getMostCommonClassFromNode', () => {
+  const nodeLikeOne = {
+    classCounts: { green: 2, yellow: 3 }
+  };
+  const nodeLikeTwo = {
+    classCounts: { green: 2, yellow: 2 }
+  };
+  const nodeLikeThree = {
+    classCounts: { green: 2, yellow: 2, black: 2 }
+  };
+  expect(getMostCommonClassForNode(nodeLikeOne as unknown as TreeGardenNode)).toBe('yellow');
+  expect(getMostCommonClassForNode(nodeLikeTwo as unknown as TreeGardenNode)).toBe('green');
+  expect(getMostCommonClassForNode(nodeLikeThree as unknown as TreeGardenNode)).toBe('black');
 });

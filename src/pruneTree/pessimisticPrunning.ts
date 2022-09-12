@@ -1,9 +1,9 @@
 import {
-  getMostCommonClassForNode,
   getTreeCopy,
   mutateNonLeafNodeIntoLeafOne,
   TreeGardenNode
 } from '../treeNode';
+import { getMostCommonClassForNode } from '../classifyData';
 import { getNumberOfSamplesInNode } from '../statistic/treeStats';
 
 // disclaimer this is just copy paste from http://www-scf.usc.edu/~csci567/21-penalty-methods.pdf

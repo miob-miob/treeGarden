@@ -25,6 +25,7 @@ export type AlgorithmConfiguration = {
   evaluateMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:TreeGardenDataSample)=>any,
   getTagOfSampleWithMissingValueWhileClassifying?:(sample:TreeGardenDataSample, attributeId:string, nodeWhereWeeNeedValue:TreeGardenNode, config:AlgorithmConfiguration)=>any
   getClassFromLeafNode:(node:TreeGardenNode, sample?:TreeGardenDataSample)=>string,
+  getValueFromLeafNode:(node:TreeGardenNode, sample?:TreeGardenDataSample)=>number,
   onlyBinarySplits:boolean,
   missingValue:any,
   keepFullLearningData:boolean,

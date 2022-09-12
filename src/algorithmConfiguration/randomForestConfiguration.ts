@@ -5,7 +5,9 @@ import { TreeGardenDataSample } from '../dataSet/set';
 
 // todo  master growForest  - replace dataset, subsets + sample hash for oobe
 export const defaultRandomForestConfiguration = {
-  nTrees: 27,
+  numberOfTrees: 27, // number of trees in random forest
+
+  // how to choose subset of attributes for each tree
   getAttributes: (algorithmConfiguration:AlgorithmConfiguration, _dataSet:TreeGardenDataSample[]) => {
     const attributeKeys = Object.keys(algorithmConfiguration.attributes);
     const nAttributes = algorithmConfiguration.treeType === 'regression'
@@ -13,18 +15,19 @@ export const defaultRandomForestConfiguration = {
       : Math.ceil(attributeKeys.length / 3);
     return chooseManyWithoutRepeats(attributeKeys, nAttributes);
   },
-  calculateOutOfTheBagError: true
+  calculateOutOfTheBagError: true, // https://en.wikipedia.org/wiki/Out-of-bag_error
+  numberOfBootstrappedSamples: 0 //
 };
 
 export type RandomForestConfiguration = typeof defaultRandomForestConfiguration;
 
-export const getAlgorithmConfigurationsForRandomForest = (
+export const getAlgorithmConfigForEachTree = (
   dataSet:TreeGardenDataSample[],
   fullConfiguration:AlgorithmConfiguration,
   options: RandomForestConfiguration
 ) => {
   const mergedOptions = { ...defaultRandomForestConfiguration, ...options };
-  return Array.from(Array(mergedOptions.nTrees)).map((_x) => {
+  return Array.from(Array(mergedOptions.numberOfTrees)).map((_x) => {
     const attributesForThisConfig = mergedOptions.getAttributes(fullConfiguration, dataSet);
     const newConfig = { ...fullConfiguration };
     newConfig.includedAttributes = attributesForThisConfig;
