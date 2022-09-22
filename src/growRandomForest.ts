@@ -8,6 +8,7 @@ import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { growTree } from './growTree';
 import { getBootstrappedDataSet, getBootstrappedDataSetAndOutOfTheBagRest } from './dataSet/dividingAndBootstrapping';
 import { enrichDataSetWithUniqueIds } from './dataSet/enrichDataSetWithUniqueIds';
+import {getOutOfTheBagError} from "./statistic/randomForestStats";
 
 
 export const growRandomForest = (
@@ -35,11 +36,17 @@ export const growRandomForest = (
         : [getBootstrappedDataSet(readyDataSet, numberOfSamplesToBootstrap)];
 
       // todo place for parallelization (but limited to clonable object)
-      return [growTree(singleTreeConfig, trainingDataSet), outOfBagSet];
+      return [growTree(singleTreeConfig, trainingDataSet), outOfBagSet] as const;
     });
 
   return {
     trees: trainedTreesAndOutOfBagSets.map((treeAndOobSet) => treeAndOobSet[0]),
-    oobError: randomForestAlgorithmConfiguration.calculateOutOfTheBagError ? 5 : 6
+    oobError: randomForestAlgorithmConfiguration.calculateOutOfTheBagError ? getOutOfTheBagError(
+
+      trainedTreesAndOutOfBagSets,
+      dataSet,
+      algorithmConfiguration,
+      randomForestAlgorithmConfiguration.majorityVotingFn
+    ) : undefined
   };
 };

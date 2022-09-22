@@ -99,15 +99,19 @@ export const getPredictedValuesOfSamples = (
     .map(([sample, leafNode]) => [sample, extractFromNode(leafNode, sample)] as const);
 };
 
-// todo test!!!! + wrappers for public API
-export const getResultFromMultipleTrees = (treeRoots:TreeGardenNode[], dataSample:TreeGardenDataSample, config:AlgorithmConfiguration) => {
+// todo tests
+export const getResultFromMultipleTrees = (treeRoots:TreeGardenNode[],
+  dataSample:TreeGardenDataSample,
+  config:AlgorithmConfiguration,
+  mergeClassificationResultsFn = (values:string[]) => getMostCommonValues(values)[0],
+  mergeRegressionResultsFn = getMedian) => {
   const valueFromNodeFn = config.treeType === 'classification' ? config.getClassFromLeafNode : config.getValueFromLeafNode;
   const values = treeRoots.map((tree) => {
     const hitNode = getLeafNodeOfSample(dataSample, tree, config, false);
     return valueFromNodeFn(hitNode, dataSample);
   });
   if (config.treeType === 'classification') {
-    return getMostCommonValues(values as string[]).sort()[0];
+    return mergeClassificationResultsFn(values as string[]);
   }
-  return getMedian(values as number[]);
+  return mergeRegressionResultsFn(values as number[]);
 };
