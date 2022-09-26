@@ -8,7 +8,8 @@ import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { growTree } from './growTree';
 import { getBootstrappedDataSet, getBootstrappedDataSetAndOutOfTheBagRest } from './dataSet/dividingAndBootstrapping';
 import { enrichDataSetWithUniqueIds } from './dataSet/enrichDataSetWithUniqueIds';
-import {getOutOfTheBagError} from "./statistic/randomForestStats";
+import { getOutOfTheBagError } from './statistic/randomForestStats';
+import { TreeGardenNode } from './treeNode';
 
 
 export const growRandomForest = (
@@ -39,11 +40,11 @@ export const growRandomForest = (
       return [growTree(singleTreeConfig, trainingDataSet), outOfBagSet] as const;
     });
 
+  type OutOfTheBagSet = ReturnType<typeof getBootstrappedDataSetAndOutOfTheBagRest>[1];
   return {
     trees: trainedTreesAndOutOfBagSets.map((treeAndOobSet) => treeAndOobSet[0]),
     oobError: randomForestAlgorithmConfiguration.calculateOutOfTheBagError ? getOutOfTheBagError(
-
-      trainedTreesAndOutOfBagSets,
+      trainedTreesAndOutOfBagSets as [TreeGardenNode, OutOfTheBagSet][],
       dataSet,
       algorithmConfiguration,
       randomForestAlgorithmConfiguration.majorityVotingFn
