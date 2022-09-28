@@ -4,7 +4,6 @@ import {
   dataSetToTreeNode,
   dataPartitionsToDataPartitionCounts,
   dataPartitionsToClassCounts,
-  TreeGardenNode,
   getAllInnerNodes,
   getFlattenTree,
   getTreeNodeById, getAllLeafNodes, getTreeStages

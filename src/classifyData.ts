@@ -100,11 +100,13 @@ export const getPredictedValuesOfSamples = (
 };
 
 // todo tests
-export const getResultFromMultipleTrees = (treeRoots:TreeGardenNode[],
+export const getResultFromMultipleTrees = (
+  treeRoots:TreeGardenNode[],
   dataSample:TreeGardenDataSample,
   config:AlgorithmConfiguration,
   mergeClassificationResultsFn = (values:string[]) => getMostCommonValues(values)[0],
-  mergeRegressionResultsFn = getMedian) => {
+  mergeRegressionResultsFn = getMedian
+) => {
   const valueFromNodeFn = config.treeType === 'classification' ? config.getClassFromLeafNode : config.getValueFromLeafNode;
   const values = treeRoots.map((tree) => {
     const hitNode = getLeafNodeOfSample(dataSample, tree, config, false);

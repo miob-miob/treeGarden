@@ -25,8 +25,11 @@ export const getOutOfTheBagError = (
         }
         return trees;
       }, [] as TreeGardenNode[]);
-    predictedResults.push(majorityVotingFn(treesThatWasNotTrainedOnSample, sample, config));
-    realResults.push(sample._class as number|string);
+    // if there is no tree that was not trained on this sample skip this sample for oob error calculation
+    if (treesThatWasNotTrainedOnSample.length > 0) {
+      predictedResults.push(majorityVotingFn(treesThatWasNotTrainedOnSample, sample, config));
+      realResults.push(sample._class as number|string);
+    }
   });
 
   // todo think about passing it to config getRAbsErrorRaw  getMissClassificationRateRaw

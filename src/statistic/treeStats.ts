@@ -48,6 +48,9 @@ type ClassOfSample = TreeGardenDataSample['_class'];
 
 // used in calculation of oob error
 export const getMissClassificationRateRaw = (realClasses:ClassOfSample[], predictedClasses:ClassOfSample[]) => {
+  // for (let index = 0; index < realClasses.length; index += 1) {
+  //   console.log(realClasses[index], predictedClasses[index]);
+  // }
   if (realClasses.length !== predictedClasses.length) {
     throw new Error('Must be equal length as corresponds to real sample classes and predicted ones !');
   }
