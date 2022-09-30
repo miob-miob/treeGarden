@@ -1,7 +1,7 @@
 import { AlgorithmConfiguration } from './index';
 import { chooseManyWithoutRepeats } from '../randomization';
 import { TreeGardenDataSample } from '../dataSet/set';
-import { getResultFromMultipleTrees } from '../classifyData';
+import { getResultFromMultipleTrees } from '../predict';
 
 
 // todo  master growForest  - replace dataset, subsets + sample hash for oobe

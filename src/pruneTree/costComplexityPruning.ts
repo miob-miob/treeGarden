@@ -12,7 +12,7 @@ import { growTree } from '../growTree';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 import { getNumberOfSamplesInNode, getNumberOfTreeNodes } from '../statistic/treeStats';
 import { getMedian } from '../statistic/basicStatistic';
-import { getMostCommonClassForNode } from '../classifyData';
+import { getMostCommonClassForNode } from '../predict';
 // implemented with help of https://online.stat.psu.edu/stat508/lesson/11/11.8/11.8.2, http://mlwiki.org/index.php/Cost-Complexity_Pruning
 // https://link.springer.com/content/pdf/10.1023/A:1022604100933.pdf
 

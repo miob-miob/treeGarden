@@ -87,17 +87,25 @@ export const getMostCommonClassForNode = (leafNode:TreeGardenNode, _sample?:Tree
 
 export const getValueForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenDataSample) => leafNode.regressionTreeAverageOutcome as number;
 
-
-export const getPredictedValuesOfSamples = (
-  samplesToClassify:TreeGardenDataSample[],
+export const getTreePredictions = <T extends TreeGardenDataSample | TreeGardenDataSample[] >(
+  samplesToPredict:T,
   decisionTreeRoot:TreeGardenNode,
   algorithmConfiguration:AlgorithmConfiguration,
   referenceDataSetForReplacing?:TreeGardenDataSample[]
-) => {
+):T extends TreeGardenDataSample[]?number:string => {
+  const multipleSamples = Boolean(samplesToPredict.length !== undefined);
+  const samplesToPredictAsArray = (multipleSamples ? samplesToPredict : [samplesToPredict]) as TreeGardenDataSample[];
   const extractFromNode = algorithmConfiguration.treeType === 'classification' ? algorithmConfiguration.getClassFromLeafNode : algorithmConfiguration.getValueFromLeafNode;
-  return getLeafNodesForSamples(samplesToClassify, decisionTreeRoot, algorithmConfiguration, referenceDataSetForReplacing)
+  const predictions = getLeafNodesForSamples(samplesToPredictAsArray, decisionTreeRoot, algorithmConfiguration, referenceDataSetForReplacing)
     .map(([sample, leafNode]) => [sample, extractFromNode(leafNode, sample)] as const);
+  if (multipleSamples) {
+    //todo fix types
+    return predictions;
+  }
+  return predictions[0][0];
 };
+
+// todo implement getRandomFOrestPredictions
 
 // todo tests
 export const getResultFromMultipleTrees = (
@@ -117,3 +125,7 @@ export const getResultFromMultipleTrees = (
   }
   return mergeRegressionResultsFn(values as number[]);
 };
+
+
+// todo think about exports
+// todo regression forrest

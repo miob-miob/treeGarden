@@ -4,7 +4,7 @@ import { simple } from '../sampleDataSets';
 import { getOutOfTheBagError } from './randomForestStats';
 import { TreeGardenNode } from '../treeNode';
 import { buildAlgorithmConfiguration, c45Config } from '../algorithmConfiguration';
-import { getResultFromMultipleTrees } from '../classifyData';
+import { getResultFromMultipleTrees } from '../predict';
 
 test('getOutOfTheBagError', () => {
   const algorithmConfig = buildAlgorithmConfiguration(simple, {

@@ -1,10 +1,10 @@
 
 import {
-  getPredictedValuesOfSamples,
+  getTreePredictions,
   getLeafNodesForSamples,
   getLeafNodeOfSample,
   getMostCommonClassForNode
-} from './classifyData';
+} from './predict';
 import { buildAlgorithmConfiguration } from './algorithmConfiguration';
 import { tennisSet } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
@@ -43,8 +43,8 @@ test('getLeafNodesForSamples', () => {
   expect(result[1][1]).toEqual(leafNodes[1]);
 });
 
-test('getPredictedValuesOfSamples', () => {
-  const result = getPredictedValuesOfSamples(samples, tennisTree, config);
+test('getPredictionsForSamples', () => {
+  const result = getTreePredictions(samples, tennisTree, config);
   expect(result[0][0]).toEqual(samples[0]);
   expect(result[0][1]).toEqual('No');
 

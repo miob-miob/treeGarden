@@ -46,8 +46,8 @@ const replacedValidation  = getDataSetWithReplacedValues({
   algorithmConfiguration: myConfig
 });
 console.log(`UNPRUNED: Number of nodes,${getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, replacedValidation, myConfig)}`);
-const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
-// const prunedTree = getPrunedTreeByPessimisticPruning(tree);
+// const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
+const prunedTree = getPrunedTreeByPessimisticPruning(tree);
 console.log(`Pruned: Number of nodes,${getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, replacedValidation, myConfig)}`);
 
 console.log(JSON.stringify(prunedTree));

@@ -8,18 +8,19 @@ import {stopIfDepthIs, stopIfNoSplitsAvailable,stopIfMinimalNumberOfSamplesInInn
 
 
 const config = buildAlgorithmConfiguration(titanicSet,{
-  ...c45Config,
-  // shouldWeStopGrowth: composeStopFunctions(
-  //   stopIfPure,
-  //   stopIfNoSplitsAvailable,
-  //   stopIfMinimalNumberOfSamplesInInnerNode(25)
-  // )
+  excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
+  attributes: { sibsp: { dataType: 'continuous' }, pclass:{dataType: 'discrete'},parch:{dataType: "discrete"} },
+  shouldWeStopGrowth: composeStopFunctions(
+    stopIfPure,
+    stopIfNoSplitsAvailable,
+    stopIfDepthIs(10)
+  )
 });
 
 
 
 const trainedForest =  growRandomForest({
-  numberOfTrees:500,
+  numberOfTrees:5000,
 },config,titanicSet)
 
 console.log(trainedForest.oobError)

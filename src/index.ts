@@ -3,6 +3,6 @@ export {
   AlgorithmConfiguration
 } from './algorithmConfiguration';
 export { growTree } from './growTree';
-export { getPredictedValuesOfSamples, getLeafNodesForSamples } from './classifyData';
+export { getPredictionsForSamples, getLeafNodesForSamples } from './predict';
 export { TreeGardenNode } from './treeNode';
 

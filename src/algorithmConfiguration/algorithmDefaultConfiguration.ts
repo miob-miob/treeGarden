@@ -13,7 +13,7 @@ import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
 // eslint-disable-next-line import/no-cycle
 import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
 import { getTreeAccuracy } from '../statistic/treeStats';
-import { getValueForNode, getMostCommonClassForNode } from '../classifyData';
+import { getValueForNode, getMostCommonClassForNode } from '../predict';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
