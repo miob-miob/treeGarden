@@ -2,7 +2,7 @@
 
 import { getFlattenTree, TreeGardenNode } from '../treeNode';
 import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample } from '../dataSet/set';
-import { getLeafNodeOfSample, getPredictionsForSamples } from '../predict';
+import { getLeafNodeOfSample, getTreePrediction } from '../predict';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
 import { getArithmeticAverage } from './basicStatistic';
 
@@ -65,7 +65,7 @@ export const getMissClassificationRate = (
 ) => {
   const realClasses: ClassOfSample[] = [];
   const predictedClasses :ClassOfSample[] = [];
-  getPredictionsForSamples(dataSet, treeRootNode, configuration)
+  getTreePrediction(dataSet, treeRootNode, configuration)
     .forEach(([sample, classOfSample]) => {
       realClasses.push(sample._class);
       predictedClasses.push(classOfSample);
