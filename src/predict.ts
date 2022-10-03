@@ -105,7 +105,7 @@ export const getTreePrediction = <T extends TreeGardenDataSample | TreeGardenDat
   return predictions[0][1] as PredictionReturnValue<T>;
 };
 
-
+// todo tests !!!
 export const getRandomForestPrediction = <T extends TreeGardenDataSample|TreeGardenDataSample[]> (
   samplesToPredict:T,
   trees:TreeGardenNode[],
@@ -130,7 +130,7 @@ export const getRandomForestPrediction = <T extends TreeGardenDataSample|TreeGar
   return samplesAndPrediction[0][1] as PredictionReturnValue<T>;
 };
 
-// todo tests
+// todo tests !!!
 export const getResultFromMultipleTrees = (
   treeRoots:TreeGardenNode[],
   dataSample:TreeGardenDataSample,
@@ -146,4 +146,8 @@ export const getResultFromMultipleTrees = (
   }
   return config.mergeRegressionResults(values as number[]);
 };
-// todo think about exports
+
+
+// todo think about exports - public API
+// todo  npm package
+// todo DOCS

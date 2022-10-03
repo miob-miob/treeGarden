@@ -3,7 +3,6 @@ import { TreeGardenNode } from '../treeNode';
 import { TreeGardenDataSample } from '../dataSet/set';
 import { getBootstrappedDataSetAndOutOfTheBagRest } from '../dataSet/dividingAndBootstrapping';
 import { AlgorithmConfiguration } from '../algorithmConfiguration';
-import { RandomForestConfiguration } from '../algorithmConfiguration/randomForestConfiguration';
 import { getMissClassificationRateRaw, getRAbsErrorRaw } from './treeStats';
 
 type OutOfTheBagSet = ReturnType<typeof getBootstrappedDataSetAndOutOfTheBagRest>[1];
@@ -11,7 +10,7 @@ export const getOutOfTheBagError = (
   treesAndOutOfTheBagSets:[TreeGardenNode, OutOfTheBagSet][],
   fullDataSet:TreeGardenDataSample[],
   config: AlgorithmConfiguration,
-  majorityVotingFn : RandomForestConfiguration['majorityVotingFn']
+  majorityVotingFn : AlgorithmConfiguration['majorityVoting']
 ) => {
   const predictedResults:TreeGardenDataSample['_class'][] = [];
   const realResults :TreeGardenDataSample['_class'][] = [];

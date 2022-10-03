@@ -1,9 +1,7 @@
 import { AlgorithmConfiguration } from './algorithmConfiguration';
 import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample } from './dataSet/set';
 import {
-  defaultRandomForestConfiguration,
-  getAlgorithmConfigForEachTree,
-  RandomForestConfiguration
+  getAlgorithmConfigForEachTree
 } from './algorithmConfiguration/randomForestConfiguration';
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { growTree } from './growTree';
@@ -14,27 +12,25 @@ import { TreeGardenNode } from './treeNode';
 
 
 export const growRandomForest = (
-  randomForestAlgorithmConfiguration:Partial<RandomForestConfiguration>,
   algorithmConfiguration:AlgorithmConfiguration,
   dataSet : TreeGardenDataSample[]
 ) => {
   consistentDataSetGuard(dataSet, 'growRandomForest');
   continuousAttributesGuard(algorithmConfiguration, dataSet, 'growRandomForest');
-  const randomForestConfig = { ...defaultRandomForestConfiguration, ...randomForestAlgorithmConfiguration };
   const readyDataSet = getDataSetWithReplacedValues({ samplesToReplace: dataSet, algorithmConfiguration });
 
-  const numberOfSamplesToBootstrap = randomForestConfig.numberOfBootstrappedSamples || readyDataSet.length;
+  const numberOfSamplesToBootstrap = algorithmConfiguration.numberOfBootstrappedSamples || readyDataSet.length;
 
   // ensure _ids in data set - needed for calculation of oob error
-  if (randomForestConfig.calculateOutOfTheBagError) {
+  if (algorithmConfiguration.calculateOutOfTheBagError) {
     enrichDataSetWithUniqueIds(readyDataSet);
   }
 
   // different attributes per tree
-  const configsForTrees = getAlgorithmConfigForEachTree(readyDataSet, algorithmConfiguration, randomForestConfig);
+  const configsForTrees = getAlgorithmConfigForEachTree(readyDataSet, algorithmConfiguration);
   const trainedTreesAndOutOfBagSets = configsForTrees
     .map((singleTreeConfig) => {
-      const [trainingDataSet, outOfBagSet] = randomForestConfig.calculateOutOfTheBagError
+      const [trainingDataSet, outOfBagSet] = algorithmConfiguration.calculateOutOfTheBagError
         ? getBootstrappedDataSetAndOutOfTheBagRest(readyDataSet, numberOfSamplesToBootstrap)
         : [getBootstrappedDataSet(readyDataSet, numberOfSamplesToBootstrap)];
 
@@ -45,11 +41,11 @@ export const growRandomForest = (
   type OutOfTheBagSet = ReturnType<typeof getBootstrappedDataSetAndOutOfTheBagRest>[1];
   return {
     trees: trainedTreesAndOutOfBagSets.map((treeAndOobSet) => treeAndOobSet[0]),
-    oobError: randomForestConfig.calculateOutOfTheBagError ? getOutOfTheBagError(
+    oobError: algorithmConfiguration.calculateOutOfTheBagError ? getOutOfTheBagError(
       trainedTreesAndOutOfBagSets as [TreeGardenNode, OutOfTheBagSet][],
       readyDataSet,
       algorithmConfiguration,
-      randomForestConfig.majorityVotingFn
+      algorithmConfiguration.majorityVoting
     ) : undefined,
     treesAndOobSets: trainedTreesAndOutOfBagSets
   };
