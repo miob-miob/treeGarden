@@ -13,7 +13,11 @@ import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
 // eslint-disable-next-line import/no-cycle
 import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
 import { getTreeAccuracy } from '../statistic/treeStats';
-import { getValueForNode, getMostCommonClassForNode } from '../predict';
+import { getValueForNode, getMostCommonClassForNode, getResultFromMultipleTrees } from '../predict';
+import { TreeGardenDataSample } from '../dataSet/set';
+import { chooseManyWithoutRepeats } from '../randomization';
+import { getMostCommonValues } from '../statistic/getMostCommonValue';
+import { getMedian } from '../statistic/basicStatistic';
 
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
@@ -79,11 +83,28 @@ export const defaultConfiguration: AlgorithmConfiguration = {
   // measure accuracy of tree on given dataset, used while pruning tree during cost complexity pruning or reduced error prunning
   getTreeAccuracy,
 
-  // below are runtime configs !!!
-  // all classes of initial data set (will be populated automatically)
-  allClasses: undefined,
+  // ---
+  // below are configurations for random forest
+  // ---
+  numberOfTrees: 27, // number of trees in random forest
+  // how to choose subset of attributes for each tree
+  getAttributesForTree: (algorithmConfiguration:AlgorithmConfiguration, _dataSet:TreeGardenDataSample[]) => {
+    const attributeKeys = Object.keys(algorithmConfiguration.attributes);
+    const nAttributes = algorithmConfiguration.treeType === 'regression'
+      ? Math.ceil(Math.sqrt(attributeKeys.length))
+      : Math.ceil(attributeKeys.length / 3);
+    return chooseManyWithoutRepeats(attributeKeys, nAttributes);
+  },
+  numberOfBootstrappedSamples: 0, // number of samples bootstrapped from original dataset - 0 = all,
+  calculateOutOfTheBagError: true, // https://en.wikipedia.org/wiki/Out-of-bag_error
+  majorityVoting: getResultFromMultipleTrees,
+  mergeClassificationResults: (values:string[]) => getMostCommonValues(values)[0],
+  mergeRegressionResults: getMedian,
 
-  // check if was not already build
-  buildTime: undefined
+  // ---
+  // below are runtime configs !!!
+  // ---
+  allClasses: undefined, // all classes of initial data set (will be populated automatically)
+  buildTime: undefined // check if was not already build
 };
 

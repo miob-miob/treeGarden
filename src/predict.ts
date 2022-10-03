@@ -4,8 +4,6 @@ import { AlgorithmConfiguration } from './algorithmConfiguration';
 import { TreeGardenNode } from './treeNode';
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { getSplitCriteriaFn } from './dataSet/split';
-import { getMostCommonValues } from './statistic/getMostCommonValue';
-import { getMedian } from './statistic/basicStatistic';
 
 
 type NodeOrIdArray<T extends boolean> = T extends true?string[]:TreeGardenNode;
@@ -54,7 +52,7 @@ export const getLeafNodesForSamples = (
   decisionTreeRoot:TreeGardenNode,
   algorithmConfiguration:AlgorithmConfiguration,
   referenceDataSetForReplacing?:TreeGardenDataSample[]
-): [TreeGardenDataSample, TreeGardenNode][] => {
+) => {
   const readyToClassifySamples = (referenceDataSetForReplacing && !algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying) ? getDataSetWithReplacedValues({
     replacerFactoryKey: 'evaluateMissingValueReplacement',
     samplesToReplace: samplesToClassify as TreeGardenDataSample[],
@@ -63,7 +61,7 @@ export const getLeafNodesForSamples = (
   }) : [...samplesToClassify];
 
   return readyToClassifySamples
-    .map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration, false)]);
+    .map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration, false)] as [TreeGardenDataSample, TreeGardenNode]);
 };
 
 export const getMostCommonClassForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenDataSample) => {
@@ -88,7 +86,6 @@ export const getValueForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenData
 
 export type SingleSamplePredictionResult = ReturnType<AlgorithmConfiguration['getValueFromLeafNode']> | ReturnType<AlgorithmConfiguration['getClassFromLeafNode']>;
 export type MultipleSamplesPredictionResult = [TreeGardenDataSample, SingleSamplePredictionResult][];
-
 type PredictionReturnValue<T> = T extends TreeGardenDataSample[]?MultipleSamplesPredictionResult:SingleSamplePredictionResult;
 
 export const getTreePrediction = <T extends TreeGardenDataSample | TreeGardenDataSample[] >(
@@ -96,29 +93,48 @@ export const getTreePrediction = <T extends TreeGardenDataSample | TreeGardenDat
   decisionTreeRoot:TreeGardenNode,
   algorithmConfiguration:AlgorithmConfiguration,
   referenceDataSetForReplacing?:TreeGardenDataSample[]
-):PredictionReturnValue<T> => {
+) => {
   const multipleSamples = Boolean(samplesToPredict.length !== undefined);
   const samplesToPredictAsArray = (multipleSamples ? samplesToPredict : [samplesToPredict]) as TreeGardenDataSample[];
   const extractFromNode = algorithmConfiguration.treeType === 'classification' ? algorithmConfiguration.getClassFromLeafNode : algorithmConfiguration.getValueFromLeafNode;
   const predictions:MultipleSamplesPredictionResult = getLeafNodesForSamples(samplesToPredictAsArray, decisionTreeRoot, algorithmConfiguration, referenceDataSetForReplacing)
     .map(([sample, leafNode]) => [sample, extractFromNode(leafNode, sample)]);
   if (multipleSamples) {
-    // @ts-expect-error
-    return predictions;
+    return predictions as PredictionReturnValue<T>;
   }
-  // @ts-expect-error
-  return predictions[0][1];
+  return predictions[0][1] as PredictionReturnValue<T>;
 };
 
-// todo implement getRandomFOrestPredictions
+
+export const getRandomForestPrediction = <T extends TreeGardenDataSample|TreeGardenDataSample[]> (
+  samplesToPredict:T,
+  trees:TreeGardenNode[],
+  algorithmConfiguration: AlgorithmConfiguration,
+  referenceDataSetForReplacing?:TreeGardenDataSample[]
+) => {
+  const multipleSamples = Boolean(samplesToPredict.length !== undefined);
+  const samplesPriorReplacement = (multipleSamples ? samplesToPredict : [samplesToPredict]) as TreeGardenDataSample[];
+  const readyToGoSamples = (referenceDataSetForReplacing && !algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying) ? getDataSetWithReplacedValues({
+    replacerFactoryKey: 'evaluateMissingValueReplacement',
+    samplesToReplace: samplesPriorReplacement as TreeGardenDataSample[],
+    algorithmConfiguration,
+    referenceDataSet: referenceDataSetForReplacing
+  }) : [...samplesPriorReplacement];
+
+  const samplesAndPrediction: MultipleSamplesPredictionResult = readyToGoSamples
+    .map((sample) => [sample, algorithmConfiguration.majorityVoting(trees, sample, algorithmConfiguration)]);
+
+  if (multipleSamples) {
+    return samplesAndPrediction as PredictionReturnValue<T>;
+  }
+  return samplesAndPrediction[0][1] as PredictionReturnValue<T>;
+};
 
 // todo tests
 export const getResultFromMultipleTrees = (
   treeRoots:TreeGardenNode[],
   dataSample:TreeGardenDataSample,
-  config:AlgorithmConfiguration,
-  mergeClassificationResultsFn = (values:string[]) => getMostCommonValues(values)[0],
-  mergeRegressionResultsFn = getMedian
+  config:AlgorithmConfiguration
 ) => {
   const valueFromNodeFn = config.treeType === 'classification' ? config.getClassFromLeafNode : config.getValueFromLeafNode;
   const values = treeRoots.map((tree) => {
@@ -126,11 +142,8 @@ export const getResultFromMultipleTrees = (
     return valueFromNodeFn(hitNode, dataSample);
   });
   if (config.treeType === 'classification') {
-    return mergeClassificationResultsFn(values as string[]);
+    return config.mergeClassificationResults(values as string[]);
   }
-  return mergeRegressionResultsFn(values as number[]);
+  return config.mergeRegressionResults(values as number[]);
 };
-
-
 // todo think about exports
-// todo regression forrest

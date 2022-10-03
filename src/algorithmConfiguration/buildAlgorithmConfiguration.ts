@@ -5,6 +5,7 @@ import { TreeGardenDataSample, getClassesOfDataSet } from '../dataSet/set';
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 import { TreeGardenNode } from '../treeNode';
 import { SplitCriteriaDefinition, SplitCriteriaFn } from '../dataSet/split';
+import { SingleSamplePredictionResult } from '../predict';
 
 // We cannot infer this from defaultConfiguration because of cyclic dependency in types of defaultConfiguration
 export type AlgorithmConfiguration = {
@@ -41,6 +42,16 @@ export type AlgorithmConfiguration = {
     treeRootNode:TreeGardenNode,
     dataSet:TreeGardenDataSample[],
     configuration:AlgorithmConfiguration)=>number,
+
+  numberOfTrees:number,
+  getAttributesForTree: (algorithmConfiguration:AlgorithmConfiguration, _dataSet:TreeGardenDataSample[])=>string[]
+  numberOfBootstrappedSamples:number
+  calculateOutOfTheBagError: boolean
+  majorityVoting: (treeRoots:TreeGardenNode[],
+    dataSample:TreeGardenDataSample,
+    config:AlgorithmConfiguration)=> SingleSamplePredictionResult
+  mergeClassificationResults:(values:string[])=>string,
+  mergeRegressionResults: (values:number[])=>number
   buildTime?:number
 };
 export type PartialAlgorithmConfiguration =

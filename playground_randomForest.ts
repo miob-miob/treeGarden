@@ -13,7 +13,7 @@ const config = buildAlgorithmConfiguration(titanicSet,{
   shouldWeStopGrowth: composeStopFunctions(
     stopIfPure,
     stopIfNoSplitsAvailable,
-    stopIfDepthIs(10)
+    // stopIfDepthIs(10)
   )
 });
 

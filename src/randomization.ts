@@ -19,7 +19,7 @@ export const shuffleArray = (array:any[]) => {
   return array;
 };
 
-export const chooseManyWithoutRepeats = <T>(arrayToChooseFrom:Array<T>, nItems:number) => {
+export const chooseManyWithoutRepeats = <T>(arrayToChooseFrom:T[], nItems:number) => {
   let countDown = nItems;
   const workArray = [...arrayToChooseFrom];
   const result = [];
@@ -28,5 +28,5 @@ export const chooseManyWithoutRepeats = <T>(arrayToChooseFrom:Array<T>, nItems:n
     const index = randInt(0, workArray.length - 1);
     result.push(...workArray.splice(index, 1));
   }
-  return result;
+  return result as T[];
 };
