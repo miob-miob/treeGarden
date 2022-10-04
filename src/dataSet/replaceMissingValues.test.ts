@@ -75,5 +75,5 @@ test('getDataSetWithReplacedValues with undefined missing values', () => {
 test('getMostCommonTagOfSamplesInNode', () => {
   const nodeForTest = tennisTree.childNodes.Sunny;
 
-  expect(getMostCommonTagOfSamplesInNode(nodeForTest, 'humidity', nodeForTest, buildAlgorithmConfiguration(tennisSet))).toBe('High');
+  expect(getMostCommonTagOfSamplesInNode({}, 'humidity', nodeForTest, buildAlgorithmConfiguration(tennisSet))).toBe('High');
 });

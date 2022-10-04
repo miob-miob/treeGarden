@@ -51,6 +51,7 @@ export const defaultConfiguration: AlgorithmConfiguration = {
 
   // used if attribute does not define its own
   // strategy used during evaluation of unknown samples (classification of instances)
+  // it exists, because we may need different approach when classifying then when growing
   evaluateMissingValueReplacement: getMostCommonValueFF,
 
   // missing values replacement delayed to point when samples traverse during induced tree, sample and treeNode is provided

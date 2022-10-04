@@ -5,6 +5,7 @@ import { getOutOfTheBagError } from './randomForestStats';
 import { TreeGardenNode } from '../treeNode';
 import { buildAlgorithmConfiguration, c45Config } from '../algorithmConfiguration';
 import { getResultFromMultipleTrees } from '../predict';
+import { getRightOnBlackSimpleTree } from '../testUtils';
 
 test('getOutOfTheBagError', () => {
   const algorithmConfig = buildAlgorithmConfiguration(simple, {
@@ -13,8 +14,7 @@ test('getOutOfTheBagError', () => {
 
   const simpleDataSetWithIds = simple.map((item) => ({ ...item, _id: item._label }));
 
-  const badOnBlackTree = JSON.parse(JSON.stringify(simpleTree)) as TreeGardenNode;
-  (badOnBlackTree.childNodes?.black)!.classCounts = { right: 2 };
+  const badOnBlackTree = getRightOnBlackSimpleTree();
 
   // as sample 1 and 2 has color black - two bad on black trees should upvote over correct tree
   // sample 3 will be considered just by one tree => only correct result

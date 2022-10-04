@@ -3,12 +3,19 @@ import {
   getTreePrediction,
   getLeafNodesForSamples,
   getLeafNodeOfSample,
-  getMostCommonClassForNode
+  getMostCommonClassForNode,
+  getResultFromMultipleTrees,
+  getRandomForestPrediction
 } from './predict';
 import { buildAlgorithmConfiguration } from './algorithmConfiguration';
-import { tennisSet } from './sampleDataSets';
+import { simple, tennisSet } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
 import { getTreeNodeById, TreeGardenNode } from './treeNode';
+import { getRightOnBlackSimpleTree } from './testUtils';
+import { defaultConfiguration } from './algorithmConfiguration/algorithmDefaultConfiguration';
+import { TreeGardenDataSample } from './dataSet/set';
+import { simpleTree } from './sampleTrainedTrees/simpleTree';
+import { getMostCommonTagOfSamplesInNode } from './dataSet/replaceMissingValues';
 
 
 const samples = [
@@ -52,6 +59,39 @@ test('getTreePrediction', () => {
   expect(result[1][1]).toEqual('Yes');
 });
 
+test('getRandomForestPrediction', () => {
+  const rightOnBlackTree = getRightOnBlackSimpleTree();
+  const trees = [
+    simpleTree,
+    simpleTree,
+    rightOnBlackTree
+  ];
+  const algConfig = buildAlgorithmConfiguration(simple, {
+    getTagOfSampleWithMissingValueWhileClassifying: getMostCommonTagOfSamplesInNode
+  });
+  const sampleWithMissingColor = {
+    size: 3
+  };
+
+  expect(getRandomForestPrediction(sampleWithMissingColor, trees, algConfig)).toBe('right');
+
+  const sample = {
+    color: 'black',
+    size: 3
+  };
+
+  const anotherTrees = [
+    rightOnBlackTree,
+    simpleTree,
+    simpleTree
+  ];
+
+  expect(getRandomForestPrediction(sample, anotherTrees, algConfig)).toBe('left');
+  expect(getRandomForestPrediction([sample], anotherTrees, algConfig)).toStrictEqual([
+    [sample, 'left']
+  ]);
+});
+
 test('getMostCommonClassFromNode', () => {
   const nodeLikeOne = {
     classCounts: { green: 2, yellow: 3 }
@@ -65,4 +105,26 @@ test('getMostCommonClassFromNode', () => {
   expect(getMostCommonClassForNode(nodeLikeOne as unknown as TreeGardenNode)).toBe('yellow');
   expect(getMostCommonClassForNode(nodeLikeTwo as unknown as TreeGardenNode)).toBe('green');
   expect(getMostCommonClassForNode(nodeLikeThree as unknown as TreeGardenNode)).toBe('black');
+});
+
+test('getResultFromMultipleTrees', () => {
+  const mergeRegressionResultsWithSpy = jest.fn(defaultConfiguration.mergeClassificationResults);
+  const badOnBlackTree = getRightOnBlackSimpleTree();
+  const algConfig = buildAlgorithmConfiguration(simple, {
+    mergeClassificationResults: mergeRegressionResultsWithSpy
+  });
+  const dataSample = { color: 'black', size: 3, _label: '1' } as TreeGardenDataSample;
+  expect(getResultFromMultipleTrees(
+    [simpleTree, badOnBlackTree, simpleTree, badOnBlackTree, badOnBlackTree],
+    dataSample,
+    algConfig
+  )).toBe('right');
+  expect(mergeRegressionResultsWithSpy).toHaveBeenNthCalledWith(1, ['left', 'right', 'left', 'right', 'right']);
+
+  expect(getResultFromMultipleTrees(
+    [simpleTree, simpleTree, simpleTree, badOnBlackTree, badOnBlackTree],
+    dataSample,
+    algConfig
+  )).toBe('left');
+  expect(mergeRegressionResultsWithSpy).toHaveBeenNthCalledWith(2, ['left', 'left', 'left', 'right', 'right']);
 });
