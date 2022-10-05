@@ -1,10 +1,10 @@
-import { AlgorithmConfiguration } from './index';
+import { TreeGardenConfiguration } from './index';
 import { TreeGardenDataSample } from '../dataSet/set';
 
 
 export const getAlgorithmConfigForEachTree = (
   dataSet:TreeGardenDataSample[],
-  fullConfiguration:AlgorithmConfiguration
+  fullConfiguration:TreeGardenConfiguration
 ) => Array.from(Array(fullConfiguration.numberOfTrees)).map((_x) => {
   const attributesForThisConfig = fullConfiguration.getAttributesForTree(fullConfiguration, dataSet);
   const newConfig = { ...fullConfiguration };
@@ -15,7 +15,7 @@ export const getAlgorithmConfigForEachTree = (
     // eslint-disable-next-line no-param-reassign
     result[current] = fullConfiguration.attributes[current];
     return result;
-  }, {} as AlgorithmConfiguration['attributes']);
+  }, {} as TreeGardenConfiguration['attributes']);
 
   newConfig.attributes = chosenAttributes;
   return newConfig;

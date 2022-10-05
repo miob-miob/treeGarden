@@ -3,7 +3,7 @@ import {
   getAllInnerNodes, getTreeCopy, getTreeNodeById, mutateNonLeafNodeIntoLeafOne, TreeGardenNode
 } from '../treeNode';
 import { TreeGardenDataSample } from '../dataSet/set';
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { getNumberOfTreeNodes } from '../statistic/treeStats';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 
@@ -19,7 +19,7 @@ export const getPrunedTreeScore = (
 
 // todo do painful unit test testing
 // this will make copy of tree
-export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, pruningDataSet:TreeGardenDataSample[], configuration:AlgorithmConfiguration) => {
+export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, pruningDataSet:TreeGardenDataSample[], configuration:TreeGardenConfiguration) => {
   const readyToGoValidationSet = getDataSetWithReplacedValues({ samplesToReplace: pruningDataSet, algorithmConfiguration: configuration });
   let currentTree = getTreeCopy(treeRoot);
   while (true) {

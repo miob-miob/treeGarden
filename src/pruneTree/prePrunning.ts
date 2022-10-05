@@ -3,18 +3,18 @@
 
 import { getClassesOfDataSet } from '../dataSet/set';
 import { TreeGardenNode } from '../treeNode';
-import { AlgorithmConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 import { getNumberOfSamplesInNode } from '../statistic/treeStats';
 
 
-type StopperFn = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration)=>boolean;
+type StopperFn = (currentNode:TreeGardenNode, configuration:TreeGardenConfiguration)=>boolean;
 export const composeStopFunctions = (...stopFunctions:StopperFn[]) => (
   currentNode:TreeGardenNode,
-  configuration:AlgorithmConfiguration
+  configuration:TreeGardenConfiguration
 ) => stopFunctions.some((stopFn) => stopFn(currentNode, configuration));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmConfiguration) => {
+export const stopIfPure = (currentNode:TreeGardenNode, configuration:TreeGardenConfiguration) => {
   if (!currentNode.dataPartitions) {
     throw new Error('Node has no partitions!');
   }
@@ -25,10 +25,10 @@ export const stopIfPure = (currentNode:TreeGardenNode, configuration:AlgorithmCo
 
 export const stopIfMinimalNumberOfSamplesInInnerNode = (nSamples = 5) => (
   currentNode:TreeGardenNode,
-  _configuration:AlgorithmConfiguration
+  _configuration:TreeGardenConfiguration
 ) => getNumberOfSamplesInNode(currentNode) <= nSamples;
 
-export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, _configuration:AlgorithmConfiguration) => currentNode.bestSplits.length <= 1;
+export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, _configuration:TreeGardenConfiguration) => currentNode.bestSplits.length <= 1;
 
 // first depth  level is zero
-export const stopIfDepthIs = (maxDepth:number) => (currentNode:TreeGardenNode, _configuration:AlgorithmConfiguration) => currentNode.depth >= maxDepth;
+export const stopIfDepthIs = (maxDepth:number) => (currentNode:TreeGardenNode, _configuration:TreeGardenConfiguration) => currentNode.depth >= maxDepth;

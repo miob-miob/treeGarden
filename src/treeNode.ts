@@ -9,7 +9,7 @@ import {
 } from './dataSet/split';
 import { TreeGardenDataSample } from './dataSet/set';
 // eslint-disable-next-line import/no-cycle
-import { AlgorithmConfiguration } from './algorithmConfiguration';
+import { TreeGardenConfiguration } from './algorithmConfiguration';
 import { getArithmeticAverage, getStandardDeviation } from './statistic/basicStatistic';
 
 
@@ -67,7 +67,7 @@ export const dataPartitionsToClassCounts = (dataSet:TreeGardenDataSample[]) => d
 
 const getAverageOutcomeForDataSet = (dataSet:TreeGardenDataSample[]) => getArithmeticAverage(dataSet.map((sample) => sample._class as number));
 
-export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:AlgorithmConfiguration, parentNode?:TreeGardenNode) => {
+export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:TreeGardenConfiguration, parentNode?:TreeGardenNode) => {
   const possibleSplits = getAllPossibleSplitCriteriaForDataSet(dataSet, configuration, parentNode?.alreadyUsedSplits ?? []);
   const bestScoringCriteria = getBestScoringSplits(dataSet, possibleSplits, configuration);
   let furtherSplittingPossible = true;

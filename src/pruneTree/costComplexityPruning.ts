@@ -6,7 +6,7 @@ import {
   TreeGardenNode
 } from '../treeNode';
 import { TreeGardenDataSample } from '../dataSet/set';
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { getKFoldCrossValidationDataSets } from '../dataSet/dividingAndBootstrapping';
 import { growTree } from '../growTree';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
@@ -16,7 +16,7 @@ import { getMostCommonClassForNode } from '../predict';
 // implemented with help of https://online.stat.psu.edu/stat508/lesson/11/11.8/11.8.2, http://mlwiki.org/index.php/Cost-Complexity_Pruning
 // https://link.springer.com/content/pdf/10.1023/A:1022604100933.pdf
 
-export const getMissClassificationRateOfNode = (treeNode:TreeGardenNode, nSamplesInTree:number, config:AlgorithmConfiguration) => {
+export const getMissClassificationRateOfNode = (treeNode:TreeGardenNode, nSamplesInTree:number, config:TreeGardenConfiguration) => {
   const nSamplesInNode = getNumberOfSamplesInNode(treeNode);
 
   if (config.treeType === 'regression') {
@@ -28,7 +28,7 @@ export const getMissClassificationRateOfNode = (treeNode:TreeGardenNode, nSample
 
 
 // in fact weighted missclasification rate of leaf nodes
-export const getMissClassificationRateOfTree = (treeRoot:TreeGardenNode, nSamplesInTree:number, config:AlgorithmConfiguration) => {
+export const getMissClassificationRateOfTree = (treeRoot:TreeGardenNode, nSamplesInTree:number, config:TreeGardenConfiguration) => {
   const leafNodes = getAllLeafNodes(treeRoot);
   return leafNodes.reduce((totalMissClassificationRate, currentNode) => totalMissClassificationRate + getMissClassificationRateOfNode(currentNode, nSamplesInTree, config), 0);
 };
@@ -37,7 +37,7 @@ export const getMissClassificationRateOfTree = (treeRoot:TreeGardenNode, nSample
 export const getAlphaForNode = (
   node:TreeGardenNode,
   nSamplesInWholeDataSet:number,
-  config:AlgorithmConfiguration
+  config:TreeGardenConfiguration
 ) => {
   // this can happen if there is just one leaf node - which can be true (more classes with same value of attribute)
   const leafNodesMinusOne = getAllLeafNodes(node).length > 1 ? getAllLeafNodes(node).length - 1 : 1;
@@ -51,7 +51,7 @@ export const getAlphaForNode = (
 };
 
 // todo do better tests - this may be bottleneck
-export const getAlphasAndSubTreesForFullTree = (unPrunedTreeRoot:TreeGardenNode, config:AlgorithmConfiguration) => {
+export const getAlphasAndSubTreesForFullTree = (unPrunedTreeRoot:TreeGardenNode, config:TreeGardenConfiguration) => {
   let currentTree = unPrunedTreeRoot;
   const result : { alpha:number, subTree:TreeGardenNode }[] = [];
   while (getNumberOfTreeNodes(currentTree) > 1) {
@@ -77,12 +77,12 @@ export const getAlphasAndSubTreesForFullTree = (unPrunedTreeRoot:TreeGardenNode,
 };
 
 
-export const getComplexityScoreForGivenTreeAndAlpha = (treeRoot:TreeGardenNode, alpha:number, config:AlgorithmConfiguration) => {
+export const getComplexityScoreForGivenTreeAndAlpha = (treeRoot:TreeGardenNode, alpha:number, config:TreeGardenConfiguration) => {
   const nSamplesInTree = getNumberOfSamplesInNode(treeRoot);
   return getMissClassificationRateOfTree(treeRoot, nSamplesInTree, config) + getAllLeafNodes(treeRoot).length * alpha;
 };
 
-export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:TreeGardenNode, alpha :number, config:AlgorithmConfiguration) => {
+export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:TreeGardenNode, alpha :number, config:TreeGardenConfiguration) => {
   // alphas produced are ignored, we are just interested in set of subtrees, and we will get one
   // that minimizes costComplexityScore score = missClassificationRate  + (numberOfLeafNodes) * alpha
   const consideredSubtreesAndComplexityScore = getAlphasAndSubTreesForFullTree(fullTree, config)
@@ -108,7 +108,7 @@ export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:Tree
     })[0].subTree;
 };
 
-export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fullTrainingData:TreeGardenDataSample[], configuration:AlgorithmConfiguration) => {
+export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fullTrainingData:TreeGardenDataSample[], configuration:TreeGardenConfiguration) => {
   const readyToGoTrainingSet = getDataSetWithReplacedValues({
     samplesToReplace: fullTrainingData,
     algorithmConfiguration: configuration

@@ -1,12 +1,12 @@
 
 // grow tree from dataset wo any preprocessing/runtime checks
 import { TreeGardenDataSample } from './dataSet/set';
-import { AlgorithmConfiguration } from './algorithmConfiguration';
+import { TreeGardenConfiguration } from './algorithmConfiguration';
 import { dataSetToTreeNode } from './treeNode';
 
 
 // todo test
-export const rawGrowTree = (dataSet:TreeGardenDataSample[], fullConfiguration:AlgorithmConfiguration) => {
+export const rawGrowTree = (dataSet:TreeGardenDataSample[], fullConfiguration:TreeGardenConfiguration) => {
   const shouldWeStop = fullConfiguration.shouldWeStopGrowth;
   const rootNode = dataSetToTreeNode(dataSet, fullConfiguration);
   const stack = [rootNode];

@@ -2,7 +2,7 @@ import { TreeGardenDataSample, getAllAttributeIds, getTypeOfAttribute } from '..
 // eslint-disable-next-line import/no-cycle
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 // eslint-disable-next-line import/no-cycle
-import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
+import { TreeGardenConfiguration } from './buildAlgorithmConfiguration';
 
 export const keysInheritedFromAlgorithmConfigurationIfNotDefined = [
   'growMissingValueReplacement',
@@ -12,7 +12,7 @@ export const keysInheritedFromAlgorithmConfigurationIfNotDefined = [
   'getAllPossibleSplitCriteriaForContinuousAttribute'
 ] as const;
 
-type ConfigWithPartialAttributes = Omit<AlgorithmConfiguration, 'attributes'> & { attributes: { [key:string]:Partial<typeof defaultAttributeConfiguration> } };
+type ConfigWithPartialAttributes = Omit<TreeGardenConfiguration, 'attributes'> & { attributes: { [key:string]:Partial<typeof defaultAttributeConfiguration> } };
 export const buildAttributesConfiguration = (configuration:ConfigWithPartialAttributes, dataSet:TreeGardenDataSample[]) => {
   const consideredAttributes = configuration.includedAttributes.length > 0 ? configuration.includedAttributes : getAllAttributeIds(dataSet)
     .filter((attributeId:string) => !configuration.excludedAttributes.includes(attributeId));

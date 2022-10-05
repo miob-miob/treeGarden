@@ -8,7 +8,7 @@ import { SplitCriteriaDefinition, SplitCriteriaFn } from '../dataSet/split';
 import { SingleSamplePredictionResult } from '../predict';
 
 // We cannot infer this from defaultConfiguration because of cyclic dependency in types of defaultConfiguration
-export type AlgorithmConfiguration = {
+export type TreeGardenConfiguration = {
   treeType:'classification' | 'regression',
   attributes:{ [key:string]:typeof defaultAttributeConfiguration },
   includedAttributes: string[],
@@ -16,15 +16,15 @@ export type AlgorithmConfiguration = {
   getScoreForSplit:(
     parentDataSet:TreeGardenDataSample[],
     childDataSets:{ [key:string]:TreeGardenDataSample[] },
-    config:AlgorithmConfiguration,
+    config:TreeGardenConfiguration,
     splitter:SplitCriteriaFn
   )=>number,
   biggerScoreBetterSplit:boolean,
-  shouldWeStopGrowth:(node:TreeGardenNode, configuration:AlgorithmConfiguration)=>boolean,
+  shouldWeStopGrowth:(node:TreeGardenNode, configuration:TreeGardenConfiguration)=>boolean,
   numberOfSplitsKept: number,
-  growMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:TreeGardenDataSample)=>any,
-  evaluateMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration)=>(sample:TreeGardenDataSample)=>any,
-  getTagOfSampleWithMissingValueWhileClassifying?:(sample:TreeGardenDataSample, attributeId:string, nodeWhereWeeNeedValue:TreeGardenNode, config:AlgorithmConfiguration)=>any
+  growMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:TreeGardenConfiguration)=>(sample:TreeGardenDataSample)=>any,
+  evaluateMissingValueReplacement:(dataSet:TreeGardenDataSample[], attributeId:string, configuration:TreeGardenConfiguration)=>(sample:TreeGardenDataSample)=>any,
+  getTagOfSampleWithMissingValueWhileClassifying?:(sample:TreeGardenDataSample, attributeId:string, nodeWhereWeeNeedValue:TreeGardenNode, config:TreeGardenConfiguration)=>any
   getClassFromLeafNode:(node:TreeGardenNode, sample?:TreeGardenDataSample)=>string,
   getValueFromLeafNode:(node:TreeGardenNode, sample?:TreeGardenDataSample)=>number,
   onlyBinarySplits:boolean,
@@ -32,30 +32,30 @@ export type AlgorithmConfiguration = {
   keepFullLearningData:boolean,
   getAllPossibleSplitCriteriaForDiscreteAttribute:(attributeId:string,
     dataSet:TreeGardenDataSample[],
-    configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[],
+    configuration:TreeGardenConfiguration)=>SplitCriteriaDefinition[],
   getAllPossibleSplitCriteriaForContinuousAttribute:(attributeId:string,
     dataSet:TreeGardenDataSample[],
-    configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[],
+    configuration:TreeGardenConfiguration)=>SplitCriteriaDefinition[],
   reducedErrorPruningGetScore:(accuracyBeforePruning:number, accuracyAfterPruning:number, numberOfRemovedNodes:number)=>number,
   allClasses?:string[],
   getTreeAccuracy:(
     treeRootNode:TreeGardenNode,
     dataSet:TreeGardenDataSample[],
-    configuration:AlgorithmConfiguration)=>number,
+    configuration:TreeGardenConfiguration)=>number,
 
   numberOfTrees:number,
-  getAttributesForTree: (algorithmConfiguration:AlgorithmConfiguration, _dataSet:TreeGardenDataSample[])=>string[]
+  getAttributesForTree: (algorithmConfiguration:TreeGardenConfiguration, _dataSet:TreeGardenDataSample[])=>string[]
   numberOfBootstrappedSamples:number
   calculateOutOfTheBagError: boolean
   majorityVoting: (treeRoots:TreeGardenNode[],
     dataSample:TreeGardenDataSample,
-    config:AlgorithmConfiguration)=> SingleSamplePredictionResult
+    config:TreeGardenConfiguration)=> SingleSamplePredictionResult
   mergeClassificationResults:(values:string[])=>string,
   mergeRegressionResults: (values:number[])=>number
   buildTime?:number
 };
 export type PartialAlgorithmConfiguration =
-  Partial<Omit<AlgorithmConfiguration, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } }>;
+  Partial<Omit<TreeGardenConfiguration, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } }>;
 export const buildAlgorithmConfiguration = (dataSet:TreeGardenDataSample[], configuration: PartialAlgorithmConfiguration = {}) => {
   if (configuration.buildTime) {
     throw new Error(`This configuration was already build! ${JSON.stringify(configuration)}`);
@@ -64,7 +64,7 @@ export const buildAlgorithmConfiguration = (dataSet:TreeGardenDataSample[], conf
   if (!dataSet) {
     throw new Error('Data set that will be used for learning is required in "buildAlgorithmConfiguration" function call.');
   }
-  const mergedConfiguration = { ...defaultConfiguration, ...(configuration || {}) } as AlgorithmConfiguration;
+  const mergedConfiguration = { ...defaultConfiguration, ...(configuration || {}) } as TreeGardenConfiguration;
   if (!mergedConfiguration.allClasses) {
     mergedConfiguration.allClasses = mergedConfiguration.treeType === 'classification' ? getClassesOfDataSet(dataSet) : [];
   }

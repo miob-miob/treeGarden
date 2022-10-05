@@ -1,6 +1,6 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
 import { TreeGardenDataSample } from '../dataSet/set';
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { SplitCriteriaFn } from '../dataSet/split';
 
 
@@ -27,7 +27,7 @@ export const getEntropyForDataSet = (dataSet:TreeGardenDataSample[], knownClasse
 export const getInformationGainForSplit = (
   parentSet:TreeGardenDataSample[],
   childrenSets:{ [key:string]:TreeGardenDataSample[] },
-  config:AlgorithmConfiguration,
+  config:TreeGardenConfiguration,
   _splitFn: SplitCriteriaFn
 ) => {
   const frequenciesOfClasses = Object.values(getFrequenciesOfClasses(parentSet, config.allClasses!));
@@ -49,7 +49,7 @@ export const getInformationGainForSplit = (
 export const getInformationGainRatioForSplit = (
   parentSet:TreeGardenDataSample[],
   childrenSets:{ [key:string]:TreeGardenDataSample[] },
-  config:AlgorithmConfiguration,
+  config:TreeGardenConfiguration,
   splitFn:SplitCriteriaFn
 ) => {
   const frequenciesOfClassesChildren = Object.values(childrenSets).map((set) => Object.values(getFrequenciesOfClasses(set, config.allClasses!)));

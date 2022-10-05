@@ -3,7 +3,7 @@ import {
   composeStopFunctions, stopIfDepthIs, stopIfMinimalNumberOfSamplesInInnerNode, stopIfPure
 } from './prePrunning';
 import {
-  AlgorithmConfiguration,
+  TreeGardenConfiguration,
   buildAlgorithmConfiguration
 } from '../algorithmConfiguration/buildAlgorithmConfiguration';
 import { simple } from '../sampleDataSets';
@@ -79,13 +79,13 @@ test('stopIfMinimalNumberOfSamplesInLeafNode', () => {
   const stopper2 = stopIfMinimalNumberOfSamplesInInnerNode(2);
   const stopper3 = stopIfMinimalNumberOfSamplesInInnerNode(3);
 
-  expect(stopper3(nodeWith4 as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeFalsy();
-  expect(stopper2(nodeWith4 as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeFalsy();
-  expect(stopper5(nodeWith4 as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeTruthy();
+  expect(stopper3(nodeWith4 as unknown as TreeGardenNode, {} as TreeGardenConfiguration)).toBeFalsy();
+  expect(stopper2(nodeWith4 as unknown as TreeGardenNode, {} as TreeGardenConfiguration)).toBeFalsy();
+  expect(stopper5(nodeWith4 as unknown as TreeGardenNode, {} as TreeGardenConfiguration)).toBeTruthy();
 
-  expect(stopper3(nodeWith3Minimal as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeTruthy();
-  expect(stopper2(nodeWith3Minimal as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeFalsy();
-  expect(stopper5(nodeWith3Minimal as unknown as TreeGardenNode, {} as AlgorithmConfiguration)).toBeTruthy();
+  expect(stopper3(nodeWith3Minimal as unknown as TreeGardenNode, {} as TreeGardenConfiguration)).toBeTruthy();
+  expect(stopper2(nodeWith3Minimal as unknown as TreeGardenNode, {} as TreeGardenConfiguration)).toBeFalsy();
+  expect(stopper5(nodeWith3Minimal as unknown as TreeGardenNode, {} as TreeGardenConfiguration)).toBeTruthy();
 });
 
 test('composeStopFunctions', () => {

@@ -3,7 +3,7 @@ import { getMostCommonValues } from '../statistic/getMostCommonValue';
 import { chooseOne } from '../randomization';
 import { TreeGardenDataSample, getClassesOfDataSet } from './set';
 import { getMedian } from '../statistic/basicStatistic';
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { TreeGardenNode } from '../treeNode';
 
 // todo because we infering configuration and some of functions here are used as default values of configuration
@@ -12,7 +12,7 @@ import { TreeGardenNode } from '../treeNode';
 // closure WARNING :D FF stands for Function Factory - on algorithm start it is called
 // and replacer is created (just once) than used for every sample with missing value
 // eslint-disable-next-line no-unused-vars
-export const getMostCommonValueFF = (dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
+export const getMostCommonValueFF = (dataSet:TreeGardenDataSample[], attributeId:string, configuration:TreeGardenConfiguration) => {
   const typeOfAttribute = configuration.attributes[attributeId].dataType;
   const { missingValue } = configuration.attributes[attributeId];
   const valuesForGivenAttribute = dataSet
@@ -41,7 +41,7 @@ export const getMostCommonValueFF = (dataSet:TreeGardenDataSample[], attributeId
 
 // closure WARNING :D FF stands for Function Factory
 // this is usable only in induction time, evaluation samples do not have _class
-export const getMostCommonValueAmongSameClassFF = (dataSet:TreeGardenDataSample[], attributeId:string, configuration:AlgorithmConfiguration) => {
+export const getMostCommonValueAmongSameClassFF = (dataSet:TreeGardenDataSample[], attributeId:string, configuration:TreeGardenConfiguration) => {
   if (configuration.treeType === 'regression') {
     throw new Error('You cannot call \'getMostCommonValueAmongSameClassFF\' on treeType === \'regression\' tree!');
   }
@@ -73,7 +73,7 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:TreeGardenDataSample[
 type ReplaceOptions = {
   samplesToReplace:TreeGardenDataSample[],
   referenceDataSet?:TreeGardenDataSample[],
-  algorithmConfiguration:AlgorithmConfiguration,
+  algorithmConfiguration:TreeGardenConfiguration,
   replacerFactoryKey?: 'growMissingValueReplacement' | 'evaluateMissingValueReplacement'
 };
 
@@ -116,7 +116,7 @@ export const getMostCommonTagOfSamplesInNode = (
   sample:TreeGardenDataSample,
   attributeId:string,
   nodeWhereWeeNeedValue:TreeGardenNode,
-  _config:AlgorithmConfiguration
+  _config:TreeGardenConfiguration
 ) => {
   // returns most common value from partitions
   const valuesAndCounts = Object.entries(nodeWhereWeeNeedValue.dataPartitionsCounts!)

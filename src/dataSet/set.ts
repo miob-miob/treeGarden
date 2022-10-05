@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 
 export type TreeGardenDataSample = {
   _class?:string|number,
@@ -58,7 +58,7 @@ export const consistentDataSetGuard = (dataSet:TreeGardenDataSample[], parentFnN
   }
 };
 
-export const continuousAttributesGuard = (algorithmConfig:AlgorithmConfiguration, dataSet:TreeGardenDataSample[], fnName = 'unknown') => {
+export const continuousAttributesGuard = (algorithmConfig:TreeGardenConfiguration, dataSet:TreeGardenDataSample[], fnName = 'unknown') => {
   let foundTypeInconsistency = false;
   const continuousAttributes = Object.entries(algorithmConfig.attributes)
     .filter(([_attributeId, attrConfig]) => attrConfig.dataType === 'continuous')

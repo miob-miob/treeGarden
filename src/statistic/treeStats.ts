@@ -3,7 +3,7 @@
 import { getFlattenTree, TreeGardenNode } from '../treeNode';
 import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample } from '../dataSet/set';
 import { getLeafNodeOfSample, getTreePrediction } from '../predict';
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { getArithmeticAverage } from './basicStatistic';
 
 
@@ -33,7 +33,7 @@ export const getRAbsErrorRaw = (realValues:number[], predictedValues:number[]) =
 export const getRAbsError = (
   treeRootNode:TreeGardenNode,
   dataSet:TreeGardenDataSample[],
-  configuration:AlgorithmConfiguration
+  configuration:TreeGardenConfiguration
 ) => {
   // todo we can skip one iteration here
   const values = dataSet.map((sample) => sample._class as number);
@@ -61,7 +61,7 @@ export const getMissClassificationRateRaw = (realClasses:ClassOfSample[], predic
 export const getMissClassificationRate = (
   treeRootNode:TreeGardenNode,
   dataSet:TreeGardenDataSample[],
-  configuration:AlgorithmConfiguration
+  configuration:TreeGardenConfiguration
 ) => {
   const realClasses: ClassOfSample[] = [];
   const predictedClasses :ClassOfSample[] = [];
@@ -77,7 +77,7 @@ export const getMissClassificationRate = (
 export const getTreeAccuracy = (
   treeRootNode:TreeGardenNode,
   dataSet:TreeGardenDataSample[],
-  configuration:AlgorithmConfiguration
+  configuration:TreeGardenConfiguration
 ) => {
   consistentDataSetGuard(dataSet, 'getTreeAccuracy');
   continuousAttributesGuard(configuration, dataSet, 'getTreeAccuracy');

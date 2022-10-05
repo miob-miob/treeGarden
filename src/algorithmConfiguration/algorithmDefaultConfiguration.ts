@@ -11,7 +11,7 @@ import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../pr
 // eslint-disable-next-line import/no-cycle
 import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
 // eslint-disable-next-line import/no-cycle
-import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
+import { TreeGardenConfiguration } from './buildAlgorithmConfiguration';
 import { getTreeAccuracy } from '../statistic/treeStats';
 import { getValueForNode, getMostCommonClassForNode, getResultFromMultipleTrees } from '../predict';
 import { TreeGardenDataSample } from '../dataSet/set';
@@ -22,7 +22,7 @@ import { getMedian } from '../statistic/basicStatistic';
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
 
-export const defaultConfiguration: AlgorithmConfiguration = {
+export const defaultConfiguration: TreeGardenConfiguration = {
   treeType: 'classification',
   // key is attributeId, value is attributeMeta object
   attributes: {},
@@ -89,7 +89,7 @@ export const defaultConfiguration: AlgorithmConfiguration = {
   // ---
   numberOfTrees: 27, // number of trees in random forest
   // how to choose subset of attributes for each tree
-  getAttributesForTree: (algorithmConfiguration:AlgorithmConfiguration, _dataSet:TreeGardenDataSample[]) => {
+  getAttributesForTree: (algorithmConfiguration:TreeGardenConfiguration, _dataSet:TreeGardenDataSample[]) => {
     const attributeKeys = Object.keys(algorithmConfiguration.attributes);
     const nAttributes = algorithmConfiguration.treeType === 'regression'
       ? Math.ceil(Math.sqrt(attributeKeys.length))

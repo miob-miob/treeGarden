@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { getArithmeticAverage } from '../statistic/basicStatistic';
 
 
-type ImpurityScoringFn = AlgorithmConfiguration['getScoreForSplit'];
+type ImpurityScoringFn = TreeGardenConfiguration['getScoreForSplit'];
 export const getScoreForRegressionTreeSplit :ImpurityScoringFn = (parentDataSet, childDataSets, config, splitter) => {
   const averages = Object.fromEntries(
     Object.entries(childDataSets)

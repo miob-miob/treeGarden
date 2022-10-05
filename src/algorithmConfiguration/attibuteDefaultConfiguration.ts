@@ -3,7 +3,7 @@
 import { getMostCommonValueFF } from '../dataSet/replaceMissingValues';
 import { TreeGardenDataSample } from '../dataSet/set';
 import { SplitCriteriaDefinition } from '../dataSet/split';
-import { AlgorithmConfiguration } from './buildAlgorithmConfiguration';
+import { TreeGardenConfiguration } from './buildAlgorithmConfiguration';
 
 
 // todo solve circular dependencies on attribute configuration as well (by hand + default values)
@@ -27,9 +27,9 @@ export const defaultAttributeConfiguration = {
   getAllPossibleSplitCriteriaForDiscreteAttribute: undefined as ((
     attributeId:string,
     dataSet:TreeGardenDataSample[],
-    configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[]) | undefined,
+    configuration:TreeGardenConfiguration)=>SplitCriteriaDefinition[]) | undefined,
   getAllPossibleSplitCriteriaForContinuousAttribute: undefined as ((
     attributeId:string,
     dataSet:TreeGardenDataSample[],
-    configuration:AlgorithmConfiguration)=>SplitCriteriaDefinition[]) | undefined
+    configuration:TreeGardenConfiguration)=>SplitCriteriaDefinition[]) | undefined
 };

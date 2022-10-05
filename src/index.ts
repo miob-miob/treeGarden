@@ -1,8 +1,11 @@
+export { TreeGardenDataSample } from './dataSet/set';
+export { TreeGardenNode } from './treeNode';
 export {
+  TreeGardenConfiguration,
   buildAlgorithmConfiguration,
-  AlgorithmConfiguration
+  defaultConfiguration,
+  defaultAttributeConfiguration
 } from './algorithmConfiguration';
 export { growTree } from './growTree';
-export { getTreePrediction, getLeafNodesForSamples } from './predict';
-export { TreeGardenNode } from './treeNode';
-
+export { growRandomForest } from './growRandomForest';
+export { getTreePrediction, getRandomForestPrediction, getLeafNodesForSamples } from './predict';

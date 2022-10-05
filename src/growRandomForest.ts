@@ -1,4 +1,4 @@
-import { AlgorithmConfiguration } from './algorithmConfiguration';
+import { TreeGardenConfiguration } from './algorithmConfiguration';
 import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample } from './dataSet/set';
 import {
   getAlgorithmConfigForEachTree
@@ -12,7 +12,7 @@ import { TreeGardenNode } from './treeNode';
 
 
 export const growRandomForest = (
-  algorithmConfiguration:AlgorithmConfiguration,
+  algorithmConfiguration:TreeGardenConfiguration,
   dataSet : TreeGardenDataSample[]
 ) => {
   consistentDataSetGuard(dataSet, 'growRandomForest');

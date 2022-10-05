@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { existingValueGuard } from './sample';
 import { TreeGardenDataSample, getAllUniqueValuesOfAttribute } from './set';
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 
 
 const supportedMathOperators = new Set([
@@ -222,7 +222,7 @@ export const getAllPossibleSplitCriteriaForDataSet = (
     });
 };
 
-export const getBestScoringSplits = (dataSet:TreeGardenDataSample[], possibleSplits:SplitCriteriaDefinition[], algorithmConfig:AlgorithmConfiguration) => {
+export const getBestScoringSplits = (dataSet:TreeGardenDataSample[], possibleSplits:SplitCriteriaDefinition[], algorithmConfig:TreeGardenConfiguration) => {
   const splitsWithScore = possibleSplits.map((splitDefinition) => {
     // @ts-expect-error
     const splitter = getSplitCriteriaFn(...splitDefinition);

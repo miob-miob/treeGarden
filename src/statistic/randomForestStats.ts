@@ -2,15 +2,15 @@
 import { TreeGardenNode } from '../treeNode';
 import { TreeGardenDataSample } from '../dataSet/set';
 import { getBootstrappedDataSetAndOutOfTheBagRest } from '../dataSet/dividingAndBootstrapping';
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { getMissClassificationRateRaw, getRAbsErrorRaw } from './treeStats';
 
 type OutOfTheBagSet = ReturnType<typeof getBootstrappedDataSetAndOutOfTheBagRest>[1];
 export const getOutOfTheBagError = (
   treesAndOutOfTheBagSets:[TreeGardenNode, OutOfTheBagSet][],
   fullDataSet:TreeGardenDataSample[],
-  config: AlgorithmConfiguration,
-  majorityVotingFn : AlgorithmConfiguration['majorityVoting']
+  config: TreeGardenConfiguration,
+  majorityVotingFn : TreeGardenConfiguration['majorityVoting']
 ) => {
   const predictedResults:TreeGardenDataSample['_class'][] = [];
   const realResults :TreeGardenDataSample['_class'][] = [];

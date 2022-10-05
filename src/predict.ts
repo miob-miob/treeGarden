@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle,import/no-cycle */
 import { TreeGardenDataSample } from './dataSet/set';
-import { AlgorithmConfiguration } from './algorithmConfiguration';
+import { TreeGardenConfiguration } from './algorithmConfiguration';
 import { TreeGardenNode } from './treeNode';
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
 import { getSplitCriteriaFn } from './dataSet/split';
@@ -10,7 +10,7 @@ type NodeOrIdArray<T extends boolean> = T extends true?string[]:TreeGardenNode;
 export const getLeafNodeOfSample = <T extends boolean>(
   sample:TreeGardenDataSample,
   rootNode:TreeGardenNode,
-  algorithmConfiguration:AlgorithmConfiguration,
+  algorithmConfiguration:TreeGardenConfiguration,
   retrieveIds?:T
 ):NodeOrIdArray<T> => {
   const visitedNodeIds = [rootNode.id];
@@ -50,7 +50,7 @@ export const getLeafNodeOfSample = <T extends boolean>(
 export const getLeafNodesForSamples = (
   samplesToClassify:TreeGardenDataSample[],
   decisionTreeRoot:TreeGardenNode,
-  algorithmConfiguration:AlgorithmConfiguration,
+  algorithmConfiguration:TreeGardenConfiguration,
   referenceDataSetForReplacing?:TreeGardenDataSample[]
 ) => {
   const readyToClassifySamples = (referenceDataSetForReplacing && !algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying) ? getDataSetWithReplacedValues({
@@ -84,14 +84,14 @@ export const getMostCommonClassForNode = (leafNode:TreeGardenNode, _sample?:Tree
 
 export const getValueForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenDataSample) => leafNode.regressionTreeAverageOutcome as number;
 
-export type SingleSamplePredictionResult = ReturnType<AlgorithmConfiguration['getValueFromLeafNode']> | ReturnType<AlgorithmConfiguration['getClassFromLeafNode']>;
+export type SingleSamplePredictionResult = ReturnType<TreeGardenConfiguration['getValueFromLeafNode']> | ReturnType<TreeGardenConfiguration['getClassFromLeafNode']>;
 export type MultipleSamplesPredictionResult = [TreeGardenDataSample, SingleSamplePredictionResult][];
 type PredictionReturnValue<T> = T extends TreeGardenDataSample[]?MultipleSamplesPredictionResult:SingleSamplePredictionResult;
 
 export const getTreePrediction = <T extends TreeGardenDataSample | TreeGardenDataSample[] >(
   samplesToPredict:T,
   decisionTreeRoot:TreeGardenNode,
-  algorithmConfiguration:AlgorithmConfiguration,
+  algorithmConfiguration:TreeGardenConfiguration,
   referenceDataSetForReplacing?:TreeGardenDataSample[]
 ) => {
   const multipleSamples = Boolean(samplesToPredict.length !== undefined);
@@ -105,11 +105,10 @@ export const getTreePrediction = <T extends TreeGardenDataSample | TreeGardenDat
   return predictions[0][1] as PredictionReturnValue<T>;
 };
 
-// todo tests !!!
 export const getRandomForestPrediction = <T extends TreeGardenDataSample|TreeGardenDataSample[]> (
   samplesToPredict:T,
   trees:TreeGardenNode[],
-  algorithmConfiguration: AlgorithmConfiguration,
+  algorithmConfiguration: TreeGardenConfiguration,
   referenceDataSetForReplacing?:TreeGardenDataSample[]
 ) => {
   const multipleSamples = Boolean(samplesToPredict.length !== undefined);
@@ -130,11 +129,10 @@ export const getRandomForestPrediction = <T extends TreeGardenDataSample|TreeGar
   return samplesAndPrediction[0][1] as PredictionReturnValue<T>;
 };
 
-// todo tests !!!
 export const getResultFromMultipleTrees = (
   treeRoots:TreeGardenNode[],
   dataSample:TreeGardenDataSample,
-  config:AlgorithmConfiguration
+  config:TreeGardenConfiguration
 ) => {
   const valueFromNodeFn = config.treeType === 'classification' ? config.getClassFromLeafNode : config.getValueFromLeafNode;
   const values = treeRoots.map((tree) => {

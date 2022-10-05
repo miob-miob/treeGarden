@@ -1,6 +1,6 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
 import { TreeGardenDataSample } from '../dataSet/set';
-import { AlgorithmConfiguration } from '../algorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { SplitCriteriaFn } from '../dataSet/split';
 
 
@@ -33,7 +33,7 @@ export const getGiniIndexForDataSet = (dataSet:TreeGardenDataSample[], knownClas
 export const getGiniIndexForSplit = (
   parentSet:TreeGardenDataSample[],
   childrenSets:{ [key:string]:TreeGardenDataSample[] },
-  config:AlgorithmConfiguration,
+  config:TreeGardenConfiguration,
   _splitter:SplitCriteriaFn
 ) => {
   const frequenciesOfClassesChildren = Object.values(childrenSets).map((set) => Object.values(getFrequenciesOfClasses(set, config.allClasses!)));
