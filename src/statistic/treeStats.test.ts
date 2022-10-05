@@ -7,18 +7,18 @@ import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 import { simpleTree } from '../sampleTrainedTrees/simpleTree';
 import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 import { simpleRegressionTree } from '../sampleTrainedTrees/simpleRegressionTree';
-import { simpleSetForRegression, simple } from '../sampleDataSets';
+import { simpleSetForRegression, simpleSet } from '../sampleDataSets';
 import { getScoreForRegressionTreeSplit } from '../impurity/regressionTreeScore';
 
 
-const config = buildAlgorithmConfiguration(simple);
-const tree = growTree(config, simple);
+const config = buildAlgorithmConfiguration(simpleSet);
+const tree = growTree(config, simpleSet);
 describe('getMissClassificationRate', () => {
   test('should be absolute', () => {
-    expect(getMissClassificationRate(tree, simple, config)).toBeCloseTo(1);
+    expect(getMissClassificationRate(tree, simpleSet, config)).toBeCloseTo(1);
   });
   test('should be 60%', () => {
-    const deepCopyOfSimple = JSON.parse(JSON.stringify(simple));
+    const deepCopyOfSimple = JSON.parse(JSON.stringify(simpleSet));
     deepCopyOfSimple[0]._class = 'right';
     deepCopyOfSimple[2]._class = 'left';
     expect(getMissClassificationRate(tree, deepCopyOfSimple, config)).toBeCloseTo(0.6);

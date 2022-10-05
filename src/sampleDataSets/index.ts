@@ -2,7 +2,7 @@
 
 export { titanicSet } from './titanic';
 export { tennisSet } from './tennis';
-export { simple } from './simple';
+export { simpleSet } from './simpleSet';
 export { irisSet } from './iris';
 export { housePrices } from './housePrices';
 export { simpleSetForRegression } from './simpleForRegressionTree';

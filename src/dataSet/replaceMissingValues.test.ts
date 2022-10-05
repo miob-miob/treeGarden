@@ -3,31 +3,31 @@ import {
   getMostCommonValueAmongSameClassFF,
   getDataSetWithReplacedValues, getMostCommonTagOfSamplesInNode
 } from './replaceMissingValues';
-import { simple, tennisSet } from '../sampleDataSets';
+import { simpleSet, tennisSet } from '../sampleDataSets';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 
-const configuration = buildAlgorithmConfiguration(simple, {});
+const configuration = buildAlgorithmConfiguration(simpleSet, {});
 test('getMostCommonValueFF continuous', () => {
-  const replacer = getMostCommonValueFF(simple, 'size', configuration);
+  const replacer = getMostCommonValueFF(simpleSet, 'size', configuration);
   expect(replacer({ _class: 'left' })).toBe(3);
 });
 
 test('getMostCommonValueFF discrete', () => {
-  const replacer = getMostCommonValueFF(simple, 'color', configuration);
+  const replacer = getMostCommonValueFF(simpleSet, 'color', configuration);
   expect(replacer({ _class: 'left' })).toBe('white');
   expect(replacer({ _class: 'right' })).toBe('white');
 });
 
 
 test('getMostCommonValueAmongSameClassFF continuous', () => {
-  const replacer = getMostCommonValueAmongSameClassFF(simple, 'size', configuration);
+  const replacer = getMostCommonValueAmongSameClassFF(simpleSet, 'size', configuration);
   expect(replacer({ _class: 'left' })).toBeCloseTo(3.5);
   expect(replacer({ _class: 'right' })).toBeCloseTo(2);
 });
 
 test('getMostCommonValueAmongSameClassFF discrete', () => {
-  const replacer = getMostCommonValueAmongSameClassFF(simple, 'color', configuration);
+  const replacer = getMostCommonValueAmongSameClassFF(simpleSet, 'color', configuration);
   expect(replacer({ _class: 'left' })).toBe('black');
   expect(replacer({ _class: 'right' })).toBe('white');
 });

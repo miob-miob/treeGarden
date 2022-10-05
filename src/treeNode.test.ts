@@ -8,7 +8,7 @@ import {
   getFlattenTree,
   getTreeNodeById, getAllLeafNodes, getTreeStages
 } from './treeNode';
-import { simple } from './sampleDataSets';
+import { simpleSet } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
 import { simpleTree } from './sampleTrainedTrees/simpleTree';
 
@@ -40,7 +40,7 @@ nodeFour.childNodes = {
 
 // bit of e2e test
 test('dataSetToTreeNode', () => {
-  const config = buildAlgorithmConfiguration(simple, {
+  const config = buildAlgorithmConfiguration(simpleSet, {
     biggerScoreBetterSplit: false,
     getScoreForSplit: getGiniIndexForSplit
   });
@@ -88,7 +88,7 @@ test('dataSetToTreeNode', () => {
     regressionTreeStandardDeviation: undefined
   };
 
-  const newNode = dataSetToTreeNode(simple, config);
+  const newNode = dataSetToTreeNode(simpleSet, config);
   // remove uuid for comparison
   // @ts-ignore
   newNode.id = 'z85';

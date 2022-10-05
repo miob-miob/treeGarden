@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { simpleTree } from '../sampleTrainedTrees/simpleTree';
-import { simple } from '../sampleDataSets';
+import { simpleSet } from '../sampleDataSets';
 import { getOutOfTheBagError } from './randomForestStats';
 import { TreeGardenNode } from '../treeNode';
 import { buildAlgorithmConfiguration, c45Config } from '../algorithmConfiguration';
@@ -8,11 +8,11 @@ import { getResultFromMultipleTrees } from '../predict';
 import { getRightOnBlackSimpleTree } from '../testUtils';
 
 test('getOutOfTheBagError', () => {
-  const algorithmConfig = buildAlgorithmConfiguration(simple, {
+  const algorithmConfig = buildAlgorithmConfiguration(simpleSet, {
     ...c45Config
   });
 
-  const simpleDataSetWithIds = simple.map((item) => ({ ...item, _id: item._label }));
+  const simpleDataSetWithIds = simpleSet.map((item) => ({ ...item, _id: item._label }));
 
   const badOnBlackTree = getRightOnBlackSimpleTree();
 

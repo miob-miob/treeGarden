@@ -1,4 +1,4 @@
-import { simple } from '../sampleDataSets';
+import { simpleSet } from '../sampleDataSets';
 import {
   getEntropyForDataSet, getInformationGainForSplit, getEntropy, getInformationGainRatioForSplit
 } from './entropy';
@@ -7,8 +7,8 @@ import { getSplitCriteriaFn, splitDataSet } from '../dataSet/split';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 
 
-const knownClasses = getClassesOfDataSet(simple);
-const entropyOfSimpleDataSet = getEntropyForDataSet(simple, knownClasses);
+const knownClasses = getClassesOfDataSet(simpleSet);
+const entropyOfSimpleDataSet = getEntropyForDataSet(simpleSet, knownClasses);
 
 test('getEntropyOfDataSet', () => {
   const manuallyCalculatedEntropy = -((2 / 5) * Math.log2(2 / 5) + (3 / 5) * Math.log2(3 / 5));
@@ -16,7 +16,7 @@ test('getEntropyOfDataSet', () => {
 });
 
 test('getInformationGain', () => {
-  const simpleConfig = buildAlgorithmConfiguration(simple, { getScoreForSplit: getInformationGainRatioForSplit });
+  const simpleConfig = buildAlgorithmConfiguration(simpleSet, { getScoreForSplit: getInformationGainRatioForSplit });
   const rootFrequencies = [10, 10];
   const rootDataSet = [
     ...Array.from(Array(rootFrequencies[0]).keys())
@@ -47,14 +47,14 @@ test('getInformationGain', () => {
 });
 
 test('getInformationGain', () => {
-  const simpleConfig = buildAlgorithmConfiguration(simple, { getScoreForSplit: getInformationGainRatioForSplit });
+  const simpleConfig = buildAlgorithmConfiguration(simpleSet, { getScoreForSplit: getInformationGainRatioForSplit });
   const splitCriteriaFn = getSplitCriteriaFn('color', '==');
-  expect(getInformationGainForSplit(simple, splitDataSet(simple, splitCriteriaFn, false), simpleConfig, splitCriteriaFn)).toBeCloseTo(entropyOfSimpleDataSet);
+  expect(getInformationGainForSplit(simpleSet, splitDataSet(simpleSet, splitCriteriaFn, false), simpleConfig, splitCriteriaFn)).toBeCloseTo(entropyOfSimpleDataSet);
 });
 
 
 test('getInformationGainRatio', () => {
-  const simpleConfig = buildAlgorithmConfiguration(simple, { getScoreForSplit: getInformationGainRatioForSplit });
+  const simpleConfig = buildAlgorithmConfiguration(simpleSet, { getScoreForSplit: getInformationGainRatioForSplit });
   const rootFrequencies = [10, 10];
   const rootDataSet = [
     ...Array.from(Array(rootFrequencies[0]).keys())

@@ -1,5 +1,5 @@
 
-export const simple = [
+export const simpleSet = [
   {
     _class: 'left', color: 'black', size: 3, _label: '1'
   },

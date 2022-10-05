@@ -6,11 +6,11 @@ import {
   TreeGardenConfiguration,
   buildAlgorithmConfiguration
 } from '../algorithmConfiguration/buildAlgorithmConfiguration';
-import { simple } from '../sampleDataSets';
+import { simpleSet } from '../sampleDataSets';
 import { TreeGardenNode } from '../treeNode';
 
 test('willTreeGrowFurther', () => {
-  const conf = buildAlgorithmConfiguration(simple);
+  const conf = buildAlgorithmConfiguration(simpleSet);
   const node = {
     id: 'something',
     depth: 2,
@@ -89,7 +89,7 @@ test('stopIfMinimalNumberOfSamplesInLeafNode', () => {
 });
 
 test('composeStopFunctions', () => {
-  const config = buildAlgorithmConfiguration(simple, {});
+  const config = buildAlgorithmConfiguration(simpleSet, {});
   const stoppedOne = jest.fn(() => true);
   const notStoppedOne = jest.fn(() => false);
   const composedStopper = composeStopFunctions(stoppedOne, notStoppedOne);

@@ -8,7 +8,7 @@ import {
   getRandomForestPrediction
 } from './predict';
 import { buildAlgorithmConfiguration } from './algorithmConfiguration';
-import { simple, tennisSet } from './sampleDataSets';
+import { simpleSet, tennisSet } from './sampleDataSets';
 import { tennisTree } from './sampleTrainedTrees/tennisTree';
 import { getTreeNodeById, TreeGardenNode } from './treeNode';
 import { getRightOnBlackSimpleTree } from './testUtils';
@@ -66,7 +66,7 @@ test('getRandomForestPrediction', () => {
     simpleTree,
     rightOnBlackTree
   ];
-  const algConfig = buildAlgorithmConfiguration(simple, {
+  const algConfig = buildAlgorithmConfiguration(simpleSet, {
     getTagOfSampleWithMissingValueWhileClassifying: getMostCommonTagOfSamplesInNode
   });
   const sampleWithMissingColor = {
@@ -110,7 +110,7 @@ test('getMostCommonClassFromNode', () => {
 test('getResultFromMultipleTrees', () => {
   const mergeRegressionResultsWithSpy = jest.fn(defaultConfiguration.mergeClassificationResults);
   const badOnBlackTree = getRightOnBlackSimpleTree();
-  const algConfig = buildAlgorithmConfiguration(simple, {
+  const algConfig = buildAlgorithmConfiguration(simpleSet, {
     mergeClassificationResults: mergeRegressionResultsWithSpy
   });
   const dataSample = { color: 'black', size: 3, _label: '1' } as TreeGardenDataSample;

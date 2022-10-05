@@ -1,12 +1,12 @@
 import { getGiniIndex, getGiniIndexForDataSet, getGiniIndexForSplit } from './gini';
-import { simple } from '../sampleDataSets';
+import { simpleSet } from '../sampleDataSets';
 import { getClassesOfDataSet } from '../dataSet/set';
 import { getSplitCriteriaFn, splitDataSet } from '../dataSet/split';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 
 
-const knownClasses = getClassesOfDataSet(simple);
-const simpleConfig = buildAlgorithmConfiguration(simple, { getScoreForSplit: getGiniIndexForSplit });
+const knownClasses = getClassesOfDataSet(simpleSet);
+const simpleConfig = buildAlgorithmConfiguration(simpleSet, { getScoreForSplit: getGiniIndexForSplit });
 
 test('getGiniIndex', () => {
   expect(getGiniIndex([0, 0, 5])).toBeCloseTo(0);
@@ -16,7 +16,7 @@ test('getGiniIndex', () => {
 
 
 test('getGiniIndexForDataSet', () => {
-  expect(getGiniIndexForDataSet(simple, knownClasses)).toBeCloseTo(1 - (4 / 25 + 9 / 25));
+  expect(getGiniIndexForDataSet(simpleSet, knownClasses)).toBeCloseTo(1 - (4 / 25 + 9 / 25));
 });
 
 test('getGiniIndexForSplit', () => {
@@ -56,8 +56,8 @@ test('getGiniIndexForSplit', () => {
   const splitFn = getSplitCriteriaFn('color', '==');
 
   expect(getGiniIndexForSplit(
-    simple,
-    splitDataSet(simple, splitFn, false),
+    simpleSet,
+    splitDataSet(simpleSet, splitFn, false),
     simpleConfig,
     splitFn
   ))
