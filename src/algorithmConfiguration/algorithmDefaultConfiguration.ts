@@ -4,7 +4,7 @@ import { getInformationGainForSplit } from '../impurity/entropy';
 import {
   getPossibleSpitCriteriaForContinuousAttribute,
   getPossibleSpitCriteriaForDiscreteAttribute
-} from '../dataSet/split';
+} from '../split';
 // eslint-disable-next-line import/no-cycle
 import { stopRules } from '../pruneTree';
 

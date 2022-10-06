@@ -1,7 +1,7 @@
 import { getFrequenciesOfClasses } from '../statistic/frequencies';
 import { TreeGardenDataSample } from '../dataSet/set';
 import { TreeGardenConfiguration } from '../algorithmConfiguration';
-import { SplitCriteriaFn } from '../dataSet/split';
+import { SplitCriteriaFn } from '../split';
 
 
 /**

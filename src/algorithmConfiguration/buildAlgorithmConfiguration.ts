@@ -4,7 +4,7 @@ import { buildAttributesConfiguration } from './buildAttributesConfiguration';
 import { TreeGardenDataSample, getClassesOfDataSet } from '../dataSet/set';
 import { defaultAttributeConfiguration } from './attibuteDefaultConfiguration';
 import { TreeGardenNode } from '../treeNode';
-import { SplitCriteriaDefinition, SplitCriteriaFn } from '../dataSet/split';
+import { SplitCriteriaDefinition, SplitCriteriaFn } from '../split';
 import { SingleSamplePredictionResult } from '../predict';
 
 // We cannot infer this from defaultConfiguration because of cyclic dependency in types of defaultConfiguration

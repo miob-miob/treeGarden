@@ -1,7 +1,7 @@
 import { simpleSetForRegression } from '../sampleDataSets/simpleForRegressionTree';
 import { getScoreForRegressionTreeSplit } from './regressionTreeScore';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
-import { getSplitCriteriaFn, splitDataSet } from '../dataSet/split';
+import { getSplitCriteriaFn, splitDataSet } from '../split';
 
 
 const config = buildAlgorithmConfiguration(simpleSetForRegression, { treeType: 'regression' });

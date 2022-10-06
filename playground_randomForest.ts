@@ -13,7 +13,7 @@ const config = buildAlgorithmConfiguration(titanicSet,{
     stopIfDepthIs(10),
     stopIfMinimalNumberOfSamplesInInnerNode(10)
   ),
-  numberOfTrees:50
+  numberOfTrees:5000
 });
 
 const passenger = {

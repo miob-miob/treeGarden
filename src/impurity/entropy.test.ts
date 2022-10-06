@@ -3,7 +3,7 @@ import {
   getEntropyForDataSet, getInformationGainForSplit, getEntropy, getInformationGainRatioForSplit
 } from './entropy';
 import { getClassesOfDataSet } from '../dataSet/set';
-import { getSplitCriteriaFn, splitDataSet } from '../dataSet/split';
+import { getSplitCriteriaFn, splitDataSet } from '../split';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 
 

@@ -3,7 +3,7 @@ import { TreeGardenDataSample } from './dataSet/set';
 import { TreeGardenConfiguration } from './algorithmConfiguration';
 import { TreeGardenNode } from './treeNode';
 import { getDataSetWithReplacedValues } from './dataSet/replaceMissingValues';
-import { getSplitCriteriaFn } from './dataSet/split';
+import { getSplitCriteriaFn } from './split';
 
 
 type NodeOrIdArray<T extends boolean> = T extends true?string[]:TreeGardenNode;

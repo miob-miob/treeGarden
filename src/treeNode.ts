@@ -6,7 +6,7 @@ import {
   getSplitCriteriaFn,
   SplitCriteriaDefinition,
   splitDataSet
-} from './dataSet/split';
+} from './split';
 import { TreeGardenDataSample } from './dataSet/set';
 // eslint-disable-next-line import/no-cycle
 import { TreeGardenConfiguration } from './algorithmConfiguration';

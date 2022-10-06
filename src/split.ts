@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import { existingValueGuard } from './sample';
-import { TreeGardenDataSample, getAllUniqueValuesOfAttribute } from './set';
-import { TreeGardenConfiguration } from '../algorithmConfiguration';
+import { existingValueGuard } from './dataSet/sample';
+import { TreeGardenDataSample, getAllUniqueValuesOfAttribute } from './dataSet/set';
+import { TreeGardenConfiguration } from './algorithmConfiguration';
 
 
 const supportedMathOperators = new Set([

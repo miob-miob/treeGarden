@@ -2,7 +2,7 @@
 // eslint-disable-next-line import/no-cycle
 import { getMostCommonValueFF } from '../dataSet/replaceMissingValues';
 import { TreeGardenDataSample } from '../dataSet/set';
-import { SplitCriteriaDefinition } from '../dataSet/split';
+import { SplitCriteriaDefinition } from '../split';
 import { TreeGardenConfiguration } from './buildAlgorithmConfiguration';
 
 

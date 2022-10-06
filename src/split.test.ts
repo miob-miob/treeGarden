@@ -7,9 +7,9 @@ import {
   SplitCriteriaDefinition
 } from './split';
 
-import { simpleSet } from '../sampleDataSets';
-import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
-import { consistentDataSetGuard } from './set';
+import { simpleSet } from './sampleDataSets';
+import { buildAlgorithmConfiguration } from './algorithmConfiguration';
+import { consistentDataSetGuard } from './dataSet/set';
 
 
 test('getCombinationsWithoutRepeats', () => {

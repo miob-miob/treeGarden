@@ -1,7 +1,7 @@
 import { getGiniIndex, getGiniIndexForDataSet, getGiniIndexForSplit } from './gini';
 import { simpleSet } from '../sampleDataSets';
 import { getClassesOfDataSet } from '../dataSet/set';
-import { getSplitCriteriaFn, splitDataSet } from '../dataSet/split';
+import { getSplitCriteriaFn, splitDataSet } from '../split';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 
 
