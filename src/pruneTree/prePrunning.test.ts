@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import {
-  composeStopFunctions, stopIfDepthIs, stopIfMinimalNumberOfSamplesInInnerNode, stopIfPure
+  stopRules, stopIfDepthIs, stopIfMinimalNumberOfSamplesInInnerNode, stopIfPure
 } from './prePrunning';
 import {
   TreeGardenConfiguration,
@@ -88,11 +88,11 @@ test('stopIfMinimalNumberOfSamplesInLeafNode', () => {
   expect(stopper5(nodeWith3Minimal as unknown as TreeGardenNode, {} as TreeGardenConfiguration)).toBeTruthy();
 });
 
-test('composeStopFunctions', () => {
+test('stopRules', () => {
   const config = buildAlgorithmConfiguration(simpleSet, {});
   const stoppedOne = jest.fn(() => true);
   const notStoppedOne = jest.fn(() => false);
-  const composedStopper = composeStopFunctions(stoppedOne, notStoppedOne);
+  const composedStopper = stopRules(stoppedOne, notStoppedOne);
   expect(composedStopper({ isLeaf: false } as TreeGardenNode, config)).toBeTruthy();
   expect(stoppedOne.mock.calls.length).toBe(1);
   expect(notStoppedOne.mock.calls.length).toBe(0);
@@ -100,7 +100,7 @@ test('composeStopFunctions', () => {
   const notStoppedTwo = jest.fn(() => false);
   const anotherNotStoppedTwo = jest.fn(() => false);
 
-  const anotherComposedStopper = composeStopFunctions(notStoppedTwo, anotherNotStoppedTwo);
+  const anotherComposedStopper = stopRules(notStoppedTwo, anotherNotStoppedTwo);
   // @ts-expect-error
   expect(anotherComposedStopper({ isLeaf: false }, config)).toBeFalsy();
   expect(notStoppedTwo.mock.calls.length).toBe(1);

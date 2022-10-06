@@ -5,7 +5,7 @@ import {
 import {housePrices} from "./src/sampleDataSets";
 import { growTree } from './src';
 import {
-  composeStopFunctions,
+  stopRules,
   getPrunedTreeByReducedErrorPruning,
   getPrunedTreeByCostComplexityPruning,
   stopIfMinimalNumberOfSamplesInInnerNode,
@@ -28,7 +28,7 @@ const myConfig = buildAlgorithmConfiguration(housePrices, {
   biggerScoreBetterSplit:false,
   excludedAttributes:['ADDRESS','POSTED_BY'],
   attributes: { SQUARE_FT: { dataType: 'continuous' }, LONGITUDE:{dataType: 'continuous'},LATITUDE:{dataType: "continuous"} },
-  shouldWeStopGrowth: composeStopFunctions(
+  shouldWeStopGrowth: stopRules(
     stopIfPure,
     stopIfNoSplitsAvailable,
     stopIfMinimalNumberOfSamplesInInnerNode(10)

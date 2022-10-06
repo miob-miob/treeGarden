@@ -3,16 +3,23 @@
 import { TreeGardenDataSample } from './dataSet/set';
 import { TreeGardenConfiguration } from './algorithmConfiguration';
 import { dataSetToTreeNode } from './treeNode';
+import {stopIfNoSplitsAvailable, stopIfPure, stopRules} from "./pruneTree/prePrunning";
 
 
 // todo test
 export const rawGrowTree = (dataSet:TreeGardenDataSample[], fullConfiguration:TreeGardenConfiguration) => {
-  const shouldWeStop = fullConfiguration.shouldWeStopGrowth;
+
+  // stop growth if no available splits or node is already pure - all samples have same class
+  const shouldWeStopFN = stopRules(
+    stopIfPure,
+    stopIfNoSplitsAvailable,
+    fullConfiguration.shouldWeStopGrowth
+  );
   const rootNode = dataSetToTreeNode(dataSet, fullConfiguration);
   const stack = [rootNode];
   while (stack.length > 0) {
     const currentNode = stack.splice(0, 1)[0];
-    if (shouldWeStop(currentNode, fullConfiguration)) {
+    if (shouldWeStopFN(currentNode, fullConfiguration)) {
       currentNode.isLeaf = true;
     } else {
       currentNode.childNodes = {};

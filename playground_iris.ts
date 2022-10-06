@@ -7,7 +7,7 @@ import {c45Config} from "./src/algorithmConfiguration";
 import { irisSet } from './src/sampleDataSets';
 import { growTree } from './src';
 import {
-  composeStopFunctions,
+  stopRules,
   getPrunedTreeByPessimisticPruning,
   stopIfNoSplitsAvailable,
   stopIfPure
@@ -29,7 +29,7 @@ const myConfig = buildAlgorithmConfiguration(irisSet, {
     petal_length:{dataType: 'continuous'},
     petal_width:{dataType: 'continuous'}
     },
-  shouldWeStopGrowth: composeStopFunctions(
+  shouldWeStopGrowth: stopRules(
     stopIfPure,
     stopIfNoSplitsAvailable,
     // stopIfMinimalNumberOfSamplesInInnerNode(3)

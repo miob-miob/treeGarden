@@ -8,4 +8,6 @@ export {
 } from './algorithmConfiguration';
 export { growTree } from './growTree';
 export { growRandomForest } from './growRandomForest';
-export { getTreePrediction, getRandomForestPrediction, getLeafNodesForSamples } from './predict';
+export { getTreePrediction, getRandomForestPrediction } from './predict';
+
+

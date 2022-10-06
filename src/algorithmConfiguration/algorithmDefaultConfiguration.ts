@@ -6,7 +6,7 @@ import {
   getPossibleSpitCriteriaForDiscreteAttribute
 } from '../dataSet/split';
 // eslint-disable-next-line import/no-cycle
-import { composeStopFunctions, stopIfNoSplitsAvailable, stopIfPure } from '../pruneTree';
+import { stopRules } from '../pruneTree';
 
 // eslint-disable-next-line import/no-cycle
 import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
@@ -40,7 +40,7 @@ export const defaultConfiguration: TreeGardenConfiguration = {
   biggerScoreBetterSplit: true,
 
   // when this function evaluates to to true then next split will be made if false grow is stopped and node is leaf one
-  shouldWeStopGrowth: composeStopFunctions(stopIfPure, stopIfNoSplitsAvailable),
+  shouldWeStopGrowth: stopRules(), // example -  stopRules(stopIfMinimalNumberOfSamplesInInnerNode(5), stopIfDepthIs(5))
   // how many splits will be stored on each node
   numberOfSplitsKept: 3,
 

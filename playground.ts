@@ -7,7 +7,7 @@ import {c45Config} from "./src/algorithmConfiguration";
 import { titanicSet } from './src/sampleDataSets';
 import { growTree } from './src';
 import {
-  composeStopFunctions,
+  stopRules,
   getPrunedTreeByCostComplexityPruning,
   getPrunedTreeByPessimisticPruning,
   getPrunedTreeByReducedErrorPruning,
@@ -30,7 +30,7 @@ console.log(`length of validation: ${validation.length}, length of training: ${t
 const myConfig = buildAlgorithmConfiguration(titanicSet, {
   excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
   attributes: { sibsp: { dataType: 'continuous' }, pclass:{dataType: 'discrete'},parch:{dataType: "discrete"} },
-  shouldWeStopGrowth: composeStopFunctions(
+  shouldWeStopGrowth: stopRules(
     stopIfPure,
     stopIfNoSplitsAvailable,
     // stopIfDepthIs(5)

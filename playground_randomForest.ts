@@ -3,15 +3,14 @@ import { buildAlgorithmConfiguration } from './src';
 import { titanicSet } from './src/sampleDataSets';
 import {getRandomForestPrediction} from "./src/predict";
 import {getMostCommonTagOfSamplesInNode} from "./src/dataSet/replaceMissingValues";
-import {composeStopFunctions, stopIfDepthIs,stopIfPure, stopIfMinimalNumberOfSamplesInInnerNode} from "./src/pruneTree";
+import {stopRules, stopIfDepthIs, stopIfMinimalNumberOfSamplesInInnerNode} from "./src/pruneTree";
 
 
 const config = buildAlgorithmConfiguration(titanicSet,{
   excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
   getTagOfSampleWithMissingValueWhileClassifying: getMostCommonTagOfSamplesInNode,
-  shouldWeStopGrowth: composeStopFunctions(
+  shouldWeStopGrowth: stopRules(
     stopIfDepthIs(10),
-    stopIfPure,
     stopIfMinimalNumberOfSamplesInInnerNode(10)
   ),
   numberOfTrees:50

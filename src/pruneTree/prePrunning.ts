@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
-// stopping  - pre-pruning
 
+// stopping  - pre-pruning
 import { getClassesOfDataSet } from '../dataSet/set';
 import { TreeGardenNode } from '../treeNode';
 import { TreeGardenConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
@@ -8,13 +8,12 @@ import { getNumberOfSamplesInNode } from '../statistic/treeStats';
 
 
 type StopperFn = (currentNode:TreeGardenNode, configuration:TreeGardenConfiguration)=>boolean;
-export const composeStopFunctions = (...stopFunctions:StopperFn[]) => (
+export const stopRules = (...stopFunctions:StopperFn[]) => (
   currentNode:TreeGardenNode,
   configuration:TreeGardenConfiguration
 ) => stopFunctions.some((stopFn) => stopFn(currentNode, configuration));
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const stopIfPure = (currentNode:TreeGardenNode, configuration:TreeGardenConfiguration) => {
+export const stopIfPure = (currentNode:TreeGardenNode, _configuration:TreeGardenConfiguration) => {
   if (!currentNode.dataPartitions) {
     throw new Error('Node has no partitions!');
   }
