@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-cycle
-import { getMostCommonValueFF } from '../dataSet/replaceMissingValues';
-import { getInformationGainForSplit } from '../impurity/entropy';
+import { getMostCommonTagOfSamplesInNode, getMostCommonValueFF } from '../dataSet/replaceMissingValues';
+import { getInformationGainRatioForSplit } from '../impurity/entropy';
 import {
   getPossibleSpitCriteriaForContinuousAttribute,
   getPossibleSpitCriteriaForDiscreteAttribute
@@ -34,13 +34,13 @@ export const defaultConfiguration: TreeGardenConfiguration = {
   excludedAttributes: [],
 
   // impurity scoring function see default for more information
-  getScoreForSplit: getInformationGainForSplit,
+  getScoreForSplit: getInformationGainRatioForSplit,
 
   // for information gain bigger score means better split, but for gini, opposite is true
   biggerScoreBetterSplit: true,
 
   // when this function evaluates to to true then next split will be made if false grow is stopped and node is leaf one
-  shouldWeStopGrowth: stopRules(), // example -  stopRules(stopIfMinimalNumberOfSamplesInInnerNode(5), stopIfDepthIs(5))
+  shouldWeStopGrowth: stopRules(), // example -  stopRules(stopIfMinimalNumberOfSamplesInNode(5), stopIfDepthIs(5))
   // how many splits will be stored on each node
   numberOfSplitsKept: 3,
 
@@ -55,7 +55,7 @@ export const defaultConfiguration: TreeGardenConfiguration = {
   evaluateMissingValueReplacement: getMostCommonValueFF,
 
   // missing values replacement delayed to point when samples traverse during induced tree, sample and treeNode is provided
-  getTagOfSampleWithMissingValueWhileClassifying: undefined,
+  getTagOfSampleWithMissingValueWhileClassifying: getMostCommonTagOfSamplesInNode,
 
   // how to obtain class from node where unknown sample lands
   getClassFromLeafNode: getMostCommonClassForNode,

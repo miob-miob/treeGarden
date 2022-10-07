@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { v4 as uuidV4 } from 'uuid';
+import { getUid } from '../utils/uid';
 import { TreeGardenDataSample } from './set';
 
 export const enrichDataSetWithUniqueIds = (dataSet:TreeGardenDataSample[]) => {
@@ -8,7 +8,7 @@ export const enrichDataSetWithUniqueIds = (dataSet:TreeGardenDataSample[]) => {
   dataSet.forEach((sample) => {
     if (sample._id === undefined) {
       // eslint-disable-next-line no-param-reassign
-      sample._id = uuidV4();
+      sample._id = getUid();
       forcedToAddOurIds = true;
     }
     if (alreadyFoundIds.has(sample._id)) {
@@ -17,6 +17,6 @@ export const enrichDataSetWithUniqueIds = (dataSet:TreeGardenDataSample[]) => {
     alreadyFoundIds.add(sample._id);
   });
   if (forcedToAddOurIds) {
-    console.warn('Every sample in data set did not have _id, we were forced to add UUID4 to each of those - your data set was mutated - now you at least know.');
+    console.warn('Every sample in data set did not have _id, we were forced to add our unique identifier to each of those - your data set was mutated - now you at least know.');
   }
 };

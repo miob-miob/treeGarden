@@ -5,7 +5,8 @@ import {
   getLeafNodeOfSample,
   getMostCommonClassForNode,
   getResultFromMultipleTrees,
-  getRandomForestPrediction
+  getRandomForestPrediction,
+  getReadyToPredictSamples
 } from './predict';
 import { buildAlgorithmConfiguration } from './algorithmConfiguration';
 import { simpleSet, tennisSet } from './sampleDataSets';
@@ -127,4 +128,24 @@ test('getResultFromMultipleTrees', () => {
     algConfig
   )).toBe('left');
   expect(mergeRegressionResultsWithSpy).toHaveBeenNthCalledWith(2, ['left', 'left', 'left', 'right', 'right']);
+});
+
+test('getReadyToPredictSamples', () => {
+  const consoleWarnSpy = jest.spyOn(console, 'warn');
+  const simpleConf = buildAlgorithmConfiguration(simpleSet);
+  const setWithMissingValues = [
+    {},
+    {}
+  ] as TreeGardenDataSample[];
+
+  const readyToClassifySamples = getReadyToPredictSamples(
+    setWithMissingValues,
+    simpleConf,
+    simpleSet
+  );
+
+  expect(readyToClassifySamples[0].color).toBeDefined();
+  expect(readyToClassifySamples[1].color).toBeDefined();
+  expect(consoleWarnSpy).toBeCalledTimes(1);
+
 });

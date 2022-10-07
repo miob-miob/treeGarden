@@ -74,3 +74,6 @@ export const split = {
   getPossibleSpitCriteriaForDiscreteAttribute
 };
 
+export const impurity = {
+
+}

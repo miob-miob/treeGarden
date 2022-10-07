@@ -89,7 +89,7 @@ test('dataSetToTreeNode', () => {
   };
 
   const newNode = dataSetToTreeNode(simpleSet, config);
-  // remove uuid for comparison
+  // remove uid for comparison
   // @ts-ignore
   newNode.id = 'z85';
   // we do not want calculate gini by hand ;)
@@ -138,9 +138,9 @@ test('dataPartitionsToDataPartitionCounts and classCounts', () => {
 });
 
 test('getFlattenTree', () => {
-  const uuidsOfTennisTreeNodes = getFlattenTree(tennisTree)
+  const uidsOfTennisTreeNodes = getFlattenTree(tennisTree)
     .map((node) => node.id);
-  expect(new Set(uuidsOfTennisTreeNodes).size).toBe(8);
+  expect(new Set(uidsOfTennisTreeNodes).size).toBe(8);
 });
 
 test('getAllNonLeafNodes', () => {

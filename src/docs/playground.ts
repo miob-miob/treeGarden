@@ -1,25 +1,25 @@
 import {
   buildAlgorithmConfiguration
-} from './src';
+} from '../index';
 
-import {c45Config} from "./src/algorithmConfiguration";
+import {c45Config} from "../algorithmConfiguration";
 
-import { titanicSet } from './src/sampleDataSets';
-import { growTree } from './src';
+import { titanicSet } from '../sampleDataSets';
+import { growTree } from '../index';
 import {
   stopRules,
   getPrunedTreeByCostComplexityPruning,
   getPrunedTreeByPessimisticPruning,
   getPrunedTreeByReducedErrorPruning,
-  stopIfMinimalNumberOfSamplesInInnerNode,
+  stopIfMinimalNumberOfSamplesInNode,
   stopIfNoSplitsAvailable,
   stopIfPure
-} from './src/pruneTree';
-import { getDividedSet } from './src/dataSet/dividingAndBootstrapping';
-import { getNumberOfTreeNodes, getTreeAccuracy } from './src/statistic/treeStats';
-import {stopIfDepthIs} from "./src/pruneTree/prePrunning";
-import {cartConfig} from './src/algorithmConfiguration';
-import {getDataSetWithReplacedValues} from "./src/dataSet/replaceMissingValues";
+} from '../pruneTree';
+import { getDividedSet } from '../dataSet/dividingAndBootstrapping';
+import { getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
+import {stopIfDepthIs} from "../pruneTree/prePrunning";
+import {cartConfig} from '../algorithmConfiguration';
+import {getDataSetWithReplacedValues} from "../dataSet/replaceMissingValues";
 
 
 const [training, validation] = getDividedSet(titanicSet, 0.90);

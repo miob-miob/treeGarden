@@ -47,19 +47,35 @@ export const getLeafNodeOfSample = <T extends boolean>(
   return currentNode as NodeOrIdArray<T>;
 };
 
+// missing value replacement for prediction
+export const getReadyToPredictSamples = (
+  samplesToPredictWithMissingValues:TreeGardenDataSample[],
+  algorithmConfiguration:TreeGardenConfiguration,
+  referenceDataSetForReplacing?:TreeGardenDataSample[],
+  fnName = 'getTreePrediction'
+) => {
+  if (referenceDataSetForReplacing !== undefined && algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying !== undefined) {
+    console.warn(`When calling '${fnName}', You provided referenceDataSetForReplacing to replace missing values,
+     but also 'getTagOfSampleWithMissingValueWhileClassifying' is defined in algorithmConfiguration:TreeGardenConfiguration (default configuration) 
+     - provided referenceDataSetForReplacing, will be used for missing values replacement - 'getTagOfSampleWithMissingValueWhileClassifying' config will be ignored.
+     To get rid of this warning, set 'configuration.getTagOfSampleWithMissingValueWhileClassifying = undefined'.`);
+  }
+  const readyToGoSamples = referenceDataSetForReplacing !== undefined ? getDataSetWithReplacedValues({
+    replacerFactoryKey: 'evaluateMissingValueReplacement',
+    samplesToReplace: samplesToPredictWithMissingValues as TreeGardenDataSample[],
+    algorithmConfiguration,
+    referenceDataSet: referenceDataSetForReplacing
+  }) : [...samplesToPredictWithMissingValues];
+  return readyToGoSamples;
+};
+
 export const getLeafNodesForSamples = (
   samplesToClassify:TreeGardenDataSample[],
   decisionTreeRoot:TreeGardenNode,
   algorithmConfiguration:TreeGardenConfiguration,
   referenceDataSetForReplacing?:TreeGardenDataSample[]
 ) => {
-  const readyToClassifySamples = (referenceDataSetForReplacing && !algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying) ? getDataSetWithReplacedValues({
-    replacerFactoryKey: 'evaluateMissingValueReplacement',
-    samplesToReplace: samplesToClassify as TreeGardenDataSample[],
-    algorithmConfiguration,
-    referenceDataSet: referenceDataSetForReplacing
-  }) : [...samplesToClassify];
-
+  const readyToClassifySamples = getReadyToPredictSamples(samplesToClassify, algorithmConfiguration, referenceDataSetForReplacing);
   return readyToClassifySamples
     .map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration, false)] as [TreeGardenDataSample, TreeGardenNode]);
 };
@@ -113,12 +129,7 @@ export const getRandomForestPrediction = <T extends TreeGardenDataSample|TreeGar
 ) => {
   const multipleSamples = Boolean(samplesToPredict.length !== undefined);
   const samplesPriorReplacement = (multipleSamples ? samplesToPredict : [samplesToPredict]) as TreeGardenDataSample[];
-  const readyToGoSamples = (referenceDataSetForReplacing && !algorithmConfiguration.getTagOfSampleWithMissingValueWhileClassifying) ? getDataSetWithReplacedValues({
-    replacerFactoryKey: 'evaluateMissingValueReplacement',
-    samplesToReplace: samplesPriorReplacement as TreeGardenDataSample[],
-    algorithmConfiguration,
-    referenceDataSet: referenceDataSetForReplacing
-  }) : [...samplesPriorReplacement];
+  const readyToGoSamples = getReadyToPredictSamples(samplesPriorReplacement, algorithmConfiguration, referenceDataSetForReplacing, 'getRandomForestPrediction');
 
   const samplesAndPrediction: MultipleSamplesPredictionResult = readyToGoSamples
     .map((sample) => [sample, algorithmConfiguration.majorityVoting(trees, sample, algorithmConfiguration)]);
@@ -145,7 +156,7 @@ export const getResultFromMultipleTrees = (
   return config.mergeRegressionResults(values as number[]);
 };
 
-
+// todo example - how write config with hand without data set
 // todo think about exports - public API
 // todo  npm package
 // todo DOCS

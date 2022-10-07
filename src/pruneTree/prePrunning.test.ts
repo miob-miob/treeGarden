@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import {
-  stopRules, stopIfDepthIs, stopIfMinimalNumberOfSamplesInInnerNode, stopIfPure
+  stopRules, stopIfDepthIs, stopIfMinimalNumberOfSamplesInNode, stopIfPure
 } from './prePrunning';
 import {
   TreeGardenConfiguration,
@@ -75,9 +75,9 @@ test('stopIfMinimalNumberOfSamplesInLeafNode', () => {
     classCounts: { left: 1, right: 1, white: 1 }
   };
 
-  const stopper5 = stopIfMinimalNumberOfSamplesInInnerNode(5);
-  const stopper2 = stopIfMinimalNumberOfSamplesInInnerNode(2);
-  const stopper3 = stopIfMinimalNumberOfSamplesInInnerNode(3);
+  const stopper5 = stopIfMinimalNumberOfSamplesInNode(5);
+  const stopper2 = stopIfMinimalNumberOfSamplesInNode(2);
+  const stopper3 = stopIfMinimalNumberOfSamplesInNode(3);
 
   expect(stopper3(nodeWith4 as unknown as TreeGardenNode, {} as TreeGardenConfiguration)).toBeFalsy();
   expect(stopper2(nodeWith4 as unknown as TreeGardenNode, {} as TreeGardenConfiguration)).toBeFalsy();

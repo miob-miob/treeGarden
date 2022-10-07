@@ -3,6 +3,6 @@ export { getPrunedTreeByReducedErrorPruning } from './reducedErrorPrunning';
 export { getPrunedTreeByPessimisticPruning } from './pessimisticPrunning';
 export {
   stopRules,
-  stopIfMinimalNumberOfSamplesInInnerNode,
+  stopIfMinimalNumberOfSamplesInNode,
   stopIfDepthIs
 } from './prePrunning';

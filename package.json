@@ -55,8 +55,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "dependencies": {
-    "uuid": "^8.3.2"
   }
 }

@@ -1,38 +1,38 @@
 import {
-  buildAlgorithmConfiguration
-} from './src';
+  buildAlgorithmConfiguration,
+  growTree
+} from '../index';
 
-import {c45Config} from "./src/algorithmConfiguration";
+import { c45Config } from '../algorithmConfiguration';
 
-import { irisSet } from './src/sampleDataSets';
-import { growTree } from './src';
+import { irisSet } from '../sampleDataSets';
+
 import {
   stopRules,
   getPrunedTreeByPessimisticPruning,
-  stopIfNoSplitsAvailable,
-  stopIfPure
-} from './src/pruneTree';
-import { getDividedSet } from './src/dataSet/dividingAndBootstrapping';
-import { getNumberOfTreeNodes, getTreeAccuracy } from './src/statistic/treeStats';
+  stopIfDepthIs,
+  stopIfMinimalNumberOfSamplesInNode
+} from '../pruneTree';
+import { getDividedSet } from '../dataSet/dividingAndBootstrapping';
+import { getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
 
 
 const [training, validation] = getDividedSet(irisSet, 0.9);
 console.log(`length of validation: ${validation.length}, length of training: ${training.length} `);
 
 
-
 const myConfig = buildAlgorithmConfiguration(irisSet, {
   ...c45Config,
   attributes: {
     // sepal_length: { dataType: 'continuous' },
-    sepal_width:{dataType: 'continuous'},
-    petal_length:{dataType: 'continuous'},
-    petal_width:{dataType: 'continuous'}
-    },
+    sepal_width: { dataType: 'continuous' },
+    petal_length: { dataType: 'continuous' },
+    petal_width: { dataType: 'continuous' }
+  },
   shouldWeStopGrowth: stopRules(
-    stopIfPure,
-    stopIfNoSplitsAvailable,
-    // stopIfMinimalNumberOfSamplesInInnerNode(3)
+    stopIfDepthIs(30),
+    stopIfMinimalNumberOfSamplesInNode(20)
+    // stopIfMinimalNumberOfSamplesInNode(3)
   )
 });
 console.log(myConfig);

@@ -13,6 +13,8 @@ export const stopRules = (...stopFunctions:StopperFn[]) => (
   configuration:TreeGardenConfiguration
 ) => stopFunctions.some((stopFn) => stopFn(currentNode, configuration));
 
+// samples of just one class in node => further splitting is meaningless
+// this is embedded into learning algorithm itself
 export const stopIfPure = (currentNode:TreeGardenNode, _configuration:TreeGardenConfiguration) => {
   if (!currentNode.dataPartitions) {
     throw new Error('Node has no partitions!');
@@ -22,12 +24,15 @@ export const stopIfPure = (currentNode:TreeGardenNode, _configuration:TreeGarden
   return getClassesOfDataSet(wholeIncomingSet).length === 1;
 };
 
-export const stopIfMinimalNumberOfSamplesInInnerNode = (nSamples = 5) => (
+// if number of samples in node is n or lower do not allow further splitting
+export const stopIfMinimalNumberOfSamplesInNode = (nSamples = 5) => (
   currentNode:TreeGardenNode,
   _configuration:TreeGardenConfiguration
 ) => getNumberOfSamplesInNode(currentNode) <= nSamples;
 
+// this is embedded into learning algorithm itself
 export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, _configuration:TreeGardenConfiguration) => currentNode.bestSplits.length <= 1;
 
 // first depth  level is zero
+// if you want just stubs, set it to zero
 export const stopIfDepthIs = (maxDepth:number) => (currentNode:TreeGardenNode, _configuration:TreeGardenConfiguration) => currentNode.depth >= maxDepth;

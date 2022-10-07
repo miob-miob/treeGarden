@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { v4 as uuidV4 } from 'uuid';
+import { getUid } from './utils/uid';
 import {
   getAllPossibleSplitCriteriaForDataSet,
   getBestScoringSplits,
@@ -38,7 +38,7 @@ const defaultTreeNode = {
 };
 
 // todo consider to keep labels of samples in every node (use median value)
-export const createTreeNode = (node:Partial<TreeGardenNode> = {}) => ({ ...defaultTreeNode, ...node, id: uuidV4() } as TreeGardenNode);
+export const createTreeNode = (node:Partial<TreeGardenNode> = {}) => ({ ...defaultTreeNode, ...node, id: getUid() } as TreeGardenNode);
 
 export const dataPartitionsToDataPartitionCounts = (dataPartitions:{ [key:string]:TreeGardenDataSample[] }) => Object.fromEntries(Object.entries(dataPartitions)
   .map(([tag, subset]) => {

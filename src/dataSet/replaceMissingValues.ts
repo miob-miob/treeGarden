@@ -47,14 +47,13 @@ export const getMostCommonValueAmongSameClassFF = (dataSet:TreeGardenDataSample[
   }
   const allClassesOfDataSet = getClassesOfDataSet(dataSet);
   const classesAndCommonValuesForGivenAttributeId:{ [key:string]:string|number } = {};
-  const attributeDataType = configuration.attributes[attributeId].dataType;
-  const { missingValue } = configuration.attributes[attributeId];
+  const { missingValue, dataType } = configuration.attributes[attributeId];
   allClassesOfDataSet.forEach((currentClass) => {
     const partitionValues = dataSet
       .filter((sample) => sample._class === currentClass && sample[attributeId] !== undefined && sample[attributeId] !== missingValue)
       .map((sample) => sample[attributeId]);
     if (partitionValues.length !== 0) {
-      classesAndCommonValuesForGivenAttributeId[currentClass] = (attributeDataType === 'discrete')
+      classesAndCommonValuesForGivenAttributeId[currentClass] = (dataType === 'discrete')
         ? chooseOne(getMostCommonValues(partitionValues)) : getMedian(partitionValues);
     }
   });
