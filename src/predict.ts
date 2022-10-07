@@ -156,7 +156,3 @@ export const getResultFromMultipleTrees = (
   return config.mergeRegressionResults(values as number[]);
 };
 
-// todo example - how write config with hand without data set
-// todo think about exports - public API
-// todo  npm package
-// todo DOCS

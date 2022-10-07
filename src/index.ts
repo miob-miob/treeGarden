@@ -20,13 +20,39 @@ import {
 } from './dataSet/set';
 
 import {
+  getInformationGainForSplit,
+  getInformationGainRatioForSplit
+} from './impurity/entropy';
+import {
+  getGiniIndexForSplit
+} from './impurity/gini';
+import {
+  getScoreForRegressionTreeSplit
+} from './impurity/regressionTreeScore';
+
+import {
   getSplitCriteriaFn,
-  getBestScoringSplits,
-  splitDataSet,
   getAllPossibleSplitCriteriaForDataSet,
   getPossibleSpitCriteriaForContinuousAttribute,
   getPossibleSpitCriteriaForDiscreteAttribute
 } from './split';
+
+import {
+  titanicTree,
+  tennisTree,
+  simpleTree,
+  simpleRegressionTree,
+  titanicTreeTwo
+} from './sampleTrainedTrees';
+
+import {
+  simpleSet,
+  titanicSet,
+  simpleSetForRegression,
+  housePrices,
+  irisSet,
+  tennisSet
+} from './sampleDataSets';
 
 export { SplitCriteriaFn, SplitCriteriaDefinition, SplitOperator } from './split';
 
@@ -71,9 +97,37 @@ export const dataSet = {
 export const split = {
   getSplitCriteriaFn,
   getPossibleSpitCriteriaForContinuousAttribute,
-  getPossibleSpitCriteriaForDiscreteAttribute
+  getPossibleSpitCriteriaForDiscreteAttribute,
+  getAllPossibleSplitCriteriaForDataSet
 };
 
 export const impurity = {
+  getInformationGainRatioForSplit, // bigger score - better split
+  getInformationGainForSplit, // bigger score - better split
+  getGiniIndexForSplit, // lower score - better split
+  getScoreForRegressionTreeSplit // lower score - better split
+};
 
-}
+// todo if we go hardly after bundle size - this would not be ideal
+export const sampleTrees = {
+  titanicTree,
+  titanicTreeTwo,
+  tennisTree,
+  simpleTree,
+  simpleRegressionTree
+};
+
+// todo if we go hardly after bundle size - this would not be ideal
+export const sampleDataSets = {
+  simpleSet,
+  titanicSet,
+  simpleSetForRegression,
+  housePrices,
+  irisSet,
+  tennisSet
+};
+
+// todo example - how write config with hand without data set
+// todo think about exports - public API
+// todo  npm package
+// todo DOCS
