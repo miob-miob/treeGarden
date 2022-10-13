@@ -54,6 +54,34 @@ import {
   tennisSet
 } from './sampleDataSets';
 
+import {
+  getMedian,
+  getArithmeticAverage,
+  getStandardDeviation,
+  getVariance
+} from './statistic/basicStatistic';
+
+import {
+  getMissClassificationRateRaw,
+  getRAbsErrorRaw,
+  getNumberOfSamplesInNode,
+  getRAbsError,
+  getMissClassificationRate,
+  getNumberOfTreeNodes
+} from './statistic/treeStats';
+
+
+import {
+  getTreeCopy,
+  getTreeStages,
+  getAllLeafNodes,
+  getFlattenTree,
+  getAllInnerNodes,
+  getTreeNodeById
+} from './treeNode';
+
+import { getOutOfTheBagError } from './statistic/randomForestStats';
+
 export { SplitCriteriaFn, SplitCriteriaDefinition, SplitOperator } from './split';
 
 export { TreeGardenDataSample } from './dataSet/set';
@@ -67,7 +95,7 @@ export {
 export { growTree } from './growTree';
 export { growRandomForest } from './growRandomForest';
 export { getTreePrediction, getRandomForestPrediction } from './predict';
-
+export { getTreeAccuracy } from './statistic/treeStats';
 export { getDividedSet } from './dataSet/dividingAndBootstrapping';
 
 export const configuration = {
@@ -126,6 +154,30 @@ export const sampleDataSets = {
   irisSet,
   tennisSet
 };
+
+export const statistics = {
+  getMedian,
+  getArithmeticAverage,
+  getStandardDeviation,
+  getVariance,
+  getMissClassificationRateRaw,
+  getRAbsErrorRaw,
+  getNumberOfSamplesInNode,
+  getRAbsError,
+  getMissClassificationRate,
+  getNumberOfTreeNodes,
+  getOutOfTheBagError
+};
+
+export const tree = {
+  getTreeCopy,
+  getTreeStages,
+  getAllLeafNodes,
+  getFlattenTree,
+  getAllInnerNodes,
+  getTreeNodeById
+};
+
 
 // todo example - how write config with hand without data set
 // todo think about exports - public API

@@ -16,7 +16,7 @@ import { getTreeAccuracy } from '../statistic/treeStats';
 import { getValueForNode, getMostCommonClassForNode, getResultFromMultipleTrees } from '../predict';
 import { TreeGardenDataSample } from '../dataSet/set';
 import { chooseManyWithoutRepeats } from '../randomization';
-import { getMostCommonValues } from '../statistic/getMostCommonValue';
+import { getMostCommonValue } from '../statistic/getMostCommonValue';
 import { getMedian } from '../statistic/basicStatistic';
 
 // todo implement expansivnes of splits derived from given attribute
@@ -99,7 +99,7 @@ export const defaultConfiguration: TreeGardenConfiguration = {
   numberOfBootstrappedSamples: 0, // number of samples bootstrapped from original dataset - 0 = all,
   calculateOutOfTheBagError: true, // https://en.wikipedia.org/wiki/Out-of-bag_error
   majorityVoting: getResultFromMultipleTrees,
-  mergeClassificationResults: (values:string[]) => getMostCommonValues(values)[0],
+  mergeClassificationResults: getMostCommonValue,
   mergeRegressionResults: getMedian,
 
   // ---

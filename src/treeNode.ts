@@ -65,6 +65,7 @@ export const dataPartitionsToClassCounts = (dataSet:TreeGardenDataSample[]) => d
   return result;
 }, {});
 
+// todo maybe to configuration?
 const getAverageOutcomeForDataSet = (dataSet:TreeGardenDataSample[]) => getArithmeticAverage(dataSet.map((sample) => sample._class as number));
 
 export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:TreeGardenConfiguration, parentNode?:TreeGardenNode) => {

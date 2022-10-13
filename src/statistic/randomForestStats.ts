@@ -4,13 +4,14 @@ import { TreeGardenDataSample } from '../dataSet/set';
 import { getBootstrappedDataSetAndOutOfTheBagRest } from '../dataSet/dividingAndBootstrapping';
 import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { getMissClassificationRateRaw, getRAbsErrorRaw } from './treeStats';
+import { getResultFromMultipleTrees } from '../predict';
 
 type OutOfTheBagSet = ReturnType<typeof getBootstrappedDataSetAndOutOfTheBagRest>[1];
 export const getOutOfTheBagError = (
   treesAndOutOfTheBagSets:[TreeGardenNode, OutOfTheBagSet][],
   fullDataSet:TreeGardenDataSample[],
   config: TreeGardenConfiguration,
-  majorityVotingFn : TreeGardenConfiguration['majorityVoting']
+  majorityVotingFn : TreeGardenConfiguration['majorityVoting'] = getResultFromMultipleTrees
 ) => {
   const predictedResults:TreeGardenDataSample['_class'][] = [];
   const realResults :TreeGardenDataSample['_class'][] = [];

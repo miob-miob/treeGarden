@@ -1,47 +1,39 @@
 import {
-  buildAlgorithmConfiguration
+  buildAlgorithmConfiguration,
+  growTree
 } from '../index';
 
-import {c45Config} from "../algorithmConfiguration";
+// import { c45Config, cartConfig } from '../algorithmConfiguration';
 
 import { titanicSet } from '../sampleDataSets';
-import { growTree } from '../index';
+
 import {
-  stopRules,
-  getPrunedTreeByCostComplexityPruning,
-  getPrunedTreeByPessimisticPruning,
-  getPrunedTreeByReducedErrorPruning,
-  stopIfMinimalNumberOfSamplesInNode,
-  stopIfNoSplitsAvailable,
-  stopIfPure
+  // getPrunedTreeByCostComplexityPruning,
+  getPrunedTreeByPessimisticPruning
+  // getPrunedTreeByReducedErrorPruning,
+  // stopIfMinimalNumberOfSamplesInNode
 } from '../pruneTree';
 import { getDividedSet } from '../dataSet/dividingAndBootstrapping';
 import { getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
-import {stopIfDepthIs} from "../pruneTree/prePrunning";
-import {cartConfig} from '../algorithmConfiguration';
-import {getDataSetWithReplacedValues} from "../dataSet/replaceMissingValues";
+
+import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 
 
 const [training, validation] = getDividedSet(titanicSet, 0.90);
 console.log(`length of validation: ${validation.length}, length of training: ${training.length} `);
 
 
-// todo check miniml number of samples in leaf node  - we should check parent
 const myConfig = buildAlgorithmConfiguration(titanicSet, {
   excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
-  attributes: { sibsp: { dataType: 'continuous' }, pclass:{dataType: 'discrete'},parch:{dataType: "discrete"} },
-  shouldWeStopGrowth: stopRules(
-    stopIfPure,
-    stopIfNoSplitsAvailable,
-    // stopIfDepthIs(5)
-  )
+  attributes: { sibsp: { dataType: 'continuous' }, pclass: { dataType: 'discrete' }, parch: { dataType: 'discrete' } }
+
 });
 
 
 console.log(myConfig);
 
 const tree = growTree(myConfig, training);
-const replacedValidation  = getDataSetWithReplacedValues({
+const replacedValidation = getDataSetWithReplacedValues({
   samplesToReplace: validation,
   algorithmConfiguration: myConfig
 });

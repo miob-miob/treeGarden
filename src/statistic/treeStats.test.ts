@@ -1,7 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import { growTree } from '../growTree';
 import {
-  getNumberOfSamplesInNode, getNumberOfTreeNodes, getMissClassificationRate, getRAbsError
+  getNumberOfSamplesInNode,
+  getNumberOfTreeNodes,
+  getMissClassificationRate,
+  getRAbsError,
+  getTreeDepth
 } from './treeStats';
 import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 import { simpleTree } from '../sampleTrainedTrees/simpleTree';
@@ -9,6 +13,7 @@ import { tennisTree } from '../sampleTrainedTrees/tennisTree';
 import { simpleRegressionTree } from '../sampleTrainedTrees/simpleRegressionTree';
 import { simpleSetForRegression, simpleSet } from '../sampleDataSets';
 import { getScoreForRegressionTreeSplit } from '../impurity/regressionTreeScore';
+import {titanicTreeTwo} from "../sampleTrainedTrees";
 
 
 const config = buildAlgorithmConfiguration(simpleSet);
@@ -49,3 +54,8 @@ test('getNumberOfSamplesInNode', () => {
 });
 
 
+test('getTreeDepth', () => {
+  expect(getTreeDepth(simpleTree)).toBe(1);
+  expect(getTreeDepth(titanicTreeTwo)).toBe(8);
+  expect(getTreeDepth(tennisTree)).toBe(2);
+});

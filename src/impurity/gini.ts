@@ -5,7 +5,7 @@ import { SplitCriteriaFn } from '../split';
 
 
 /**
- * calculates gini index
+ * calculates gini index - lower number == less impure 1- ( 0.1**2+0.9**2) < 1 (0.5**2 + 0.5**2)
  * @param {Array<number>} frequenciesOfClasses number[]
  * @returns {number}
  */
@@ -30,6 +30,8 @@ export const getGiniIndexForDataSet = (dataSet:TreeGardenDataSample[], knownClas
   return getGiniIndex(Object.values(frequencies));
 };
 
+
+// lower i better - more purer
 export const getGiniIndexForSplit = (
   parentSet:TreeGardenDataSample[],
   childrenSets:{ [key:string]:TreeGardenDataSample[] },

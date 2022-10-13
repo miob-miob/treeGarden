@@ -24,3 +24,5 @@ export const getMostCommonValues = (values:string[]) => {
     .filter(([, count]) => count === largestCount)
     .map(([value]) => value);
 };
+
+export const getMostCommonValue = (values:string[]) => getMostCommonValues(values)[0];
