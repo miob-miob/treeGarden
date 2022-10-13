@@ -5,14 +5,18 @@ import { getRandomForestPrediction } from '../predict';
 import { getMostCommonTagOfSamplesInNode } from '../dataSet/replaceMissingValues';
 import { stopRules, stopIfDepthIs, stopIfMinimalNumberOfSamplesInNode } from '../pruneTree';
 import { getInformationGainRatioForSplit, getInformationGainForSplit } from '../impurity/entropy';
+import { getTreeDepth } from '../statistic/treeStats';
 
 
 const config = buildAlgorithmConfiguration(titanicSet, {
   // excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
   // getTagOfSampleWithMissingValueWhileClassifying: getMostCommonTagOfSamplesInNode,
-  numberOfTrees: 500,
-  getTagOfSampleWithMissingValueWhileClassifying: undefined,
+  numberOfTrees: 10,
+  // getTagOfSampleWithMissingValueWhileClassifying: undefined,
   getScoreForSplit: getInformationGainRatioForSplit
+  // shouldWeStopGrowth: stopRules(
+  //   stopIfDepthIs(15)
+  // )
 
 });
 
@@ -37,3 +41,6 @@ const { trees, oobError } = growRandomForest(config, titanicSet);
 console.log(`Out of the bag error for our trained forrest: ${oobError} % correct classifications!`);
 console.log('Would our passenger survive on titanic? - ', getRandomForestPrediction(passenger, trees, config));
 
+trees.forEach((tree) => {
+  console.log(getTreeDepth(tree));
+});

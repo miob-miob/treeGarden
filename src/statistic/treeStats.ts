@@ -92,14 +92,4 @@ export const getNumberOfTreeNodes = (treeRoot: TreeGardenNode) => getFlattenTree
 export const getNumberOfSamplesInNode = (node: TreeGardenNode) => Object.values(node.classCounts)
   .reduce((acc, current) => acc + current, 0);
 
-export const getTreeDepth = (tree:TreeGardenNode) => {
-  const queue = [tree];
-  let lastNode = tree;
-  while (queue.length > 0) {
-    lastNode = queue.shift()!;
-    if (lastNode.childNodes) {
-      queue.push(...Object.values(lastNode.childNodes));
-    }
-  }
-  return lastNode.depth;
-};
+export const getTreeDepth = (tree:TreeGardenNode) => Math.max(...getFlattenTree(tree).map((node) => node.depth));

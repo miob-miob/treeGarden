@@ -67,7 +67,8 @@ import {
   getNumberOfSamplesInNode,
   getRAbsError,
   getMissClassificationRate,
-  getNumberOfTreeNodes
+  getNumberOfTreeNodes,
+  getTreeDepth
 } from './statistic/treeStats';
 
 
@@ -77,7 +78,8 @@ import {
   getAllLeafNodes,
   getFlattenTree,
   getAllInnerNodes,
-  getTreeNodeById
+  getTreeNodeById,
+  SINGLE_CLASS_FOR_REGRESSION_TREE
 } from './treeNode';
 
 import { getOutOfTheBagError } from './statistic/randomForestStats';
@@ -166,6 +168,7 @@ export const statistics = {
   getRAbsError,
   getMissClassificationRate,
   getNumberOfTreeNodes,
+  getTreeDepth,
   getOutOfTheBagError
 };
 
@@ -178,8 +181,10 @@ export const tree = {
   getTreeNodeById
 };
 
+export const constants = {
+  SINGLE_CLASS_FOR_REGRESSION_TREE
+};
 
-// todo example - how write config with hand without data set
-// todo think about exports - public API
+
 // todo  npm package
 // todo DOCS
