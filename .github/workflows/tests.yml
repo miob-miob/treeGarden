@@ -1,18 +1,18 @@
 name: 'tree-garden types and test'
+# todo lot of duplicity - fix
 
 on:
   push:
     branches:
       - 'master'
 
-env:
-  node_image: node:16-alpine3.16
+
 
 jobs:
   install_deps:
     runs-on: ubuntu-latest
     container:
-      image: $node_image
+      image: node:16-alpine3.16
 
     steps:
       - name: 'Checkout code - as we need package.json + lock'
@@ -34,7 +34,7 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: $node_image
+      image: node:16-alpine3.16
     needs: [install_deps]
 
     steps:
