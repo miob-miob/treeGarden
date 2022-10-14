@@ -13,7 +13,7 @@ const config = buildAlgorithmConfiguration(titanicSet, {
   // getTagOfSampleWithMissingValueWhileClassifying: getMostCommonTagOfSamplesInNode,
   numberOfTrees: 10,
   // getTagOfSampleWithMissingValueWhileClassifying: undefined,
-  getScoreForSplit: getInformationGainRatioForSplit
+  // getScoreForSplit: getInformationGainRatioForSplit
   // shouldWeStopGrowth: stopRules(
   //   stopIfDepthIs(15)
   // )

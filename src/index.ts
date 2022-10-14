@@ -71,6 +71,14 @@ import {
   getTreeDepth
 } from './statistic/treeStats';
 
+import {
+  getReadyToPredictSamples,
+  getLeafNodesForSamples,
+  getLeafNodeOfSample,
+  getValueForNode,
+  getMostCommonClassForNode,
+  getResultFromMultipleTrees
+} from './predict';
 
 import {
   getTreeCopy,
@@ -181,10 +189,19 @@ export const tree = {
   getTreeNodeById
 };
 
+export const predict = {
+  getReadyToPredictSamples,
+  getLeafNodesForSamples,
+  getLeafNodeOfSample,
+  getValueForNode,
+  getMostCommonClassForNode,
+  getResultFromMultipleTrees
+};
+
 export const constants = {
   SINGLE_CLASS_FOR_REGRESSION_TREE
 };
 
-
+// todo export everything needed by tree garden visualization
 // todo  npm package
 // todo DOCS
