@@ -35,12 +35,9 @@ export const getRAbsError = (
   dataSet:TreeGardenDataSample[],
   configuration:TreeGardenConfiguration
 ) => {
-  // todo we can skip one iteration here
   const values = dataSet.map((sample) => sample._class as number);
-  const predictedValues = dataSet.map((sample) => {
-    const hitNode = getLeafNodeOfSample(sample, treeRootNode, configuration, false);
-    return configuration.getValueFromLeafNode(hitNode, sample);
-  });
+  const predictedValues = getTreePrediction(dataSet, treeRootNode, configuration)
+    .map(([_sample, value]) => value as number);
   return getRAbsErrorRaw(values, predictedValues);
 };
 

@@ -1,47 +1,41 @@
 import {
   buildAlgorithmConfiguration,
-  growTree
+  configuration,
+  growTree,
+  getTreeAccuracy,
+  dataSet,
+  prune,
+  sampleDataSets,
+  statistics
 } from '../index';
 
-import { c45Config } from '../algorithmConfiguration';
 
-import { irisSet } from '../sampleDataSets';
-
-import {
-  stopRules,
-  getPrunedTreeByPessimisticPruning,
-  stopIfDepthIs,
-  stopIfMinimalNumberOfSamplesInNode
-} from '../pruneTree';
-import { getDividedSet } from '../dataSet/dividingAndBootstrapping';
-import { getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
-
-
-const [training, validation] = getDividedSet(irisSet, 0.9);
+const [training, validation] = dataSet.getDividedSet(sampleDataSets.irisSet, 0.8);
 console.log(`length of validation: ${validation.length}, length of training: ${training.length} `);
 
 
-const myConfig = buildAlgorithmConfiguration(irisSet, {
-  ...c45Config,
+const myConfig = buildAlgorithmConfiguration(sampleDataSets.irisSet, {
+  ...configuration.c45Config,
   attributes: {
-    // sepal_length: { dataType: 'continuous' },
+    sepal_length: { dataType: 'continuous' },
     sepal_width: { dataType: 'continuous' },
     petal_length: { dataType: 'continuous' },
     petal_width: { dataType: 'continuous' }
   },
-  shouldWeStopGrowth: stopRules(
-    stopIfDepthIs(30),
-    stopIfMinimalNumberOfSamplesInNode(20)
-    // stopIfMinimalNumberOfSamplesInNode(3)
+  shouldWeStopGrowth: prune.stopRules(
+    prune.stopIfDepthIs(30),
+    prune.stopIfMinimalNumberOfSamplesInNode(20)
   )
 });
 console.log(myConfig);
 
 const tree = growTree(myConfig, training);
-console.log(`UNPRUNED: Number of nodes,${getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
+console.log(`UNPRUNED: Number of nodes,${statistics.getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
 
-const prunedTree = getPrunedTreeByPessimisticPruning(tree);
-console.log(`Pruned: Number of nodes,${getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
+
+// if we want to run real c4.5 we should use 'prune.getPrunedTreeByPessimisticPruning' method
+const prunedTree = prune.getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
+console.log(`Pruned: Number of nodes,${statistics.getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
 
 console.log(JSON.stringify(prunedTree));
 

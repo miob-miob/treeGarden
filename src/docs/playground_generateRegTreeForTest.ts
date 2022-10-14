@@ -1,18 +1,16 @@
-import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
-import { growTree } from '../growTree';
-import { simpleSetForRegression } from '../sampleDataSets';
-import { getScoreForRegressionTreeSplit } from '../impurity/regressionTreeScore';
-import { stopRules } from '../pruneTree';
-import { stopIfDepthIs } from '../pruneTree/prePrunning';
+import {
+  buildAlgorithmConfiguration,
+  growTree,
+  sampleDataSets, impurity, prune
+} from '../index';
 
-
-const algorithmConfiguration = buildAlgorithmConfiguration(simpleSetForRegression, {
+const algorithmConfiguration = buildAlgorithmConfiguration(sampleDataSets.simpleSetForRegression, {
   treeType: 'regression',
-  getScoreForSplit: getScoreForRegressionTreeSplit,
-  shouldWeStopGrowth: stopRules(stopIfDepthIs(1))
+  getScoreForSplit: impurity.getScoreForRegressionTreeSplit,
+  shouldWeStopGrowth: prune.stopRules(prune.stopIfDepthIs(1))
 });
 
-const regressionTree = growTree(algorithmConfiguration, simpleSetForRegression);
+const regressionTree = growTree(algorithmConfiguration, sampleDataSets.simpleSetForRegression);
 
 console.log(JSON.stringify(regressionTree));
 

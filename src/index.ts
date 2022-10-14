@@ -91,6 +91,15 @@ import {
 } from './treeNode';
 
 import { getOutOfTheBagError } from './statistic/randomForestStats';
+import {
+  stopRules,
+  stopIfDepthIs,
+  stopIfMinimalNumberOfSamplesInNode,
+  getPrunedTreeByCostComplexityPruning,
+  getPrunedTreeByReducedErrorPruning,
+  getPrunedTreeByPessimisticPruning
+} from './pruneTree';
+
 
 export { SplitCriteriaFn, SplitCriteriaDefinition, SplitOperator } from './split';
 
@@ -144,6 +153,15 @@ export const impurity = {
   getInformationGainForSplit, // bigger score - better split
   getGiniIndexForSplit, // lower score - better split
   getScoreForRegressionTreeSplit // lower score - better split
+};
+
+export const prune = {
+  stopRules,
+  stopIfDepthIs,
+  stopIfMinimalNumberOfSamplesInNode,
+  getPrunedTreeByCostComplexityPruning,
+  getPrunedTreeByReducedErrorPruning,
+  getPrunedTreeByPessimisticPruning
 };
 
 // todo if we go hardly after bundle size - this would not be ideal
@@ -202,6 +220,5 @@ export const constants = {
   SINGLE_CLASS_FOR_REGRESSION_TREE
 };
 
-// todo export everything needed by tree garden visualization
 // todo  npm package
 // todo DOCS

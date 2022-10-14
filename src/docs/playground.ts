@@ -1,48 +1,32 @@
 import {
   buildAlgorithmConfiguration,
-  growTree
+  growTree,
+  getTreeAccuracy,
+  prune,
+  sampleDataSets,
+  dataSet,
+  statistics,
+  impurity
 } from '../index';
 
-// import { c45Config, cartConfig } from '../algorithmConfiguration';
 
-import { titanicSet } from '../sampleDataSets';
-
-import {
-  // getPrunedTreeByCostComplexityPruning,
-  getPrunedTreeByPessimisticPruning
-  // getPrunedTreeByReducedErrorPruning,
-  // stopIfMinimalNumberOfSamplesInNode
-} from '../pruneTree';
-import { getDividedSet } from '../dataSet/dividingAndBootstrapping';
-import { getNumberOfTreeNodes, getTreeAccuracy } from '../statistic/treeStats';
-
-import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
-
-
-const [training, validation] = getDividedSet(titanicSet, 0.90);
+const [training, validation] = dataSet.getDividedSet(sampleDataSets.titanicSet, 0.85);
 console.log(`length of validation: ${validation.length}, length of training: ${training.length} `);
 
 
-const myConfig = buildAlgorithmConfiguration(titanicSet, {
+const myConfig = buildAlgorithmConfiguration(sampleDataSets.titanicSet, {
   excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
-  attributes: { sibsp: { dataType: 'continuous' }, pclass: { dataType: 'discrete' }, parch: { dataType: 'discrete' } }
-
+  attributes: { pclass: { dataType: 'discrete' }, parch: { dataType: 'discrete' }, sibs: { dataType: 'discrete' } },
+  getScoreForSplit: impurity.getInformationGainRatioForSplit,
+  biggerScoreBetterSplit: true
 });
 
-
-console.log(myConfig);
 
 const tree = growTree(myConfig, training);
-const replacedValidation = getDataSetWithReplacedValues({
-  samplesToReplace: validation,
-  algorithmConfiguration: myConfig
-});
-console.log(`UNPRUNED: Number of nodes,${getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, replacedValidation, myConfig)}`);
-// const prunedTree = getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
-const prunedTree = getPrunedTreeByPessimisticPruning(tree);
-console.log(`Pruned: Number of nodes,${getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, replacedValidation, myConfig)}`);
+console.log(`UNPRUNED: Number of nodes,${statistics.getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
+const prunedTree = prune.getPrunedTreeByPessimisticPruning(tree);
+console.log(`Pruned: Number of nodes,${statistics.getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
 
-console.log(JSON.stringify(prunedTree));
+// console.log(JSON.stringify(prunedTree));
 
-// console.log('\n\n\n',JSON.stringify(tree))
 

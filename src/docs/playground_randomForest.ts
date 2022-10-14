@@ -6,14 +6,16 @@ import { getMostCommonTagOfSamplesInNode } from '../dataSet/replaceMissingValues
 import { stopRules, stopIfDepthIs, stopIfMinimalNumberOfSamplesInNode } from '../pruneTree';
 import { getInformationGainRatioForSplit, getInformationGainForSplit } from '../impurity/entropy';
 import { getTreeDepth } from '../statistic/treeStats';
+import {getGiniIndexForSplit} from "../impurity/gini";
 
 
 const config = buildAlgorithmConfiguration(titanicSet, {
   // excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
   // getTagOfSampleWithMissingValueWhileClassifying: getMostCommonTagOfSamplesInNode,
-  numberOfTrees: 10,
+  numberOfTrees: 100,
   // getTagOfSampleWithMissingValueWhileClassifying: undefined,
-  // getScoreForSplit: getInformationGainRatioForSplit
+  getScoreForSplit: getGiniIndexForSplit,
+  biggerScoreBetterSplit: true
   // shouldWeStopGrowth: stopRules(
   //   stopIfDepthIs(15)
   // )

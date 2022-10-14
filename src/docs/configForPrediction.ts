@@ -1,6 +1,7 @@
 
 // in case of prediction we do not have whole data set available, but we still need algorithmConfiguration for prediction.
 // we can inherit configuration just with single complete sample and knowledge of all classes in case of classification tree
+// we do not need to write it by hand...
 
 
 import {
