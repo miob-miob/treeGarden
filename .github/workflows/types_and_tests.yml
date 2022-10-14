@@ -9,6 +9,7 @@ on:
 
 
 jobs:
+
   install_deps:
     runs-on: ubuntu-latest
     container:
@@ -31,7 +32,6 @@ jobs:
 
 
   check_types:
-
     runs-on: ubuntu-latest
     container:
       image: node:16-buster-slim
@@ -55,7 +55,6 @@ jobs:
 
 
   unit_tests:
-
     runs-on: ubuntu-latest
     container:
       image: node:16-buster-slim
