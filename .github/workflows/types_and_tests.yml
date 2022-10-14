@@ -1,4 +1,4 @@
-name: 'tree-garden types and test'
+name: 'tree-garden types and tests'
 # todo lot of duplicity - fix
 
 on:
@@ -30,7 +30,31 @@ jobs:
          run: npm ci
 
 
-  unit-tests:
+  check_types:
+
+    runs-on: ubuntu-latest
+    container:
+      image: node:16-buster-slim
+    needs: [install_deps]
+
+    steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v3
+
+      - name: 'Cache based on package.lock.json '
+        id: 'node_modules_cache'
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: node_modules_cache_${{ hashFiles('package-lock.json') }}
+
+
+      - name: 'check types'
+        run: npm run checkTypes
+
+
+
+  unit_tests:
 
     runs-on: ubuntu-latest
     container:
