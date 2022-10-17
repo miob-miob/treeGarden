@@ -1,6 +1,6 @@
 {
   "name": "tree-garden",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "description": "Decision trees library",
   "files": [
     "/dist"
