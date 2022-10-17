@@ -34,7 +34,7 @@ else
   exit 1
 fi
 
-git remote set-url ci_origin "https://$2@github.com/miob-miob/treeGarden"
+git remote add ci_origin "https://$2@github.com/miob-miob/treeGarden"
 
 npm version "$1" -m "Publish tree-garden %s"
 
