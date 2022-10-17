@@ -1,4 +1,4 @@
-# treeGarden [![tree-garden types and tests](https://github.com/miob-miob/treeGarden/actions/workflows/types_and_tests.yml/badge.svg?branch=master)](https://github.com/miob-miob/treeGarden/actions/workflows/types_and_tests.yml)
+# treeGarden [![Types and tests](https://github.com/miob-miob/treeGarden/actions/workflows/typesAndTests.yml/badge.svg)](https://github.com/miob-miob/treeGarden/actions/workflows/typesAndTests.yml)
 WIP decision trees library
 
 See visualization tool:
