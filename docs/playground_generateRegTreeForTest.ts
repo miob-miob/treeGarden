@@ -2,7 +2,7 @@ import {
   buildAlgorithmConfiguration,
   growTree,
   sampleDataSets, impurity, prune
-} from '../index';
+} from '../src';
 
 const algorithmConfiguration = buildAlgorithmConfiguration(sampleDataSets.simpleSetForRegression, {
   treeType: 'regression',

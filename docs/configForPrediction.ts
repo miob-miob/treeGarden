@@ -8,7 +8,7 @@ import {
   buildAlgorithmConfiguration,
   getTreePrediction,
   sampleTrees
-} from '../index';
+} from '../src';
 
 // tree of interest
 const { tennisTree } = sampleTrees;

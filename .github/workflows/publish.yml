@@ -1,0 +1,44 @@
+name: version, tag and publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      versionType:
+        type: choice
+        description: You can bump major, minor or patch version
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+        default: patch
+        required: true
+
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    container:
+      image: node:16-buster
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: install deps # needed for run tests + transpile typescript
+        run: npm ci
+
+      - name: Bump version and create and push tag
+        run: bash ./scripts/versionAndTag.sh ${{ github.event.inputs.versionType }} ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Transpile typescript (build)
+        run: npm run build
+
+      - name: Publish package on npm
+        run: npm publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+
+

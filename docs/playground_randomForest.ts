@@ -1,12 +1,12 @@
-import { growRandomForest } from '../growRandomForest';
-import { buildAlgorithmConfiguration } from '../index';
-import { titanicSet } from '../sampleDataSets';
-import { getRandomForestPrediction } from '../predict';
-import { getMostCommonTagOfSamplesInNode } from '../dataSet/replaceMissingValues';
-import { stopRules, stopIfDepthIs, stopIfMinimalNumberOfSamplesInNode } from '../pruneTree';
-import { getInformationGainRatioForSplit, getInformationGainForSplit } from '../impurity/entropy';
-import { getTreeDepth } from '../statistic/treeStats';
-import {getGiniIndexForSplit} from "../impurity/gini";
+import { growRandomForest } from '../src/growRandomForest';
+import { buildAlgorithmConfiguration } from '../src';
+import { titanicSet } from '../src/sampleDataSets';
+import { getRandomForestPrediction } from '../src/predict';
+import { getMostCommonTagOfSamplesInNode } from '../src/dataSet/replaceMissingValues';
+import { stopRules, stopIfDepthIs, stopIfMinimalNumberOfSamplesInNode } from '../src/pruneTree';
+import { getInformationGainRatioForSplit, getInformationGainForSplit } from '../src/impurity/entropy';
+import { getTreeDepth } from '../src/statistic/treeStats';
+import {getGiniIndexForSplit} from "../src/impurity/gini";
 
 
 const config = buildAlgorithmConfiguration(titanicSet, {

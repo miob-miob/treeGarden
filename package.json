@@ -1,12 +1,15 @@
 {
   "name": "tree-garden",
-  "version": "0.5.2",
+  "version": "0.5.0",
   "description": "Decision trees library",
+  "files": [
+    "/dist"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "node ./node_modules/jest/bin/jest.js",
-    "build": "tsc --noEmit false",
+    "build": "rimraf ./dist && tsc --noEmit false",
     "start": "node dist/index.js",
     "lint": "eslint --ext .js,.jsx,.es6,.ts,.tsx ./src/",
     "buildAndRun": "npm run build && npm run start",
@@ -36,6 +39,7 @@
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-plugin-import": "^2.22.1",
     "jest": "^26.4.2",
+    "rimraf": "^3.0.2",
     "ts-jest": "^26.5.4",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
