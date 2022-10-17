@@ -22,6 +22,7 @@ else
 fi
 
 # todo remove
+git remote remove ci_origin
 git remote add ci_origin "https://miob-miob:$2@github.com/miob-miob/treeGarden"
 
 npm version "$1" -m "Publish tree-garden %s"
