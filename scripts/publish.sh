@@ -2,5 +2,5 @@
 
 current_version=$(node scripts/logPackageVersion.js)
 
-echo "version from package json: ${out}"
+echo "version from package json: ${current_version}"
 
