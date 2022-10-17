@@ -1,4 +1,4 @@
-name: version, tag and publish
+name: Publish
 
 on:
   workflow_dispatch:
