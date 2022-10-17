@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:16-buster
+      options: --user root
 
     steps:
       - name: Checkout code
