@@ -1,0 +1,27 @@
+name: version and tag - init publish on npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        type: choice
+        description: You can bump major, minor or patch version
+        options:
+          - major
+          - minor
+          - patch
+        required: true
+
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    container:
+      image: node:16-buster
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: install deps
+        run: npm ci
+
