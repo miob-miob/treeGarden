@@ -1,6 +1,6 @@
 {
   "name": "tree-garden",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Decision trees library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
