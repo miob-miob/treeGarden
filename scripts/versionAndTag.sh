@@ -34,15 +34,15 @@ else
   exit 1
 fi
 
-#git remote add ci_origin https://miob-miob:"$2"@github.com/miob-miob/treeGarden.git
+git remote add ci_origin https://miob-miob:"$2"@github.com/miob-miob/treeGarden.git
 
 npm version "$1" -m "Publish tree-garden %s"
 
 # push generated changes into package.json + package.lock.json
-git push origin
+git push ci_origin
 
 # extract new version from package.json
 new_version=$(node scripts/logPackageVersion.js)
 
 # push newly created tag
-git push origin v"${new_version}"
+git push ci_origin v"${new_version}"
