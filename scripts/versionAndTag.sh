@@ -36,7 +36,8 @@ fi
 
 #git remote add ci_origin "https://miob-miob:$2@github.com/miob-miob/treeGarden"
 
-git remote add ci_origin https://miob-miob:"$2"@github.com/miob-miob/treeGarden.git
+#git remote add ci_origin https://miob-miob:"$2"@github.com/miob-miob/treeGarden.git
+git remote add ci_origin https://$2@github.com/miob-miob/treeGarden.git
 
 npm version "$1" -m "Publish tree-garden %s"
 
