@@ -1,6 +1,6 @@
 {
   "name": "tree-garden",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "Decision trees library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,7 +10,8 @@
     "start": "node dist/index.js",
     "lint": "eslint --ext .js,.jsx,.es6,.ts,.tsx ./src/",
     "buildAndRun": "npm run build && npm run start",
-    "checkTypes": "tsc"
+    "checkTypes": "tsc",
+    "preversion": "npm run checkTypes && npm run test"
   },
   "repository": {
     "type": "git",
