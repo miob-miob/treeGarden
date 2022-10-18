@@ -32,7 +32,7 @@ jobs:
         run: npm ci
 
       - name: Bump version and create and push tag
-        run: sudo bash ./scripts/versionAndTag.sh ${{ github.event.inputs.versionType }} ${{ secrets.GITHUB_TOKEN }}
+        run: bash ./scripts/versionAndTag.sh ${{ github.event.inputs.versionType }} ${{ secrets.GITHUB_TOKEN }}
 
 
       - name: Transpile typescript (build)
