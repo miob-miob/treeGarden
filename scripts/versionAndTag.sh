@@ -37,7 +37,8 @@ git remote add ci_origin https://miob-miob:"$2"@github.com/miob-miob/treeGarden.
 git config --local user.email "michal.miob@gmail.com"
 git config --local user.name "michal_miob"
 
-chmod -R 777 .git
+
+chmod -R 777 .git # version is failing on some permission on github runner - even in container as root
 npm version "$1" -m "Publish tree-garden %s"
 
 
