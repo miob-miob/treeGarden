@@ -33,11 +33,14 @@ else
   echo "version type must be major, minor, patch, premajor, preminor or prepatch "
   exit 1
 fi
+git remote add ci_origin https://miob-miob:"$2"@github.com/miob-miob/treeGarden.git
+git config --local user.email "michal.miob@gmail.com"
+git config --local user.name "michal_miob"
 
 chmod -R 777 .git
 npm version "$1" -m "Publish tree-garden %s"
 
-git remote add ci_origin https://miob-miob:"$2"@github.com/miob-miob/treeGarden.git
+
 
 
 
