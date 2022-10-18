@@ -30,14 +30,10 @@ jobs:
 
       - name: install deps # needed for run tests + transpile typescript
         run: npm ci
-#
-#      - name: Bump version and create and push tag
-#        run: sudo bash ./scripts/versionAndTag.sh ${{ github.event.inputs.versionType }} ${{ secrets.GITHUB_TOKEN }}
-      - name: version try
-        run: npm version patch
 
-      - name: push
-        run: git push
+      - name: Bump version and create and push tag
+        run: sudo bash ./scripts/versionAndTag.sh ${{ github.event.inputs.versionType }} ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Transpile typescript (build)
         run: npm run build
