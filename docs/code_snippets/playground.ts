@@ -7,7 +7,7 @@ import {
   dataSet,
   statistics,
   impurity
-} from '../src';
+} from '../../src';
 
 
 const [training, validation] = dataSet.getDividedSet(sampleDataSets.titanicSet, 0.85);

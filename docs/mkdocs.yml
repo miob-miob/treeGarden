@@ -1,0 +1,41 @@
+
+site_name: Tree garden documentation
+site_author: miob
+
+nav:
+  - Home: index.md
+  - api:
+      - item1: api/koko.md
+      - item2: api/kuku.md
+  - examples:
+    - Do  something: examples/example1.md
+    - Do  something other: examples/example2.md
+
+theme:
+  features:
+#    - navigation.tabs
+#    - navigation.tracking
+    - navigation.sections
+  name: material
+
+docs_dir: pages
+dev_addr: 0.0.0.0:9009
+
+watch:
+  - pages
+  - hooks
+  - code_snippets
+
+hooks:
+  - ./hooks/start.py
+
+
+
+# code highlighting not configured out of the box!
+# https://github.com/squidfunk/mkdocs-material/issues/156
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+#  - toc:
+#      baselevel: 3
+

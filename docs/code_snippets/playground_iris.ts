@@ -7,7 +7,7 @@ import {
   prune,
   sampleDataSets,
   statistics
-} from '../src';
+} from '../../src';
 
 
 const [training, validation] = dataSet.getDividedSet(sampleDataSets.irisSet, 0.8);

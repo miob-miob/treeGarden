@@ -7,7 +7,7 @@ import {
   getTreeAccuracy,
   growTree,
   buildAlgorithmConfiguration
-} from '../src';
+} from '../../src';
 
 
 const [training, validation] = dataSet.getDividedSet(sampleDataSets.housePrices, 0.7);
