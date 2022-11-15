@@ -1,10 +1,11 @@
+# Iris data set
 
 
+### lets see example
+[ts](docs/code_snippets/playground_iris.ts)
 
-## na ja  
+- that was example _did you saw_ ?
 
+### And lets see next 
 
-```javascript
-
-    const a = 'Sample 1'
-```
+[ts](docs/code_snippets/playground_randomForest.ts)

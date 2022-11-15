@@ -4,7 +4,17 @@
 ## kuta 
 
 
-```javascript
+```typescript
+  class Kunda{
+      constructor(props) {
+        console.log('Ininininininin')
+      }
 
-    const a = 'Sample 2'
+  }
+
+  const c = new Kunda();
+
 ```
+
+
+miobtsfile('..)

@@ -4,12 +4,13 @@ site_author: miob
 
 nav:
   - Home: index.md
-  - api:
-      - item1: api/koko.md
-      - item2: api/kuku.md
   - examples:
     - Do  something: examples/example1.md
     - Do  something other: examples/example2.md
+  - api:
+    - item1: api/koko.md
+    - item2: api/kuku.md
+
 
 theme:
   features:
@@ -28,6 +29,7 @@ watch:
 
 hooks:
   - ./hooks/start.py
+  - ./hooks/ts_code_snippet.py
 
 
 

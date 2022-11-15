@@ -4,7 +4,7 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 ### code samples
 ---
-```javascript
+```typescript
 const a = "lewhard";
 function abba (){
   console.log('NO way')
