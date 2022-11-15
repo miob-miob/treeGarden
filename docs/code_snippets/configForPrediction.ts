@@ -27,6 +27,7 @@ const config = buildAlgorithmConfiguration(
   }
 );
 
+
 // sample of interest:
 const shouldIGoToPlayTennisTodaySample = {
   outlook: 'Sunny',

@@ -81,6 +81,9 @@ export const defaultConfiguration: TreeGardenConfiguration = {
   // while using reduced errorPruning best scoring tree is kept
   reducedErrorPruningGetScore: getPrunedTreeScore,
 
+  // while using cost complexity pruning - this is n fold cross validation in order to find proper alpha
+  costComplexityPruningKFold: 5,
+
   // measure accuracy of tree on given dataset, used while pruning tree during cost complexity pruning or reduced error prunning
   getTreeAccuracy,
 

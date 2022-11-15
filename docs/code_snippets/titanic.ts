@@ -21,10 +21,9 @@ const myConfig = buildAlgorithmConfiguration(sampleDataSets.titanicSet, {
   biggerScoreBetterSplit: true
 });
 
-
 const tree = growTree(myConfig, training);
 console.log(`UNPRUNED: Number of nodes,${statistics.getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
-const prunedTree = prune.getPrunedTreeByPessimisticPruning(tree);
+const prunedTree = prune.getPrunedTreeByCostComplexityPruning(tree, sampleDataSets.titanicSet, myConfig);
 console.log(`Pruned: Number of nodes,${statistics.getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
 
 // console.log(JSON.stringify(prunedTree));

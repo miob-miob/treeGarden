@@ -12,7 +12,6 @@
     "build": "rimraf ./dist && tsc --noEmit false",
     "mkdocs": "docker run -it --rm -v $(pwd)/docs:/docs -p 9009:9009 --entrypoint sh squidfunk/mkdocs-material",
     "lint": "eslint --ext .js,.jsx,.es6,.ts,.tsx ./src/",
-    "buildAndRun": "npm run build && npm run start",
     "checkTypes": "tsc",
     "preversion": "npm run checkTypes && npm run test"
   },

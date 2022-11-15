@@ -118,7 +118,7 @@ export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fu
   //   console.log(item.alpha, getNumberOfTreeNodes(item.subTree));
   // });
   // todo nfold cross validation into config=> prunning itself
-  const nFoldCrossValidationSets = getKFoldCrossValidationDataSets(readyToGoTrainingSet, 5);
+  const nFoldCrossValidationSets = getKFoldCrossValidationDataSets(readyToGoTrainingSet, configuration.costComplexityPruningKFold);
   const bestAlphaFromEachTree = nFoldCrossValidationSets.map(({ validation, training }) => {
     const fullTree = growTree(configuration, training);
 

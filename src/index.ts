@@ -220,5 +220,3 @@ export const constants = {
   SINGLE_CLASS_FOR_REGRESSION_TREE
 };
 
-// todo  npm package
-// todo DOCS

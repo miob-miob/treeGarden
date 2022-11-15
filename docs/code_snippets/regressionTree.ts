@@ -26,7 +26,7 @@ console.log(myConfig);
 
 const tree = growTree(myConfig, training);
 console.log(`UNPRUNED: Number of nodes,${statistics.getNumberOfTreeNodes(tree)} acc:${getTreeAccuracy(tree, validation, myConfig)}`);
-const prunedTree = prune.getPrunedTreeByCostComplexityPruning(tree, training, myConfig);
+const prunedTree = prune.getPrunedTreeByReducedErrorPruning(tree, validation, myConfig);
 console.log(`Pruned: Number of nodes,${statistics.getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
 
 // console.log(JSON.stringify(prunedTree));

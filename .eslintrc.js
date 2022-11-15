@@ -7,7 +7,7 @@ module.exports = {
   ignorePatterns:['./dist/**','./node_modules/**'],
   plugins: ['eslint-plugin-import'],
   parserOptions: {
-    project: './tsconfig.json',
+    project: ['./tsconfig.json','./codeSnippetsLintTsConfig.json'],
   },
   rules: {
     'no-multiple-empty-lines':[2, { "max": 2 }],

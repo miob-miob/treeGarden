@@ -36,6 +36,7 @@ export type TreeGardenConfiguration = {
   getAllPossibleSplitCriteriaForContinuousAttribute:(attributeId:string,
     dataSet:TreeGardenDataSample[],
     configuration:TreeGardenConfiguration)=>SplitCriteriaDefinition[],
+  costComplexityPruningKFold:number,
   reducedErrorPruningGetScore:(accuracyBeforePruning:number, accuracyAfterPruning:number, numberOfRemovedNodes:number)=>number,
   allClasses?:string[],
   getTreeAccuracy:(
