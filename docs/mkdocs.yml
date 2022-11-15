@@ -11,8 +11,11 @@ nav:
     - item1: api/koko.md
     - item2: api/kuku.md
 
+extra:
+  homepage: others/logo_will_eat_you
 
 theme:
+  logo: assets/images/tree.svg
   features:
 #    - navigation.tabs
 #    - navigation.tracking
@@ -25,7 +28,6 @@ dev_addr: 0.0.0.0:9009
 watch:
   - pages
   - hooks
-  - code_snippets
 
 hooks:
   - ./hooks/start.py
@@ -38,6 +40,6 @@ hooks:
 markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
-#  - toc:
-#      baselevel: 3
+  - toc:
+      baselevel: 2
 
