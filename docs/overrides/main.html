@@ -4,16 +4,19 @@
 {% block scripts %}
 <script>
   // just  for fun included own script and do something to html
+  // for demonstration purpose how to override html template
+  // for adding script right solution - https://squidfunk.github.io/mkdocs-material/customization/#additional-javascript
   window.addEventListener("load", (event) => {
+    const size = '150px'
     const navdiv = document.getElementsByClassName('md-sidebar--secondary')[0]
 
     const imgContainer  = document.createElement('div')
 
     // stupidly set styles
     imgContainer.style.position='relative';
-    imgContainer.style.height='100px';
+    imgContainer.style.height=size;
     imgContainer.style.backgroundColor = "rgba(1,1,1,0)";
-    imgContainer.style.bottom = '100px';
+    imgContainer.style.bottom = size;
     imgContainer.style.display = 'flex';
     imgContainer.style.flexDirection = 'row-reverse';
 

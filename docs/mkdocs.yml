@@ -2,8 +2,10 @@
 site_name: Tree garden documentation
 site_author: miob
 
+# main structure of docs
 nav:
   - Home: index.md
+  - Playground: playground.md # hide later
   - examples:
     - Do  something: examples/example1.md
     - Do  something other: examples/example2.md
@@ -11,12 +13,26 @@ nav:
     - item1: api/koko.md
     - item2: api/kuku.md
 
-extra:
-  homepage: others/logo_will_eat_you
+
+# tweaks
+
+docs_dir: pages
+
+extra_css:
+  - resources/css/custom.css
+
+# If you want different goto when click on logo - by default home is used
+#extra:
+#  homepage: https://example.com
 
 theme:
   name: material
+  palette:
+    primary: blue grey
+#      accent: green
   logo: resources/images/tree.svg
+#  icon:
+#    logo: material/forest
   favicon: resources/images/tree.svg
   custom_dir: overrides
   features:
@@ -24,8 +40,6 @@ theme:
 #    - navigation.tracking
     - navigation.sections
 
-
-docs_dir: pages
 dev_addr: 0.0.0.0:9009
 
 watch:
@@ -40,11 +54,39 @@ hooks:
 
 
 
-# code highlighting not configured out of the box!
-# https://github.com/squidfunk/mkdocs-material/issues/156
+
 markdown_extensions:
-  - pymdownx.highlight
-  - pymdownx.superfences
+  - admonition
+  - abbr
+  - attr_list
+  - footnotes
+  - tables
+  # emojis
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  # emojis end
   - toc:
-      baselevel: 2
+      baselevel: 1
+
+  # code highlighting not configured out of the box!
+  # https://github.com/squidfunk/mkdocs-material/issues/156
+  - pymdownx.highlight
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+  #mathjax setting
+  - pymdownx.arithmatex:
+      generic: true
+
+# all scripts are because of mathjax
+extra_javascript:
+  - resources/js/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
 

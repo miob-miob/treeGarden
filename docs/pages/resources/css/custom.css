@@ -1,0 +1,6 @@
+
+/*Enlarge logo a little + use negative !*/
+img[alt~="logo"] {
+    transform: scale(1.6,1.6);
+    filter: invert(100%);
+}
