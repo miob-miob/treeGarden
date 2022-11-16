@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block scripts %}
+<script>
+  // just  for fun included own script and do something to html
+  window.addEventListener("load", (event) => {
+    const navdiv = document.getElementsByClassName('md-sidebar--secondary')[0]
+
+    const imgContainer  = document.createElement('div')
+
+    // stupidly set styles
+    imgContainer.style.position='relative';
+    imgContainer.style.height='100px';
+    imgContainer.style.backgroundColor = "rgba(1,1,1,0)";
+    imgContainer.style.bottom = '100px';
+    imgContainer.style.display = 'flex';
+    imgContainer.style.flexDirection = 'row-reverse';
+
+    const scaryTreeImg = document.createElement('img')
+    scaryTreeImg.src = '/resources/images/tree.svg'
+    imgContainer.appendChild(scaryTreeImg)
+
+    navdiv.appendChild(imgContainer)
+  });
+</script>
+{{super()}}
+{% endblock %}

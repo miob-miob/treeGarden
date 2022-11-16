@@ -15,12 +15,15 @@ extra:
   homepage: others/logo_will_eat_you
 
 theme:
-  logo: assets/images/tree.svg
+  name: material
+  logo: resources/images/tree.svg
+  favicon: resources/images/tree.svg
+  custom_dir: overrides
   features:
 #    - navigation.tabs
 #    - navigation.tracking
     - navigation.sections
-  name: material
+
 
 docs_dir: pages
 dev_addr: 0.0.0.0:9009
@@ -28,6 +31,8 @@ dev_addr: 0.0.0.0:9009
 watch:
   - pages
   - hooks
+  - code_snippets
+  - overrides
 
 hooks:
   - ./hooks/start.py

@@ -1,5 +1,5 @@
 
 
-![Eat you!](/assets/images/tree.svg)
+![Eat you!](../resources/images/tree.svg)
 
 
