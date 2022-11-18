@@ -4,7 +4,7 @@
  */
 module.exports = {
 
-  entryPoints: ["src/doc_test/index.ts"],
+  entryPoints: ["src/index.ts"],
   entryPointStrategy:'expand',
 //  excludeNotDocumented:true,
 //  json:'treeGardenSchema.json',
