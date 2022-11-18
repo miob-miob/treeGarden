@@ -10,8 +10,9 @@
   "scripts": {
     "test": "node ./node_modules/jest/bin/jest.js",
     "build": "rimraf ./dist && tsc --noEmit false",
-    "mkdocs": "docker run -it --rm -v $(pwd)/docs:/docs -p 9009:9009 --entrypoint sh squidfunk/mkdocs-material",
-    "typedocsHtml": "typedoc --plugin typedoc-plugin-markdown",
+    "_clearMkDocsContainer": "docker rm --force mk_docs_container || true",
+    "mkdocs": "npm run _clearMkDocsContainer && docker run -it --rm --name mk_docs_container -v $(pwd)/docs:/docs -p 9009:9009 --entrypoint sh squidfunk/mkdocs-material",
+    "generateApiDoc": "typedoc --plugin typedoc-plugin-markdown",
     "lint": "eslint --ext .js,.jsx,.es6,.ts,.tsx ./src/",
     "checkTypes": "tsc",
     "preversion": "npm run checkTypes && npm run test"

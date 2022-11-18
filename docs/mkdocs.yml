@@ -9,9 +9,7 @@ nav:
   - examples:
     - Do  something: examples/example1.md
     - Do  something other: examples/example2.md
-  - api:
-    - item1: api/modules.md
-    - item2: api/kuku.md
+  - api: api/modules.md
 
 
 # tweaks
