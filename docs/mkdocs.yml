@@ -10,7 +10,7 @@ nav:
     - Do  something: examples/example1.md
     - Do  something other: examples/example2.md
   - api:
-    - item1: api/koko.md
+    - item1: api/modules.md
     - item2: api/kuku.md
 
 
@@ -39,6 +39,7 @@ theme:
 #    - navigation.tabs
 #    - navigation.tracking
     - navigation.sections
+#    - toc.integrate
 
 dev_addr: 0.0.0.0:9009
 
@@ -61,11 +62,9 @@ markdown_extensions:
   - attr_list
   - footnotes
   - tables
-  # emojis
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
-  # emojis end
   - toc:
       baselevel: 1
 
@@ -73,6 +72,8 @@ markdown_extensions:
   # https://github.com/squidfunk/mkdocs-material/issues/156
   - pymdownx.highlight
   - pymdownx.details
+
+  # diagrams extension
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
