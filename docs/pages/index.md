@@ -41,7 +41,26 @@ continue with philosophy.
 > (If you decide to prune your trained tree, by [pessimistic pruning](./api/modules/prune.md#getprunedtreebypessimisticpruning) 
 > You in fact run **c4.5** algorithm)
 
+- **  Are there any peer-dependencies/dependencies?**
+> No, and I believe it is better for everyone involved - see more on this topic on [installation](./gettingStarted.md#installation) page.
 
+- ** Does it also support regression trees and forests?**
+> Yes tree-garden supports also regression trees and forest
+
+- ** Is tree-garden suitable for real huge data?  What are limitations?** 
+> Although main use case for tree-garden is exploring data, getting familiar with basics of
+> machine learning, if you decide to go for BIG, limitations will be javascript itself ( c/c++ will 
+> be more performant) and also fact that for training of single tree your data set must fit in operation 
+> memory.  - This can be solved by using multiple trees and using some voting function...
+> 
+> Also remember, in case you are building some service on node.js, you **should not** perform 
+> computationally intensive tasks on event loop ! see [worker threads](https://nodejs.org/api/worker_threads.html#worker-threads)
+> There will be example of that later...
+> 
+> So in a nutshell it is possible to go **BIG**, question is if it is clever...
+
+- ** Why there are not utils for reading data sets from files?**
+> This will be fun to answer - deision! // todo
 
 
 [^1]: [ID3 algorithm](https://hunch.net/~coms-4771/quinlan.pdf)
