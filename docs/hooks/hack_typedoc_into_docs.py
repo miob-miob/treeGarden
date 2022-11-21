@@ -29,7 +29,7 @@ def on_page_read_source(page: Page, config: Config):
     if all_pages_in_api_doc_folder_re.match(page.file.src_uri):
         with open(page.file.abs_src_path, encoding='utf-8-sig', errors='strict') as f:
             source = f.read()
-        print(source)
+        # hide toc with metadata
         hacked_source = f"---\nhide: \n  - toc\n---\n{source}"
         return hacked_source
 
