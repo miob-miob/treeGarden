@@ -5,6 +5,7 @@ site_author: miob
 # main structure of docs
 nav:
   - Home: index.md
+  - Getting started: gettingStarted.md
   - Playground: playground.md # hide later
   - Examples:
     - Do  something: examples/example1.md
@@ -81,6 +82,10 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - def_list
 
   #mathjax setting
   - pymdownx.arithmatex:

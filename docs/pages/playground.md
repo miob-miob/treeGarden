@@ -39,7 +39,14 @@ is maintained by the W3C.
 *[W3C]:  World Wide Web Consortium
 
 ---
-
+### task_lists
+- [x] Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- [ ] Vestibulum convallis sit amet nisi a tincidunt
+    * [x] In hac habitasse platea dictumst
+    * [x] In scelerisque nibh non dolor mollis congue sed et metus
+    * [ ] Praesent sed risus massa
+- [ ] Aenean pretium efficitur erat, donec pharetra, ligula non scelerisque
+---
 ### attr_list
 > what is it for?
 > You can define classes, ids + other elements on html -> for styling later 
@@ -86,7 +93,7 @@ graph LR
   B -->|Yes| C[Hmm...];
   C --> D[Debug];
   D --> B;
-  B --------->|No| E[Yay!];
+  B ----------------->|No| E[Yay!];
 ```
 
 ``` mermaid
