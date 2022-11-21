@@ -1,7 +1,3 @@
----
-title: My personal html title!
----
-
 # Playground for extensions
 ### admotion
 
