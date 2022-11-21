@@ -6,10 +6,13 @@ site_author: miob
 nav:
   - Home: index.md
   - Playground: playground.md # hide later
-  - examples:
+  - Examples:
     - Do  something: examples/example1.md
     - Do  something other: examples/example2.md
-  - api: api/modules.md
+
+  # api pages are added to navigation by docs/hooks/hack_typedoc_into_docs.py hook
+  - api_docs:
+    - index: api/modules.md
 
 
 # tweaks
@@ -50,6 +53,7 @@ watch:
 hooks:
   - ./hooks/start.py
   - ./hooks/ts_code_snippet.py
+  - ./hooks/hack_typedoc_into_docs.py
 
 
 
