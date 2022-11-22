@@ -9,7 +9,7 @@ first, we will need to install **tree-garden**
 
 should do the trick - as long as you are not using **yarn** :laughing:
 
-tree-garden has **no** dependencies an **no** peer-dependencies, which should help with maintenance, security
+tree-garden has **no dependencies** an **no peer-dependencies**, which should help with maintenance, security
 and bundle size - feel free to check on [bundlephobia &#x1F609;](https://bundlephobia.com/package/tree-garden@latest) 
 
 ## Simple prediction model
@@ -20,13 +20,13 @@ if we want to do  some fancy machine learning, we need a couple of things:
 
 - [ ] Some data from past - data set
 - [ ] Some algorithm or way how we turn this data set into predictive model
-- [ ] Last thing - same samples that we want to predict using our new model
+- [ ] Also, some samples that we want to predict using our new model!
 ---
 
-- [x]  As data set we have simple data set, with records if we go to pay tennis dependent on weather.
+- [x]  As data set we have simple data set, with records if we go to play tennis dependent on weather.
 It should look like:
 
-| Outlook| Temperature| Humidity|Wind|Should I go play tennis?|
+| Outlook| Temperature| Humidity|Wind|Did I play tennis?|
 | :---: | :---: |:---: |:---: |:---: |
 |Sunny|Hot|Hight|Weak|No|
 |Overcast|Hot|Hight|Weak|Yes|
@@ -45,7 +45,7 @@ const sample = {
 
 ### Code 
 
-[ts](docs/code_snippets/shouldIPlayTenis.ts)
+[code_file](docs/code_snippets/shouldIPlayTenis.ts)
 
 ### Comments
 !!! important "Tags in comments of presented code"

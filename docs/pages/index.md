@@ -60,7 +60,7 @@ continue with philosophy.
 > So in a nutshell it is possible to go **BIG**, question is if it is clever...
 
 - ** Why there are not utils for reading data sets from files?**
-> This will be fun to answer - deision! // todo
+> It should not be hard task to prepare data set for yourself. [See more on data sets](./dataSetAndConfiguration.md#data-set) 
 
 
 [^1]: [ID3 algorithm](https://hunch.net/~coms-4771/quinlan.pdf)

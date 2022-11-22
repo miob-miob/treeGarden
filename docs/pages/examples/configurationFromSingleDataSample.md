@@ -6,7 +6,7 @@ This may be handy, if we do not have access to full training data set - for
 instance if we have build classification service which uses pretrained tree/forest.
 
 ## code 
-[ts](docs/code_snippets/configFromSingleSample.ts)
+[code_file](docs/code_snippets/configFromSingleSample.ts)
 
 ## comments
 
