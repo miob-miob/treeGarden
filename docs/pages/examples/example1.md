@@ -1,9 +1,6 @@
 # Iris data set
 
 
-### lets see example
-[ts](docs/code_snippets/configForPrediction.ts)
-
 ### kunda!
 [ts](docs/code_snippets/iris.ts)
 

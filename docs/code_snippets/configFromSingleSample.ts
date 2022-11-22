@@ -10,11 +10,12 @@ import {
   sampleTrees
 } from '../../src';
 
-// tree of interest
+// Let`s use pretrained tree, which is bundled with tree-garden
 const { tennisTree } = sampleTrees;
 
 // we need configuration in order to be able to predict some unknown samples
-// we will buildConfiguration using just single complete (without missing values) sample and knowledge of all classes
+// we will buildConfiguration using just single complete (without missing values) [sample for config]
+// sample and knowledge of all classes
 const singleSample = {
   _label: '5', outlook: 'Rain', temp: 'Cool', humidity: 'Normal', wind: 'Weak', _class: 'Yes'
 };
@@ -23,12 +24,12 @@ const singleSample = {
 const config = buildAlgorithmConfiguration(
   [singleSample],
   {
-    allClasses: ['Yes', 'No'] // we need to know which classes were in training data
+    allClasses: ['Yes', 'No'] // [important]
   }
 );
 
 
-// sample of interest:
+// sample of interest - based on today`s weather ;)
 const shouldIGoToPlayTennisTodaySample = {
   outlook: 'Sunny',
   temp: 'Mild',

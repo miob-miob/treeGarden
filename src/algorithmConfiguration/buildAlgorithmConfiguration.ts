@@ -8,7 +8,14 @@ import { SplitCriteriaDefinition, SplitCriteriaFn } from '../split';
 import { SingleSamplePredictionResult } from '../predict';
 
 // We cannot infer this from defaultConfiguration because of cyclic dependency in types of defaultConfiguration
+
+/**
+ * Kisundfoijskdnf jnfisdnf
+ */
 export type TreeGardenConfiguration = {
+  /**
+   * Tady sinsidjfbisbflaskdmnsdkjfnsjkd
+   */
   treeType:'classification' | 'regression',
   attributes:{ [key:string]:typeof defaultAttributeConfiguration },
   includedAttributes: string[],

@@ -48,49 +48,33 @@ const sample = {
 [ts](docs/code_snippets/shouldIPlayTenis.ts)
 
 ### Comments
-!!! important "Markers in comments of presented code"
-    You can notice in comments of code, I let some markers like **`[configuration]`** and
-    **`[sample]`** for further discussion, i will do it on multiple
-    places of tree-garden docs.
---- 
- **[configuration]**  [Configuration](./api/modules.md#treegardenconfiguration) 
-  is a very important object 
-  that basically drives everything within tree-garden,
-  as you can see in code it is created from 'knowledge' of data set using
-  [buildAlgorithmConfiguration](./api/modules.md#buildalgorithmconfiguration) function.
+!!! important "Tags in comments of presented code"
+    You can notice in comments of code, I let some tags like **`[configuration]`** and
+    **`[sample]`** [see here](https://github.com/miob-miob/treeGarden/blob/master/docs/code_snippets/shouldIPlayTenis.ts#L30) .
+    These tags mean I want to break it down further in comments in docs.
+    I will do so on multiple places of tree-garden docs.
+
+ **[configuration]**  
+ [See page](dataSetAndConfiguration.md#configuration) which describes configuration in detail
   
-  It is partially also dependency injection container, which enables us to provide custom 
-  implementations into algorithm
-
----
-  
- **[data set]** See example of [minimalistic data set](https://github.com/miob-miob/treeGarden/blob/master/src/sampleDataSets/simpleSet.ts)
-  for tree garden. There are two fields: **`size`** and **`color`** and two **metadata** fields:
-  **`_class`** and **`_label`**.
-  
-  All metadata fields starts with **underscore**. 
-  If you are constructing data set for tree garden only **required** field is **`_class`**
-
-  There is also **`_label`** (for visualization purposes) and **`_id`** (used for calculation
-  of [out of bag error](https://en.wikipedia.org/wiki/Out-of-bag_error) - generated if not provided)
----
-
- **[tree]** vypudofinsdlfknwdklf sdfn
-
----
-
- **[sample]** vypudofinsdlfknwdklf sdfn
-
----
-
-**[result]** vypudofinsdlfknwdklf sdfn
-
----
+ **[data set]**  
 
 
-**[output for visualization tool]** vypudofinsdlfknwdklf sdfn
 
----
+ **[tree]**  
+ vypudofinsdlfknwdklf sdfn
+
+ **[sample]**  
+vypudofinsdlfknwdklf sdfn
+
+**[result]**  
+vypudofinsdlfknwdklf sdfn
+
+
+**[output for visualization tool]**   
+vypudofinsdlfknwdklf sdfn
+
+
 
 
 ### Tree visualization

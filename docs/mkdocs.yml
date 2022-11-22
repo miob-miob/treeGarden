@@ -7,9 +7,10 @@ nav:
   - Home: index.md
   - Getting started: gettingStarted.md
   - Playground: playground.md # hide later
+  - Data set and configuration: dataSetAndConfiguration.md
   - Examples:
     - Do  something: examples/example1.md
-    - Do  something other: examples/example2.md
+    - Configuration from data sample: examples/configurationFromSingleDataSample.md
 
   # api pages are added to navigation by docs/hooks/hack_typedoc_into_docs.py hook
   - api_docs:
