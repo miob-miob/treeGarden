@@ -6,12 +6,12 @@ site_author: miob
 nav:
   - Home: index.md
   - Getting started: gettingStarted.md
-  - Playground: playground.md # hide later
-  - Data set and configuration: dataSetAndConfiguration.md
+
+  - Important Basics: importantBasics.md
   - Examples:
     - Import dataset from JSON: examples/importJsonWithTypescript.md
     - Configuration from data sample: examples/configurationFromSingleDataSample.md
-
+  - Playground: playground.md # hide later
   # api pages are added to navigation by docs/hooks/hack_typedoc_into_docs.py hook
   - api_docs:
     - index: api/modules.md

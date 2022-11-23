@@ -54,17 +54,18 @@ const sample = {
     These tags mean I want to break it down further in comments in docs.
     I will do so on multiple places of tree-garden docs.
 
- **[configuration]**  
- [See page](dataSetAndConfiguration.md#configuration) which describes configuration in detail
+**[configuration]**
+[See page](importantBasics.md#configuration) which describes configuration in detail
   
- **[data set]**  
+**[data set]**  
+[See data set ](importantBasics.md#data-set) for more information.
+    
 
 
+**[tree]**  
+vypudofinsdlfknwdklf sdfn
 
- **[tree]**  
- vypudofinsdlfknwdklf sdfn
-
- **[sample]**  
+**[sample]**  
 vypudofinsdlfknwdklf sdfn
 
 **[result]**  

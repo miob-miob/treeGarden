@@ -22,6 +22,12 @@ can be a great way, how to become familiar with decision trees if your backgroun
     If you do not like included options, it is easy to provide your implementation for crucial parts of algorithm. 
 
 
+!!! danger "tree-garden can be used also in pure **javascript** projects"
+    When I was not familiar with **typescript** I was not sure if you can use
+    typescript libraries directly from javascript - typescript packages are bundled to pure
+    javascript with type schema files **.d.ts** which are used by IDEs to get proper code completion 
+    and type hints!
+
 
 Now lets get our hands dirty with some machine-learning, lets [install tree-garden](./gettingStarted.md#installation) and [**get
 started with tree-garden**](./gettingStarted.md).
@@ -48,8 +54,8 @@ continue with philosophy.
 > Yes tree-garden supports also regression trees and forest
 
 - ** Is tree-garden suitable for real huge data?  What are limitations?** 
-> Although main use case for tree-garden is exploring data, getting familiar with basics of
-> machine learning, if you decide to go for BIG, limitations will be javascript itself ( c/c++ will 
+> Although main use case for tree-garden is exploring data, getting familiar with 
+> decision trees and random forests, if you decide to go for BIG, limitations will be javascript itself ( c/c++ will 
 > be more performant) and also fact that for training of single tree your data set must fit in operation 
 > memory.  - This can be solved by using multiple trees and using some voting function...
 > 
@@ -57,7 +63,7 @@ continue with philosophy.
 > computationally intensive tasks on event loop ! see [worker threads](https://nodejs.org/api/worker_threads.html#worker-threads)
 > There will be example of that later...
 > 
-> So in a nutshell it is possible to go **BIG**, question is if it is clever...
+> So in a nutshell it is possible to go **BIG**, question is if it is the best thing you can do...
 
 - ** Why there are not utils for reading data sets from files?**
 > It should not be hard task to prepare data set for yourself. [See more on data sets](./dataSetAndConfiguration.md#data-set) 
