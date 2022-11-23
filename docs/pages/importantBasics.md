@@ -1,6 +1,6 @@
 # Data set and configuration
 
-
+Let me introduce main terms used in **tree-garden**. 
 
 ## Data set
 
@@ -55,7 +55,50 @@ of more complex configuration.
 Also [example](examples/configurationFromSingleDataSample.md) how to build configuration just from single data sample.
 
 
+## Decision Tree
+
+Trained tree - output of [growTree](./api/modules.md#growtree) function is as data set just
+plain javascript object. You can find more information about its structure in [api doc](./api/modules.md#treegardennode).  
+
+In node.js, you can thus easily store trained trees in json files:
+[code_file](docs/code_snippets/storeTrainedTreeInJsonAndLoadItBack.ts)
 
 
+## Dealing with missing values
+
+tree-garden is ready for dealing with missing values in both - training data sets and also 
+in samples we wish to predict. 
+
+In case of training phase, tree-garden preprocess training data 
+set and if it meets sample with some missing value it will use strategy defined in [configuration](api/modules.md#treegardenconfiguration)
+(**growMissingValueReplacement**) to replace missing value with relevant value obtained from whole data set. This
+behaviour can be changed/ reimplemented if you provide other function.
+
+???- info "Default 'growMissingValueReplacement' implementation"
+    Most common value for given attribute from whole data set is used instead of missing value.
+
+    If I have data set with 6 samples, 2 of them has field `color='green'`, 3 of them has `color='red'` and last one 
+    `color=undefined`, during preprocessing, `color='red'` is added for last sample
 
 
+In case of classifying samples, we have two options, preprocess samples in similar way like during training phase. 
+You would need to pass data set as reference for replacing (referenceDataSetForReplacing) to [getTreePrediction](api/modules.md#gettreeprediction) or
+[getRandomForestPrediction](api/modules.md#getrandomforestprediction) functions. In this case 
+strategy defined in configuration (**evaluateMissingValueReplacement**) is used.
+
+If you do not pass reference data set to prediction functions, then replacement of value is 
+delayed to point where given sample needs missing attribute, while traversing trained tree and **getTagOfSampleWithMissingValueWhileClassifying**
+strategy defined in configuration is used.
+
+???- info "Default 'getTagOfSampleWithMissingValueWhileClassifying' implementation"
+    Sample is thrown down the tree in same 'direction' as the majority of samples during the 
+    training phase.
+
+    If sample reaches node which checks 'color' field and sample does not have this field defined (missing value)
+    And majority of samples during training phase goes to 'left' child node, this sample is also send to 
+    'left' child node. - This should be strategy used by **c4.5** algorithm
+
+Defaults should be 'good enough' but it is not hard to provide your own implementation or use different preimplemented strategy.
+
+
+## Random forests 

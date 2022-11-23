@@ -30,7 +30,7 @@ def on_page_read_source(page: Page, config: Config):
         with open(page.file.abs_src_path, encoding='utf-8-sig', errors='strict') as f:
             source = f.read()
         # hide toc with metadata
-        hacked_source = f"---\nhide: \n  - toc\n---\n{source}"
+        hacked_source = f"---\nhide: \n  - toc\ntitle: Api docs\n---\n{source}"
         return hacked_source
 
 def on_page_markdown(markdown:str,page: Page, config: Config,files:Files):

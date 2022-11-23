@@ -54,22 +54,28 @@ const sample = {
     These tags mean I want to break it down further in comments in docs.
     I will do so on multiple places of tree-garden docs.
 
-**[configuration]**
+**[configuration]**  
 [See page](importantBasics.md#configuration) which describes configuration in detail
   
 **[data set]**  
 [See data set ](importantBasics.md#data-set) for more information.
-    
-
 
 **[tree]**  
-vypudofinsdlfknwdklf sdfn
+More information on trained tree can be found [here.](importantBasics.md#decision-tree)
 
 **[sample]**  
-vypudofinsdlfknwdklf sdfn
+Sample that we want to classify is based on weather in time of writing.
+> Joking it is night, and I have no clue what weather is...  :material-weather-night:
+
+Samples in data set and sample which You are trying to predict does not have to be complete 
+(they can have missing fields). Check how to [deal with missing values](importantBasics.md#dealing-with-missing-values).
 
 **[result]**  
-vypudofinsdlfknwdklf sdfn
+Result of our decision tree which is presented with our sample is either **`'Yes'`** or 
+**`'No'`** - classes found in our training data set. See api docs for [getTreePrediction](api/modules.md#gettreeprediction)
+function.  
+If you want for instance whole node, where your sample landed, check functions in 
+[predict namespace](api/modules/predict.md).
 
 
 **[output for visualization tool]**   

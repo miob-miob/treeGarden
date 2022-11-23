@@ -104,6 +104,7 @@ export type SingleSamplePredictionResult = ReturnType<TreeGardenConfiguration['g
 export type MultipleSamplesPredictionResult = [TreeGardenDataSample, SingleSamplePredictionResult][];
 type PredictionReturnValue<T> = T extends TreeGardenDataSample[]?MultipleSamplesPredictionResult:SingleSamplePredictionResult;
 
+
 export const getTreePrediction = <T extends TreeGardenDataSample | TreeGardenDataSample[] >(
   samplesToPredict:T,
   decisionTreeRoot:TreeGardenNode,
@@ -120,6 +121,7 @@ export const getTreePrediction = <T extends TreeGardenDataSample | TreeGardenDat
   }
   return predictions[0][1] as PredictionReturnValue<T>;
 };
+
 
 export const getRandomForestPrediction = <T extends TreeGardenDataSample|TreeGardenDataSample[]> (
   samplesToPredict:T,
