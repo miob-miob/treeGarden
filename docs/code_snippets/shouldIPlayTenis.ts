@@ -39,4 +39,4 @@ console.log('Result:\n', 'Should i stay or should i go?', shouldWeGoToPlayTennis
 
 
 // [output for visualization tool]
-console.log('Json output:\n', JSON.stringify(tree));
+console.log('Json output:\n\n', JSON.stringify(tree));

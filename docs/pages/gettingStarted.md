@@ -78,23 +78,27 @@ If you want for instance whole node, where your sample landed, check functions i
 [predict namespace](api/modules/predict.md).
 
 
-**[output for visualization tool]**   
-vypudofinsdlfknwdklf sdfn
 
+**[output for visualization tool]**  
+You can open [visualization tool here on **codesandbox**](https://codesandbox.io/s/nostalgic-water-eozhj6) or [full screen](https://eozhj6.csb.app/), 
+copy output of `JSON.stringify(tree)` and paste it into *Trained tree* text box and push *Load tree* button.  
+If you scroll down you should be able to see your first trained tree!  
+Congratulation! &#128521
 
 
 
 ### Tree visualization
 
 I used [tree garden visualization](https://github.com/miob-miob/treeGardenVisualization) to 
-produce image of my trained tree
+produce image of my trained tree 
+
 
 ![img.png](resources/images/simpleTennisTree.png)
 
 
-
+[comment]: <> (TODO )
 ## Bit more advanced example
-
+Todo!!!
 ### Code
 ### Comments 
 ### Visualization
