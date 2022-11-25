@@ -105,8 +105,11 @@ Defaults should be 'good enough' but it is not hard to provide your own implemen
 
 Tree-garden is also capable of dealing with random forests. Random forests belongs among 
 ensemble machine learning algorithms. They are usually combining multiple weak learners in order 
-to obtain more better performance than one strong learner. 
+to obtain better performance than one strong learner. 
 
-[comment]: <> (todo)
+Main disadvantage of random forest is that model is not easily interpretable by a human.
+
+Check [random forest example](examples/randomForest.md). 
+
 
 

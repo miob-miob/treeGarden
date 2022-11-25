@@ -38,3 +38,6 @@ export const getOutOfTheBagError = (
   }
   return getRAbsErrorRaw(realResults as number[], predictedResults as number[]);
 };
+
+
+// todo implement importance of fields (calculate from random forest - reduction of information gain od all splits in whole tree among all trees)

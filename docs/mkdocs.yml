@@ -9,8 +9,10 @@ nav:
 
   - Important basics: importantBasics.md
   - Examples:
-    - Import dataset from JSON: examples/importJsonWithTypescript.md
+    - Random forest: examples/randomForest.md
     - Configuration from data sample: examples/configurationFromSingleDataSample.md
+    - Import dataset from JSON: examples/importJsonWithTypescript.md
+
 
   # api pages are added to navigation by docs/hooks/hack_typedoc_into_docs.py hook
   - api_docs:

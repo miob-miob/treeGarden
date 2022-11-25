@@ -8,12 +8,17 @@ import {
 } from '../../src';
 
 
-const config = buildAlgorithmConfiguration(sampleDataSets.titanicSet, {
+const { titanicSet } = sampleDataSets;
+
+console.log(titanicSet.length);
+
+// lets play bit with configuration
+const config = buildAlgorithmConfiguration(titanicSet, {
   // excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
   // getTagOfSampleWithMissingValueWhileClassifying: getMostCommonTagOfSamplesInNode,
   numberOfTrees: 100,
   // getTagOfSampleWithMissingValueWhileClassifying: undefined,
-  getScoreForSplit: impurity.getGiniIndexForSplit,
+  getScoreForSplit: impurity.getInformationGainForSplit,
   biggerScoreBetterSplit: true
   // shouldWeStopGrowth: stopRules(
   //   stopIfDepthIs(15)
@@ -32,9 +37,7 @@ const passenger = {
   pclass: 3,
   sex: 'female',
   ticket: '2687',
-  sibsp: 0,
-  _label: 781,
-  _id: 'd3245bae-62e1-4ff1-ac2f-0a30449d4d00'
+  sibsp: 2
 };
 
 const { trees, oobError } = growRandomForest(config, sampleDataSets.titanicSet);
