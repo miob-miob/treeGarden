@@ -54,12 +54,21 @@ def lower_case_field_names(sample: Dict):
         new_sample[key.lower()] = sample[key]
     return new_sample
 
+def remove_keys_with_empty_string_values(sample:Dict):
+    sample_without_missing_value_keys= {}
+    for key in sample.keys():
+        if len(sample.get(key,"").strip()) > 0:
+            sample_without_missing_value_keys[key] = sample[key]
+    return sample_without_missing_value_keys
+
 
 def fields_to_numbers(fields_to_convert: List[str]):
     def transform_fields_to_numbers(sample: Dict):
         for field_name in fields_to_convert:
             try:
-                sample[field_name] = float(sample[field_name])
+                value_for_field = sample.get(field_name,None)
+                if value_for_field is not None:
+                    sample[field_name] = float(sample[field_name])
             except ValueError as e:
                 print(
                     f"Cannot convert field: '{field_name}' with value '{sample[field_name]}' into float! Sample :{dumps(sample)}, skipping")
@@ -92,6 +101,7 @@ def titanic():
 
     # transformations performed on each sample
     transformed_data_set = transform(data_set, [
+        remove_keys_with_empty_string_values,
         lower_case_field_names,
         rename_field("survived", "_class"),
         rename_field("passengerid", "_label"),
