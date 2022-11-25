@@ -7,44 +7,61 @@ import {
   buildAlgorithmConfiguration
 } from '../../src';
 
-
+// titanic data set is bundled with tree-garden
 const { titanicSet } = sampleDataSets;
 
-console.log(titanicSet.length);
 
-// lets play bit with configuration
+// let`s tweak configuration a bit
 const config = buildAlgorithmConfiguration(titanicSet, {
-  // excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
-  // getTagOfSampleWithMissingValueWhileClassifying: getMostCommonTagOfSamplesInNode,
-  numberOfTrees: 100,
-  // getTagOfSampleWithMissingValueWhileClassifying: undefined,
-  getScoreForSplit: impurity.getInformationGainForSplit,
-  biggerScoreBetterSplit: true
-  // shouldWeStopGrowth: stopRules(
-  //   stopIfDepthIs(15)
-  // )
+
+  // as i know these attributes cannot have any impact on final outcome - decided to decrease
+  // computation complexity and do not count these fields in
+  excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
+  attributes: {
+    pclass: {
+      dataType: 'discrete' // i want to treat class of passenger as discrete value, not number
+    }
+  },
+
+  // several hundreds of trees is optimal
+  numberOfTrees: 500,
+
+  // [impurity scoring function]
+  getScoreForSplit: impurity.getInformationGainForSplit
 
 });
 
-console.log(config);
+// check cofig
+console.log('config:\n', config);
 
-const passenger = {
-  fare: 7.2292,
-  name: 'Ayoub, Miss. Banoura',
+
+// our favorite titanic passenger
+const KateWinslet = {
+  fare: 15.0458,
+  name: 'Kate Winslet',
   embarked: 'C',
-  age: 13,
+  age: 29,
   parch: 0,
-  pclass: 3,
+  pclass: 3, // this time Kate was traveling in low cost style ;)
   sex: 'female',
   ticket: '2687',
-  sibsp: 2
+  sibsp: 1 // and she has sister aboard, Leonardo will have hard time...
 };
 
+// lets start with training...
 const { trees, oobError } = growRandomForest(config, sampleDataSets.titanicSet);
 
-console.log(`Out of the bag error for our trained forrest: ${oobError} % correct classifications!`);
-console.log('Would our passenger survive on titanic? - ', getRandomForestPrediction(passenger, trees, config));
 
-trees.forEach((tree) => {
-  console.log(statistics.getTreeDepth(tree));
-});
+// lets check some metrics of trained forest:
+// [out of the bag error]
+console.log(`Out of the bag error for our trained forrest: ${oobError} % correct classifications!`);
+
+// How deep is Your..... forest...
+const depths = trees.map((tree) => statistics.getTreeDepth(tree));
+console.log(`Trees depth:\n\taverage: ${statistics.getArithmeticAverage(depths)}\n\tmedian:${statistics.getMedian(depths)}`);
+
+// and finally what about Kate?
+// [random forest prediction outcome]
+const wouldSheSurvive = getRandomForestPrediction(KateWinslet, trees, config);
+console.log('Would Kate survive on titanic? - ', wouldSheSurvive);
+
