@@ -21,14 +21,17 @@ export const buildAttributesConfiguration = (configuration:ConfigWithPartialAttr
 
     const resultAttrConfig = attributeFromConfig ? { ...defaultAttributeConfiguration, ...attributeFromConfig }
       : { ...defaultAttributeConfiguration };
-    if (resultAttrConfig.dataType === 'automatic') {
-      resultAttrConfig.dataType = getTypeOfAttribute(dataSet, currentAttributeId, resultAttrConfig.missingValue);
-    }
+
     keysInheritedFromAlgorithmConfigurationIfNotDefined.forEach((configKey) => {
       if (resultAttrConfig[configKey] === undefined) {
         resultAttrConfig[configKey] = configuration[configKey];
       }
     });
+
+    if (resultAttrConfig.dataType === 'automatic') {
+      resultAttrConfig.dataType = getTypeOfAttribute(dataSet, currentAttributeId, resultAttrConfig.missingValue);
+    }
+
     // eslint-disable-next-line no-param-reassign
     result[currentAttributeId] = resultAttrConfig;
     return result;

@@ -1,10 +1,10 @@
 import {
   growRandomForest,
-  sampleDataSets,
   statistics,
   impurity,
   getRandomForestPrediction,
-  buildAlgorithmConfiguration
+  buildAlgorithmConfiguration,
+  sampleDataSets
 } from '../../src';
 
 // titanic data set is bundled with tree-garden
@@ -18,13 +18,14 @@ const config = buildAlgorithmConfiguration(titanicSet, {
   // computation complexity and do not count these fields in
   excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
   attributes: {
+    fare: { missingValue: '' },
     pclass: {
       dataType: 'discrete' // i want to treat class of passenger as discrete value, not number
     }
   },
 
   // several hundreds of trees is optimal
-  numberOfTrees: 500,
+  numberOfTrees: 100,
 
   // [impurity scoring function]
   getScoreForSplit: impurity.getInformationGainForSplit
@@ -37,10 +38,10 @@ console.log('config:\n', config);
 
 // our favorite titanic passenger
 const KateWinslet = {
-  fare: 15.0458,
+  fare: 30.0458,
   name: 'Kate Winslet',
   embarked: 'C',
-  age: 29,
+  age: 21,
   parch: 0,
   pclass: 3, // this time Kate was traveling in low cost style ;)
   sex: 'female',
@@ -49,7 +50,7 @@ const KateWinslet = {
 };
 
 // lets start with training...
-const { trees, oobError } = growRandomForest(config, sampleDataSets.titanicSet);
+const { trees, oobError } = growRandomForest(config, titanicSet);
 
 
 // lets check some metrics of trained forest:
