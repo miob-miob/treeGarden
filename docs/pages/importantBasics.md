@@ -112,4 +112,11 @@ Main disadvantage of random forest is that model is not easily interpretable by 
 Check [random forest example](examples/randomForest.md). 
 
 
+## Tree pruning
+
+[comment]: <> (TODO )
+
+
+
+
 

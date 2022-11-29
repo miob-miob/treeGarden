@@ -18,7 +18,6 @@ const config = buildAlgorithmConfiguration(titanicSet, {
   // computation complexity and do not count these fields in
   excludedAttributes: ['name', 'ticket', 'embarked', 'cabin'],
   attributes: {
-    fare: { missingValue: '' },
     pclass: {
       dataType: 'discrete' // i want to treat class of passenger as discrete value, not number
     }
@@ -43,10 +42,10 @@ const KateWinslet = {
   embarked: 'C',
   age: 21,
   parch: 0,
-  pclass: 3, // this time Kate was traveling in low cost style ;)
+  pclass: 3, // this time Kate was traveling in low cost style
   sex: 'female',
   ticket: '2687',
-  sibsp: 1 // and she has sister aboard, Leonardo will have hard time...
+  sibsp: 1 // and she has sister aboard - or brother, in every case, Leonardo will have hard time...
 };
 
 // lets start with training...
