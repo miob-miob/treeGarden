@@ -114,9 +114,30 @@ Check [random forest example](examples/randomForest.md).
 
 ## Tree pruning
 
-[comment]: <> (TODO )
+Pruning of tree means removing branches and nodes without considerable impact on tree accuracy. We have two types of tree 
+pruning:
+
+### Pre-pruning 
+
+Interruption of tree growth to its maximal size during growing(training) phase by employing some criteria like **minimal number 
+of samples in node**, or **maximal depth of tree**. These two are implemented in **tree-garden**, if it is not enough for you,
+it should be straightforward to implement your own stopping criteria.  
+Example usage:
+[code_file](docs/code_snippets/prePrunning.ts)
+in my case this is output:
+```
+Full tree:
+	 Number of nodes: 1203 Accuracy: 0.9992360580595875
+Small tree:
+	 Number of nodes: 146 Accuracy: 0.8938120702826585
+```
+You can see high value of accuracy in case of full tree - because we trained tree on one data set and measured accuracy
+on same one!  
+
+Exact values of these parameters should be found by **cross-validation**. Pre-pruning is more important for **random forests**
+if we wnt to shrink down computation time.
 
 
+### Post-pruning 
 
-
-
+[comment]: <> (todo)

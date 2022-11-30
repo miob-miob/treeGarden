@@ -116,11 +116,11 @@ We will need to make some tweaks in configuration to run **regression** tree - d
 You can see, every field except **`_class`** is string. This is not ideal as `LATITUDE`, `LONGITUDE` and `SQUARE_FT` are clearly 
 numbers. We will have to tackle it in configuration as well.
 
-### Code
+### Code of advanced example
 [code_file](docs/code_snippets/regressionTree.ts)
 
 
-### Comments 
+### Comments on advanced example
 
 **[split scoring function]**  
 For regression trees we must set other impurity measuring function than **information gain ratio**. Check 
@@ -148,9 +148,13 @@ Such trees have unpleasant properties:
 - slow, because they are deep
 - over-fitted (low accuracy on data they did not see during training)
 
-In our case tree has several hundreds of nodes and accuracy on validation data set is not good:
-
+In our case tree has several hundreds of nodes and accuracy on validation data set is poor.
 ![un pruned tree](./resources/images/fuc--ng_large_tree.png)
+
+
+**[tree pruning]**  
+In our case, after tree is pruned, number of nodes will decrease 3-4 times, and accuracy on validation dataset will raise. See [visualized tree](#regression-tree-visualization).
+Also, please check information on [tree pruning](./importantBasics.md#tree-pruning).
 
 **[regression tree accuracy]**  
 Accuracy is measured differently in case of regression trees. It is similar like [R coefficient of linear regression](https://en.wikipedia.org/wiki/Coefficient_of_determination), 
@@ -159,4 +163,6 @@ better accuracy. For more information check implementation of [getRAbsError](./a
 
 
 
-### Tree visualization
+### Regression tree visualization
+Regression tree, we trained and pruned:
+![regression tree](./resources/images/regression_tree.png)

@@ -11,8 +11,8 @@ import {
 
 // let`s build regression tree!
 
-// first lets divide data set into two parts - 70% of samples to training set, rest to validation
-const [training, validation] = dataSet.getDividedSet(sampleDataSets.housePrices, 0.7);
+// first lets divide data set into two parts - 60% of samples to training set, rest to validation
+const [training, validation] = dataSet.getDividedSet(sampleDataSets.housePrices, 0.6);
 
 // how many samples we have in each data set
 console.log(`length of validation: ${validation.length}, length of training: ${training.length} `);
