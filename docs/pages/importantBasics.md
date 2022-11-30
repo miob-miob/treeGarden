@@ -140,4 +140,17 @@ if we wnt to shrink down computation time.
 
 ### Post-pruning 
 
-[comment]: <> (todo)
+If we let grow tree to full size without any restriction, we will end up with over-fitted (towards training data set) tree of large size. 
+To reduce size and over-fitting of fully grown tree, we can use one of **tree-garden`s post pruning methods**. tree-garden 
+implements three **post-pruning** strategies:
+
+- **[getPrunedTreeByReducedErrorPruning](./api/modules/prune.md#getprunedtreebyreducederrorpruning)** - applicable on both,
+**regression** trees and **classification** trees. It needs data set against which tree is reduced in bottom up fashion.
+  
+- **[getPrunedTreeByCostComplexityPruning](./api/modules/prune.md#getprunedtreebycostcomplexitypruning)** - applicable on 
+**regression** as well as **classification** trees, it is computationally expensive method (cross validation for 
+  obtaining **alpha** parameter), but it does not need data set for pruning. Suitable for small to medium-sized data sets.
+  
+- **[getPrunedTreeByPessimisticPruning](./api/modules/prune.md#getprunedtreebypessimisticpruning)**  - usable only on 
+  **classification** trees, based on statistics - without pruning data set. Computationally effective, method which is 
+  used for **[c4.5 algorithm](https://en.wikipedia.org/wiki/C4.5_algorithm)**.
