@@ -12,7 +12,7 @@ virtual passenger could survive titanic catastrophe.
 **[impurity scoring function]**  
 [Information gain](../api/modules/impurity.md#getinformationgainforsplit) 
 is cheaper than [information gain ratio](../api/modules/impurity.md#getinformationgainratioforsplit) 
-and we can use it here as we do not have fields with huge number of classes involved like name,ticket or cabin
+and we can use it here as we do not have fields with huge number of classes involved like name, ticket or cabin
 information gain ratio penalizes these fields as they has always high purity
 and thus their information gain is always high.
 

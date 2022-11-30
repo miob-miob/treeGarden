@@ -152,5 +152,5 @@ implements three **post-pruning** strategies:
   obtaining **alpha** parameter), but it does not need data set for pruning. Suitable for small to medium-sized data sets.
   
 - **[getPrunedTreeByPessimisticPruning](./api/modules/prune.md#getprunedtreebypessimisticpruning)**  - usable only on 
-  **classification** trees, based on statistics - without pruning data set. Computationally effective, method which is 
+  **classification** trees, based on statistics - without pruning data set. Computationally effective, this method is 
   used for **[c4.5 algorithm](https://en.wikipedia.org/wiki/C4.5_algorithm)**.

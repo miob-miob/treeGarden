@@ -163,6 +163,6 @@ better accuracy. For more information check implementation of [getRAbsError](./a
 
 
 
-### Regression tree visualization
+### Visualization of advanced example
 Regression tree, we trained and pruned:
 ![regression tree](./resources/images/regression_tree.png)

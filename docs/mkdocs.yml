@@ -10,6 +10,7 @@ nav:
   - Important basics: importantBasics.md
   - Examples:
     - Random forest: examples/randomForest.md
+    - Cross validation: examples/crossValidation.md
     - Configuration from data sample: examples/configurationFromSingleDataSample.md
     - Import dataset from JSON: examples/importJsonWithTypescript.md
 

@@ -115,5 +115,20 @@ def titanic():
     output_to_ts_file(transformed_data_set, 'titanic.ts', 'titanicSet')
 
 
+def iris():
+    files_to_include = [
+        'iris.csv'
+    ]
+
+    raw_data = read_files(files_to_include)
+
+    data_set = transform(raw_data,[
+        rename_field("variety", "_class"),
+        fields_to_numbers(["sepal_length","sepal_width","petal_length","petal_width"])
+    ])
+
+    output_to_ts_file(data_set,'iris.ts','irisSet')
+
+
 if __name__ == '__main__':
-    titanic()
+    iris()

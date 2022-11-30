@@ -6,7 +6,8 @@ import {
   statistics,
   getTreeAccuracy,
   growTree,
-  buildAlgorithmConfiguration
+  buildAlgorithmConfiguration,
+  getTreePrediction
 } from '../../src';
 
 // let`s build regression tree!
@@ -55,6 +56,22 @@ const prunedTree = prune.getPrunedTreeByReducedErrorPruning(tree, validation, my
 // [regression tree accuracy]
 console.log(`Pruned: Number of nodes,${statistics.getNumberOfTreeNodes(prunedTree)} acc:${getTreeAccuracy(prunedTree, validation, myConfig)}`);
 
+// took one example from data set to use our new regression tree - its price was around 52 - see how close we will be
+const myHouse = {
+  POSTED_BY: 'Owner',
+  UNDER_CONSTRUCTION: '0',
+  RERA: '1',
+  'BHK_NO.': '3',
+  BHK_OR_RK: 'BHK',
+  SQUARE_FT: 1181.012946,
+  READY_TO_MOVE: '1',
+  RESALE: '1',
+  ADDRESS: 'Kharar,Mohali',
+  LONGITUDE: 30.74,
+  LATITUDE: 76.65
+};
+// result
+console.log('Price of my house will be:', getTreePrediction(myHouse, prunedTree, myConfig));
 
 // let`s output it for visualization
 console.log('\n\n\n', JSON.stringify(prunedTree));
