@@ -21,8 +21,11 @@ nav:
   - Playground: playground.md # hide later
 
 
-# tweaks
+# repo
+repo_url: https://github.com/miob-miob/treeGarden
 
+
+# tweaks
 docs_dir: pages
 
 extra_css:
@@ -38,7 +41,9 @@ theme:
     primary: blue grey
 #      accent: green
   logo: resources/images/tree.svg
-#  icon:
+  icon:
+    # changed repo icon to github kitten ;)
+    repo: fontawesome/brands/github
 #    logo: material/forest
   favicon: resources/images/tree.svg
   custom_dir: overrides

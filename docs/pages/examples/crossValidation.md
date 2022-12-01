@@ -21,5 +21,5 @@ but it is easy to craft one.
 
 #### Summary
 If you run this example you will see, that **information gain** is not better than **information gain ratio**.
-Now equipped with this knowledge based on evidence, you can switch on **information gain ratio** for titanic 
+Now equipped with this knowledge based on evidence, you can switch on information gain ratio for titanic 
 data set and train your final tree from all data you have...

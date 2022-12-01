@@ -71,3 +71,6 @@ continue with philosophy.
 
 [^1]: [ID3 algorithm](https://hunch.net/~coms-4771/quinlan.pdf)
 [^2]: [Scikit learn decision trees](https://scikit-learn.org/stable/modules/tree.html)
+
+[comment]: <> (TODO: API docs comments in code)
+[comment]: <> (TODO: Github link last tag!)
