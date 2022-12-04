@@ -51,6 +51,9 @@ jobs:
       - name: Publish package on npm
         run: npm publish
 
+      - name: debug
+        run: echo ${{ env.NEW_VERSION }}
+
       - name: Create github release
         if:  ${{ contains(fromJson('["major", "mionr", "patch"]'), github.event.inputs.versionType ) }}
         uses: softprops/action-gh-release@v1
