@@ -55,7 +55,7 @@ jobs:
 #        run: echo $NEW_VERSION
 
       - name: new version env variable
-        run: echo "NEW_VERSION = v$(echo 1.2.3)" >> $GITHUB_ENV
+        run: echo "NEW_VERSION=v$(echo 1.2.3)" >> $GITHUB_ENV
 
       - name: debug
         run: echo ${NEW_VERSION}
@@ -68,7 +68,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body: ${{ github.event.inputs.changeLog }}
-          tag_name: ${NEW_VERSION}
+          tag_name: ${{ env.NEW_VERSION }}
 
 
 
