@@ -15,6 +15,11 @@ on:
           - prepatch
         default: patch
         required: true
+      changeLog:
+        type: string
+        required: false
+        description: markdown change log
+        default: Changelog not known
 
 
 jobs:
@@ -34,6 +39,9 @@ jobs:
       - name: Bump version and create and push tag
         run: bash ./scripts/versionAndTag.sh ${{ github.event.inputs.versionType }} ${{ secrets.GITHUB_TOKEN }}
 
+      - name: new version env variable
+        run: echo "NEW_VERSION = v$(node scripts/logPackageVersion.js)" >> $GITHUB_ENV
+
       - name: Transpile typescript (build)
         run: npm run build
 
@@ -42,5 +50,13 @@ jobs:
 
       - name: Publish package on npm
         run: npm publish
+
+      - name: Create github release
+        if:  ${{ contains([major, minor, patch], github.event.inputs.versionType ) }}
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ github.event.inputs.changeLog }}
+          tag_name: ${{ env.NEW_VERSION }}
+
 
 

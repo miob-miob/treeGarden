@@ -12,11 +12,12 @@ can be a great way, how to become familiar with decision trees if your backgroun
 
 ## Main features
 
-!!! tip "Easily usable out of the box..."
-    Defaults are sensible, api should be comfortable for JS devs
+!!! tip "Feature complete and flexible"
+    Supports **classification** trees, **regression** trees and  **random forests**.  
+    Implements multiple learning and pruning algorithms.
 
 !!! tip "Visualization tools exists!"
-    See [tiny library of react components](https://github.com/miob-miob/treeGardenVisualization), that used for exploring your trees
+    See [tiny library of react components](https://github.com/miob-miob/treeGardenVisualization), that used for exploring your trees.
 
 !!! tip "Extendable and customizable"
     If you do not like included options, it is easy to provide your implementation for crucial parts of algorithm. 
@@ -49,9 +50,6 @@ continue with philosophy.
 
 - **  Are there any peer-dependencies/dependencies?**
 > No, and I believe it is better for everyone involved - see more on this topic on [installation](./gettingStarted.md#installation) page.
-
-- ** Does it also support regression trees and forests?**
-> Yes tree-garden supports also regression trees and forest
 
 - ** Is tree-garden suitable for real huge data?  What are limitations?** 
 > Although main use case for tree-garden is exploring data, getting familiar with 
