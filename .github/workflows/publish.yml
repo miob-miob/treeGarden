@@ -39,7 +39,7 @@ jobs:
       - name: Bump version and create and push tag
         run: bash ./scripts/versionAndTag.sh ${{ github.event.inputs.versionType }} ${{ secrets.GITHUB_TOKEN }}
 
-      - name: new version env variable
+      - name: New version to env variable
         run: echo "NEW_VERSION=v$(node scripts/logPackageVersion.js)" >> $GITHUB_ENV
 
       - name: Transpile typescript (build)
@@ -50,7 +50,6 @@ jobs:
 
       - name: Publish package on npm
         run: npm publish
-
 
       - name: Create github release
         if:  ${{ contains(fromJson('["major", "mionr", "patch"]'), github.event.inputs.versionType ) }}
