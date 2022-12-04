@@ -52,14 +52,14 @@ jobs:
         run: npm publish
 
       - name: debug
-        run: echo ${{ env.NEW_VERSION }}
+        run: echo $NEW_VERSION
 
       - name: Create github release
         if:  ${{ contains(fromJson('["major", "mionr", "patch"]'), github.event.inputs.versionType ) }}
         uses: softprops/action-gh-release@v1
         with:
           body: ${{ github.event.inputs.changeLog }}
-          tag_name: ${{ env.NEW_VERSION }}
+          tag_name: $NEW_VERSION
 
 
 
