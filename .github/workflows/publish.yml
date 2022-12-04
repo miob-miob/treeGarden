@@ -52,7 +52,7 @@ jobs:
         run: npm publish
 
       - name: Create github release
-        if:  ${{ contains([major, minor, patch], github.event.inputs.versionType ) }}
+        if:  ${{ contains(fromJson('["major", "mionr", "patch"]'), github.event.inputs.versionType ) }}
         uses: softprops/action-gh-release@v1
         with:
           body: ${{ github.event.inputs.changeLog }}
