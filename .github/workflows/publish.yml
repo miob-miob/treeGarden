@@ -30,38 +30,27 @@ jobs:
       options: --user root
 
     steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      - name: install deps # needed for run tests + transpile typescript
-#        run: npm ci
-#
-#      - name: Bump version and create and push tag
-#        run: bash ./scripts/versionAndTag.sh ${{ github.event.inputs.versionType }} ${{ secrets.GITHUB_TOKEN }}
-#
-#      - name: new version env variable
-#        run: echo "NEW_VERSION = v$(node scripts/logPackageVersion.js)" >> $GITHUB_ENV
-#
-#      - name: Transpile typescript (build)
-#        run: npm run build
-#
-#      - name: Create .npmrc with access token
-#        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_ACCESS_TOKEN }}" > .npmrc
-#
-#      - name: Publish package on npm
-#        run: npm publish
-#
-#      - name: debug
-#        run: echo $NEW_VERSION
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: install deps # needed for run tests + transpile typescript
+        run: npm ci
+
+      - name: Bump version and create and push tag
+        run: bash ./scripts/versionAndTag.sh ${{ github.event.inputs.versionType }} ${{ secrets.GITHUB_TOKEN }}
 
       - name: new version env variable
-        run: echo "NEW_VERSION=v$(echo 1.2.3)" >> $GITHUB_ENV
+        run: echo "NEW_VERSION=v$(node scripts/logPackageVersion.js)" >> $GITHUB_ENV
 
-      - name: debug
-        run: echo ${NEW_VERSION}
+      - name: Transpile typescript (build)
+        run: npm run build
 
-      - name: debug_plus
-        run: echo ${NEW_VERSION}
+      - name: Create .npmrc with access token
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_ACCESS_TOKEN }}" > .npmrc
+
+      - name: Publish package on npm
+        run: npm publish
+
 
       - name: Create github release
         if:  ${{ contains(fromJson('["major", "mionr", "patch"]'), github.event.inputs.versionType ) }}
