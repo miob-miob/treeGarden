@@ -24,16 +24,9 @@ import { getMedian } from '../statistic/basicStatistic';
 
 export const defaultConfiguration: TreeGardenConfiguration = {
   treeType: 'classification',
-  // key is attributeId, value is attributeMeta object
   attributes: {},
-
-  // arrayOfAttributeIds if defined only these attributes re considered for building decision tree
   includedAttributes: [],
-
-  // arrayOfAttributeIds if defined  these attributes are not considered for building decision tree
   excludedAttributes: [],
-
-  // impurity scoring function see default for more information
   getScoreForSplit: getInformationGainRatioForSplit,
 
   // for information gain bigger score means better split, but for gini, opposite is true

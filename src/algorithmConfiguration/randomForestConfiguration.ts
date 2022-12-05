@@ -1,11 +1,13 @@
 import { TreeGardenConfiguration } from './index';
 import { TreeGardenDataSample } from '../dataSet/set';
 
+// return value is for typedoc - it was confused
+
 
 export const getAlgorithmConfigForEachTree = (
   dataSet:TreeGardenDataSample[],
   fullConfiguration:TreeGardenConfiguration
-) => Array.from(Array(fullConfiguration.numberOfTrees)).map((_x) => {
+):TreeGardenConfiguration[] => Array.from(Array(fullConfiguration.numberOfTrees)).map((_x) => {
   const attributesForThisConfig = fullConfiguration.getAttributesForTree(fullConfiguration, dataSet);
   const newConfig = { ...fullConfiguration };
   newConfig.includedAttributes = attributesForThisConfig;

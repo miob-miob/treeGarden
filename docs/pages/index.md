@@ -71,4 +71,4 @@ continue with philosophy.
 [^2]: [Scikit learn decision trees](https://scikit-learn.org/stable/modules/tree.html)
 
 [comment]: <> (TODO: API docs comments in code)
-[comment]: <> (TODO: Github link last tag!)
+
