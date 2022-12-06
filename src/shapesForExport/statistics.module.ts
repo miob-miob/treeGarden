@@ -9,10 +9,13 @@ import {
   getRAbsErrorRaw, getTreeDepth
 } from '../statistic/treeStats';
 import { getOutOfTheBagError } from '../statistic/randomForestStats';
+import { getMostCommonValue, getMostCommonValues } from '../statistic/getMostCommonValue';
 
 export {
   getMedian,
   getArithmeticAverage,
+  getMostCommonValue,
+  getMostCommonValues,
   getStandardDeviation,
   getVariance,
   getMissClassificationRateRaw,
@@ -23,4 +26,5 @@ export {
   getNumberOfTreeNodes,
   getTreeDepth,
   getOutOfTheBagError
+
 };

@@ -72,3 +72,4 @@ continue with philosophy.
 
 [comment]: <> (TODO: API docs comments in code)
 
+[comment]: <> (TODO: expose and comment type of attribute configuration)
