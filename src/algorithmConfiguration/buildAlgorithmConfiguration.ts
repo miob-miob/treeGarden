@@ -141,7 +141,7 @@ export type TreeGardenConfiguration = {
   /**
    * Function used for scoring of reduced error pruning @defaultValue {@link prune.getPrunedTreeScore}
    */
-  reducedErrorPruningGetScore:(accuracyBeforePruning:number, accuracyAfterPruning:number, numberOfRemovedNodes:number)=>number,
+  reducedErrorPruningGetScore:(accuracyBeforePruning:number, accuracyAfterPruning:number, numberOfNodesInPrunedTree:number)=>number,
 
   /**
    * All classes of training data set - filled by {@link buildAlgorithmConfiguration}

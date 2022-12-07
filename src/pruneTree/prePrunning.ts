@@ -1,13 +1,18 @@
 /* eslint-disable import/no-cycle */
 
-// stopping  - pre-pruning
 import { getClassesOfDataSet } from '../dataSet/set';
 import { TreeGardenNode } from '../treeNode';
-import { TreeGardenConfiguration } from '../algorithmConfiguration/buildAlgorithmConfiguration';
+import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { getNumberOfSamplesInNode } from '../statistic/treeStats';
 
 
 type StopperFn = (currentNode:TreeGardenNode, configuration:TreeGardenConfiguration)=>boolean;
+
+/**
+ * Implementation of pre-pruning.
+ *
+ * This function will compose stopper functions into single one, [see pre-pruning example](../../../importantBasics#pre-pruning).
+ */
 export const stopRules = (...stopFunctions:StopperFn[]) => (
   currentNode:TreeGardenNode,
   configuration:TreeGardenConfiguration
@@ -24,7 +29,12 @@ export const stopIfPure = (currentNode:TreeGardenNode, _configuration:TreeGarden
   return getClassesOfDataSet(wholeIncomingSet).length === 1;
 };
 
-// if number of samples in node is n or lower do not allow further splitting
+/**
+ * Implementation of pre-pruning.
+ *
+ * [see pre-pruning example](../../../importantBasics#pre-pruning)
+ * @param nSamples if number of samples in node is `nSamples` or lower do not allow further splitting
+ */
 export const stopIfMinimalNumberOfSamplesInNode = (nSamples = 5) => (
   currentNode:TreeGardenNode,
   _configuration:TreeGardenConfiguration
@@ -33,6 +43,10 @@ export const stopIfMinimalNumberOfSamplesInNode = (nSamples = 5) => (
 // this is embedded into learning algorithm itself
 export const stopIfNoSplitsAvailable = (currentNode:TreeGardenNode, _configuration:TreeGardenConfiguration) => currentNode.bestSplits.length <= 1;
 
-// first depth  level is zero
-// if you want just stubs, set it to zero
+/**
+ * Implementation of pre-pruning.
+ *
+ * Stop growth of tree if depth reaches given `maxDepth`. [see pre-pruning example](../../../importantBasics#pre-pruning)
+ * @param maxDepth depth starts with `zero` - that means if you set depth `1` root node will have one row of children
+ */
 export const stopIfDepthIs = (maxDepth:number) => (currentNode:TreeGardenNode, _configuration:TreeGardenConfiguration) => currentNode.depth >= maxDepth;

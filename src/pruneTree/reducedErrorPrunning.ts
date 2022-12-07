@@ -7,17 +7,19 @@ import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { getNumberOfTreeNodes } from '../statistic/treeStats';
 import { getDataSetWithReplacedValues } from '../dataSet/replaceMissingValues';
 
-// simple implementation - prefer trees  with best accuracy
 
+// todo consider if this should not be more low level, like tree prior pruning tree after pruning and should return number
+/**
+ * Simple implementation of scoring trees before and after pruning. Used by reduced error pruning.
+ * Simply prefer trees  with best accuracy - do not count in number of nodes in new tree (feel fre to implement custom solution)
+ */
 export const getPrunedTreeScore = (
   accuracyBeforePruning:number,
   accuracyAfterPruning:number,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  numberOfRemovedNodes:number
+  _numberOfNodesInPrunedTree:number
 ) => accuracyAfterPruning - accuracyBeforePruning;
 
 
-// todo do painful unit test testing
 // this will make copy of tree
 export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, pruningDataSet:TreeGardenDataSample[], configuration:TreeGardenConfiguration) => {
   const readyToGoValidationSet = getDataSetWithReplacedValues({ samplesToReplace: pruningDataSet, algorithmConfiguration: configuration });
@@ -28,6 +30,7 @@ export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, prun
       .map((consideredNode) => {
         const treeCopy = getTreeCopy(currentTree);
         const accuracyBeforePruning = configuration.getTreeAccuracy(treeCopy, readyToGoValidationSet, configuration);
+        // get same node on tree copy
         const prunedNode = getTreeNodeById(treeCopy, consideredNode.id);
         mutateNonLeafNodeIntoLeafOne(prunedNode);
         const accuracyAfterPruning = configuration.getTreeAccuracy(treeCopy, readyToGoValidationSet, configuration);

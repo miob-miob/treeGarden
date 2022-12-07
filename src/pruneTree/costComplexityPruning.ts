@@ -107,7 +107,18 @@ export const getSubTreeThanMinimizesCostComplexityForGivenAlpha = (fullTree:Tree
       return 0;
     })[0].subTree;
 };
-
+/**
+ * *Cost complexity pruning* (also known as *weakest link pruning*)  is one of three post-pruning methods tree-garden implements.
+ *
+ * **Pros:**
+ *
+ * - You do not need separate pruning data set - optimal tree is calculated from whole data you have
+ * - Quality of pruning is good
+ *
+ *  **Cons:**
+ *
+ *  - As it has internal parameter `alpha` which is found by cross validation - it is computationally expensive.
+ */
 export const getPrunedTreeByCostComplexityPruning = (treeRoot:TreeGardenNode, fullTrainingData:TreeGardenDataSample[], configuration:TreeGardenConfiguration) => {
   const readyToGoTrainingSet = getDataSetWithReplacedValues({
     samplesToReplace: fullTrainingData,
