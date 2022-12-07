@@ -101,6 +101,9 @@ export type TreeGardenConfiguration = {
   /**
    * If true only binary splits are allowed - this is restriction implemented in CART algorithm - possible splits are designed in way
    * that it has always boolean outcome - two child nodes leads from each parent @defaultValue `false`
+   *
+   * if `true` it will perform very slowly on data sets with attributes
+   *  like date, name - plenty of possible discrete values.
    */
   onlyBinarySplits:boolean,
 

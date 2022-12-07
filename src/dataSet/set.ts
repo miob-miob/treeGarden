@@ -9,7 +9,10 @@ export type TreeGardenDataSample = {
   [key:string]:any
 };
 
-export const getClassesOfDataSet = (dataSet:TreeGardenDataSample[], alreadyKnownClasses :string[]|null = null) => {
+/**
+ * Extracts all possible classes from data set.
+ */
+export const getClassesOfDataSet = (dataSet:TreeGardenDataSample[]) => {
   const classesSet = dataSet
     .reduce(
       (allKnownClasses, currentSample) => {
@@ -18,12 +21,14 @@ export const getClassesOfDataSet = (dataSet:TreeGardenDataSample[], alreadyKnown
         }
         return allKnownClasses;
       },
-      new Set(alreadyKnownClasses || [])
+      new Set()
     );
-  return Array.from(classesSet);
+  return Array.from(classesSet) as any[];
 };
 
-
+/**
+ * Extract all possible attributes from data set (except metadata starting with underscore)
+ */
 export const getAllAttributeIds = (dataSet : TreeGardenDataSample[]) => {
   const resultSet = new Set<string>();
   dataSet.forEach((sample) => {
@@ -39,7 +44,9 @@ export const getAllAttributeIds = (dataSet : TreeGardenDataSample[]) => {
   return [...resultSet];
 };
 
-// decide if values under given attributeId of dataset are continuous or discrete
+/**
+ * decide if values under given attributeId of dataset are continuous or discrete
+ */
 export const getTypeOfAttribute = (dataSet:TreeGardenDataSample[], attributeId:string, missingValue:any = undefined) => {
   const allValuesAreNumbers = dataSet.map((sample) => sample[attributeId])
     .filter((value) => value !== missingValue) // filter out missing values

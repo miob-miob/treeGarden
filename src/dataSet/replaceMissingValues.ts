@@ -9,9 +9,14 @@ import { TreeGardenNode } from '../treeNode';
 // todo because we infering configuration and some of functions here are used as default values of configuration
 // todo  we are creating circular depenency - we must ommit algorithmConfig type ;(
 
-// closure WARNING :D FF stands for Function Factory - on algorithm start it is called
-// and replacer is created (just once) than used for every sample with missing value
-// eslint-disable-next-line no-unused-vars
+/**
+ * closure WARNING :D FF stands for Function Factory - on algorithm start it is called and replacer function is produced.
+ * replacer function takes only sample and return sample copy with replaced values
+ *
+ * What it really does?
+ * If replacer meets sample with missing attirbute color, it will check color of all samples in dataset and replaces color
+ * of sample with most common color
+ */
 export const getMostCommonValueFF = (dataSet:TreeGardenDataSample[], attributeId:string, configuration:TreeGardenConfiguration) => {
   const typeOfAttribute = configuration.attributes[attributeId].dataType;
   const { missingValue } = configuration.attributes[attributeId];
@@ -39,8 +44,17 @@ export const getMostCommonValueFF = (dataSet:TreeGardenDataSample[], attributeId
   };
 };
 
-// closure WARNING :D FF stands for Function Factory
-// this is usable only in induction time, evaluation samples do not have _class
+
+/**
+ *
+ *
+ * closure WARNING :D FF stands for Function Factory see {@link getMostCommonValueFF}
+ * this is usable only in induction time, evaluation samples do not have _class!
+ *
+ * What it really does?
+ * It works like {@link getMostCommonValueFF} but also take into account sample class. So if class was
+ * for instance `yes` it will find most common value for attribute just among samples with same class.
+ */
 export const getMostCommonValueAmongSameClassFF = (dataSet:TreeGardenDataSample[], attributeId:string, configuration:TreeGardenConfiguration) => {
   if (configuration.treeType === 'regression') {
     throw new Error('You cannot call \'getMostCommonValueAmongSameClassFF\' on treeType === \'regression\' tree!');
@@ -76,7 +90,9 @@ type ReplaceOptions = {
   replacerFactoryKey?: 'growMissingValueReplacement' | 'evaluateMissingValueReplacement'
 };
 
-// this will create copy of samplesToReplace with replaced values
+/**
+ * Get data set with replaced missing values according to reference dataset or itself if referenceDataSet is not provided
+ */
 export const getDataSetWithReplacedValues = ({
   samplesToReplace,
   algorithmConfiguration,
@@ -111,6 +127,9 @@ export const getDataSetWithReplacedValues = ({
   });
 };
 
+/**
+ * Get most common tag among samples that landed in given node. See not class, but tag of split.
+ */
 export const getMostCommonTagOfSamplesInNode = (
   sample:TreeGardenDataSample,
   attributeId:string,

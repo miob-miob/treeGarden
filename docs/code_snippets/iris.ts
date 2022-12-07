@@ -1,6 +1,5 @@
 import {
   buildAlgorithmConfiguration,
-  configuration,
   growTree,
   getTreeAccuracy,
   dataSet,
@@ -15,13 +14,6 @@ console.log(`length of validation: ${validation.length}, length of training: ${t
 
 
 const myConfig = buildAlgorithmConfiguration(sampleDataSets.irisSet, {
-  ...configuration.c45Config,
-  attributes: {
-    sepal_length: { dataType: 'continuous' },
-    sepal_width: { dataType: 'continuous' },
-    petal_length: { dataType: 'continuous' },
-    petal_width: { dataType: 'continuous' }
-  },
   shouldWeStopGrowth: prune.stopRules(
     prune.stopIfDepthIs(30),
     prune.stopIfMinimalNumberOfSamplesInNode(20)

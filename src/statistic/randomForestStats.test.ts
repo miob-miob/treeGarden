@@ -3,14 +3,12 @@ import { simpleTree } from '../sampleTrainedTrees/simpleTree';
 import { simpleSet } from '../sampleDataSets';
 import { getOutOfTheBagError } from './randomForestStats';
 import { TreeGardenNode } from '../treeNode';
-import { buildAlgorithmConfiguration, c45Config } from '../algorithmConfiguration';
+import { buildAlgorithmConfiguration } from '../algorithmConfiguration';
 import { getResultFromMultipleTrees } from '../predict';
 import { getRightOnBlackSimpleTree } from '../testUtils';
 
 test('getOutOfTheBagError', () => {
-  const algorithmConfig = buildAlgorithmConfiguration(simpleSet, {
-    ...c45Config
-  });
+  const algorithmConfig = buildAlgorithmConfiguration(simpleSet, {});
 
   const simpleDataSetWithIds = simpleSet.map((item) => ({ ...item, _id: item._label }));
 

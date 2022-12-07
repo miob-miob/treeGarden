@@ -4,7 +4,10 @@ import { chooseManyWithoutRepeats } from '../randomization';
 
 // return value is for typedoc - it was confused
 
-
+/**
+ * Function that returns configuration for each tree of random forest - it uses [bagging](https://en.wikipedia.org/wiki/Random_forest#From_bagging_to_random_forests)
+ * to select set of attributes different for each tree.
+ */
 export const getAlgorithmConfigForEachTree = (
   dataSet:TreeGardenDataSample[],
   fullConfiguration:TreeGardenConfiguration
@@ -24,7 +27,9 @@ export const getAlgorithmConfigForEachTree = (
   return newConfig;
 });
 
-
+/**
+ * Implementation of [feature bagging](https://en.wikipedia.org/wiki/Random_forest#From_bagging_to_random_forests) for random forests.
+ */
 export const getSubsetOfAttributesForTreeOfRandomForest = (algorithmConfiguration:TreeGardenConfiguration, _dataSet:TreeGardenDataSample[]) => {
   const attributeKeys = Object.keys(algorithmConfiguration.attributes);
   const nAttributes = algorithmConfiguration.treeType === 'regression'

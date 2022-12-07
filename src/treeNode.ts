@@ -12,7 +12,9 @@ import { TreeGardenDataSample } from './dataSet/set';
 import { TreeGardenConfiguration } from './algorithmConfiguration';
 import { getArithmeticAverage, getStandardDeviation } from './statistic/basicStatistic';
 
-
+/**
+ * Data partitions for regression trees - just one class
+ */
 export const SINGLE_CLASS_FOR_REGRESSION_TREE = 'no_classes_in_regression_tree';
 
 export type TreeGardenNode = {
