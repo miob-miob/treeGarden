@@ -31,7 +31,14 @@ export const getGiniIndexForDataSet = (dataSet:TreeGardenDataSample[], knownClas
 };
 
 
-// lower i better - more purer
+/**
+ * Split quality scoring function for **classification** trees
+ *
+ * See [gini impurity](https://en.wikipedia.org/wiki/Decision_tree_learning#Gini_impurity)
+ *
+ * @remarks
+ * lower score - better split!!!
+ */
 export const getGiniIndexForSplit = (
   parentSet:TreeGardenDataSample[],
   childrenSets:{ [key:string]:TreeGardenDataSample[] },

@@ -24,6 +24,15 @@ export const getEntropyForDataSet = (dataSet:TreeGardenDataSample[], knownClasse
   return getEntropy(Object.values(frequencies));
 };
 
+/**
+ * Split quality scoring function for **classification** trees.
+ *
+ * It measures decrease of entropy of child data set compared to parent data set. Low entropy == pure data set.
+ * Decrease in entropy means raise of purity, thus **larger decrease, better split**
+ *
+ * @remarks
+ * Higher score - better split!!!
+ */
 export const getInformationGainForSplit = (
   parentSet:TreeGardenDataSample[],
   childrenSets:{ [key:string]:TreeGardenDataSample[] },
@@ -44,7 +53,12 @@ export const getInformationGainForSplit = (
 
 
 /**
- * gain ratio is similar like information gain, but  penalizes  splits that have many distinct values (like dates, IDs or names)
+ * Split quality scoring function for **classification** trees
+ *
+ * Information gain ratio is similar like information gain, but  penalizes  splits that have many distinct values (like dates, IDs or names)
+ *
+ * @remarks
+ * Higher score - better split!!!
  */
 export const getInformationGainRatioForSplit = (
   parentSet:TreeGardenDataSample[],

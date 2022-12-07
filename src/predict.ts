@@ -7,6 +7,9 @@ import { getSplitCriteriaFn } from './split';
 
 
 type NodeOrIdArray<T extends boolean> = T extends true?string[]:TreeGardenNode;
+/**
+ * Retrieve leaf node of tree for given sample.
+ */
 export const getLeafNodeOfSample = <T extends boolean>(
   sample:TreeGardenDataSample,
   rootNode:TreeGardenNode,
@@ -47,7 +50,11 @@ export const getLeafNodeOfSample = <T extends boolean>(
   return currentNode as NodeOrIdArray<T>;
 };
 
-// missing value replacement for prediction
+/**
+ *  Missing value replacement before prediction. If you provided `getTagOfSampleWithMissingValueWhileClassifying`
+ *  to algorithmConfiguration (configured by default) replacing is delayed to point where value is really needed.
+ *  @param referenceDataSetForReplacing  data set from which values for replacing are calculated
+ */
 export const getReadyToPredictSamples = (
   samplesToPredictWithMissingValues:TreeGardenDataSample[],
   algorithmConfiguration:TreeGardenConfiguration,
@@ -69,6 +76,9 @@ export const getReadyToPredictSamples = (
   return readyToGoSamples;
 };
 
+/**
+ * Get leaf nodes of tree for multiple unknown samples.
+ */
 export const getLeafNodesForSamples = (
   samplesToClassify:TreeGardenDataSample[],
   decisionTreeRoot:TreeGardenNode,
@@ -80,6 +90,9 @@ export const getLeafNodesForSamples = (
     .map((sample) => [sample, getLeafNodeOfSample(sample, decisionTreeRoot, algorithmConfiguration, false)] as [TreeGardenDataSample, TreeGardenNode]);
 };
 
+/**
+ * Extract class from node and given sample for **classification** tree
+ */
 export const getMostCommonClassForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenDataSample) => {
   const sortedClasses = Object.entries(leafNode.classCounts)
     .sort(([classOne, countOne], [classTwo, countTwo]) => {
@@ -98,6 +111,9 @@ export const getMostCommonClassForNode = (leafNode:TreeGardenNode, _sample?:Tree
   return sortedClasses[0][0];
 };
 
+/**
+ * Extract value from node and given sample for **regression** tree
+ */
 export const getValueForNode = (leafNode:TreeGardenNode, _sample?:TreeGardenDataSample) => leafNode.regressionTreeAverageOutcome as number;
 
 export type SingleSamplePredictionResult = ReturnType<TreeGardenConfiguration['getValueFromLeafNode']> | ReturnType<TreeGardenConfiguration['getClassFromLeafNode']>;
@@ -142,6 +158,9 @@ export const getRandomForestPrediction = <T extends TreeGardenDataSample|TreeGar
   return samplesAndPrediction[0][1] as PredictionReturnValue<T>;
 };
 
+/**
+ * Strategy how to obtain results from multiple trees of random forest for given sample.
+ */
 export const getResultFromMultipleTrees = (
   treeRoots:TreeGardenNode[],
   dataSample:TreeGardenDataSample,
