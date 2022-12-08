@@ -15,11 +15,12 @@ import {
 import { getPrunedTreeScore } from '../pruneTree/reducedErrorPrunning';
 
 export {
-  stopRules,
-  stopIfDepthIs,
-  stopIfMinimalNumberOfSamplesInNode,
-  getPrunedTreeByCostComplexityPruning,
   getPrunedTreeByReducedErrorPruning,
   getPrunedTreeByPessimisticPruning,
-  getPrunedTreeScore
+  getPrunedTreeByCostComplexityPruning,
+  getPrunedTreeScore,
+  stopRules,
+  stopIfDepthIs,
+  stopIfMinimalNumberOfSamplesInNode
+
 };

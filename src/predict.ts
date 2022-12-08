@@ -28,7 +28,6 @@ export const getLeafNodeOfSample = <T extends boolean>(
       as missing, it should be replaced using 'referenceDataSetForReplacing', or you should define 'replaceMissingValuesWhileEvaluating'
        function in configuration!`);
     }
-
     const tagOfSample = (sampleValueForGivenAttribute === missingValue)
       // @ts-expect-error
       ? getTagOfSampleWithMissingValue!(sample, attributeId, currentNode, algorithmConfiguration) : getSplitCriteriaFn(...currentNode.chosenSplitCriteria!)(sample);

@@ -20,7 +20,31 @@ export const getPrunedTreeScore = (
 ) => accuracyAfterPruning - accuracyBeforePruning;
 
 
-// this will make copy of tree
+/**
+ * *Reduced error pruning* (REP) is simplest pre-pruning algorithm tree-garden implements. Even so simple there exists multiple
+ * variants of this algorithm.
+ *
+ * tree-garden`s version is iterative algorithm.
+ *
+ * - takes all inner nodes (all nodes except leaves) in each iteration
+ * - tries to turn each inner node into leaf and then measures accuracy against **validation** data set
+ * - keeps change, which leads to highest accuracy gain against validation data set, run new iteration
+ * - keeps pruning until there is node after which removal accuracy against validation dataset raised
+ *
+ *
+ * **Pros:**
+ *
+ * - easily understandable
+ * - high quality trees on output if validation set is big enough
+ * - computationally effective
+ *
+ * **Cons:**
+ *
+ * - need for validation data set, you cannot use all your data for training model
+ * - sometimes special pruning data set is used (trained on one part of your data set, pruned on another and validated on last one)
+ *   this, if your data are expensive (like outcome of some expensive experiment) you probably do not want use this pruning method
+ *
+ */
 export const getPrunedTreeByReducedErrorPruning = (treeRoot:TreeGardenNode, pruningDataSet:TreeGardenDataSample[], configuration:TreeGardenConfiguration) => {
   const readyToGoValidationSet = getDataSetWithReplacedValues({ samplesToReplace: pruningDataSet, algorithmConfiguration: configuration });
   let currentTree = getTreeCopy(treeRoot);

@@ -2,34 +2,41 @@
 
 import { getFlattenTree, TreeGardenNode } from '../treeNode';
 import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample } from '../dataSet/set';
-import { getLeafNodeOfSample, getTreePrediction } from '../predict';
+import { getTreePrediction } from '../predict';
 import { TreeGardenConfiguration } from '../algorithmConfiguration';
 import { getArithmeticAverage } from './basicStatistic';
 
 
 // todo lot of space for optimization
-// used in calculation of oob error
+/**
+ * Used for calculation of accuracy of **regression** trees, number up to `1`
+ *
+ * tree-garden implements modified [coefficient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination#Definitions),
+ * it uses absolute values instead of squared values.
+ * @remarks
+ * **Do not be scared by negative values** - as number `0` means - model predicts as good as average value of your data set. It is
+ * called comparison to base model. If model predicts worse, than average value, it will be **negative**. Ideal model will have `1`.
+ */
 export const getRAbsErrorRaw = (realValues:number[], predictedValues:number[]) => {
   if (realValues.length !== predictedValues.length) {
     throw new Error('Must be equal length as corresponds to real sample values and predicted ones !');
   }
   const averageValue = getArithmeticAverage(realValues);
-  let sumOFSquaresOfResiduals = 0; // SSres
-  let sumOfSquaresFromAverage = 0; // SStot
+  let sumOFAbsValuesOfResiduals = 0; // SSres
+  let sumOfAbsValuesFromAverage = 0; // SStot
 
   realValues.forEach((realValue, index) => {
     const predictedValue = predictedValues[index];
-    sumOFSquaresOfResiduals += Math.abs(realValue as number - predictedValue);
-    sumOfSquaresFromAverage += Math.abs(realValue - averageValue);
+    sumOFAbsValuesOfResiduals += Math.abs(realValue as number - predictedValue);
+    sumOfAbsValuesFromAverage += Math.abs(realValue - averageValue);
   });
 
-  return 1 - (sumOFSquaresOfResiduals / sumOfSquaresFromAverage);
+  return 1 - (sumOFAbsValuesOfResiduals / sumOfAbsValuesFromAverage);
 };
 
-
-// used for regression trees
-// https://en.wikipedia.org/wiki/Coefficient_of_determination#Definitions
-// use absolute value instead of pow as it is better for reduced error pruning
+/**
+ * Wrapper for {@link getRAbsErrorRaw}
+ */
 export const getRAbsError = (
   treeRootNode:TreeGardenNode,
   dataSet:TreeGardenDataSample[],
@@ -43,7 +50,12 @@ export const getRAbsError = (
 
 type ClassOfSample = TreeGardenDataSample['_class'];
 
-// used in calculation of oob error
+/**
+ * Used for calculation of accuracy of **classification** trees, number between `0` and `1`
+ *
+ * - `0` - 0% of correct classifications
+ * - `1` - 100% of correct classifications
+ */
 export const getMissClassificationRateRaw = (realClasses:ClassOfSample[], predictedClasses:ClassOfSample[]) => {
   // for (let index = 0; index < realClasses.length; index += 1) {
   //   console.log(realClasses[index], predictedClasses[index]);
@@ -54,7 +66,9 @@ export const getMissClassificationRateRaw = (realClasses:ClassOfSample[], predic
   return realClasses.filter((realClass, index) => realClass === predictedClasses[index]).length / realClasses.length;
 };
 
-// for classification trees - but this should be accuracy - miss classification rate would be 1- accuracy
+/**
+ * Wrapper for {@link getMissClassificationRateRaw}
+ */
 export const getMissClassificationRate = (
   treeRootNode:TreeGardenNode,
   dataSet:TreeGardenDataSample[],
@@ -71,6 +85,11 @@ export const getMissClassificationRate = (
   return getMissClassificationRateRaw(realClasses, predictedClasses);
 };
 
+/**
+ * Calculate accuracy for tree (classification and regression) on given data set.
+ *
+ * See {@link getMissClassificationRateRaw} and {@link getRAbsErrorRaw} for more information
+ */
 export const getTreeAccuracy = (
   treeRootNode:TreeGardenNode,
   dataSet:TreeGardenDataSample[],

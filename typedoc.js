@@ -9,7 +9,7 @@ module.exports = {
 //  excludeNotDocumented:true,
 //  json:'treeGardenSchema.json',
   out: './docs/pages/api',
-  sort:'source-order',
+  sort:'required-first',
 
   // settings for markdown renderer plugin
   hideBreadcrumbs:true,

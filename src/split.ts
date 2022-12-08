@@ -13,17 +13,20 @@ const supportedMathOperators = new Set([
 ] as const);
 
 
-const supportedOperators = new Set([
-  ...supportedMathOperators,
-  'customFn'
-] as const);
-
-export type SplitOperator = typeof supportedOperators extends Set<infer K>?K:never;
+export type SplitOperator = typeof supportedMathOperators extends Set<infer K>?K:never;
 export type SplitCriteriaFn = ReturnType<typeof getSplitCriteriaFn>;
 export type SplitCriteriaDefinition = any[];
 
 /**
  * Factory function that returns function that accepts sample and decides what is its tag for splitting
+ * useful for unit tests.
+ *
+ * @example
+ * ```ts
+ * const splitDefinition = ['weight', '>', 30] as const;
+ * const splitter = split.getSplitCriteriaFn(...splitDefinition);
+ * console.log(splitter({ weight: 40 })); // should show true
+ * ```
  */
 export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, value?:Array<string|number>|string|Function|number) => {
   if (operator === '==') {
@@ -36,14 +39,6 @@ export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, v
       existingValueGuard(currentSample, attributeId);
       return currentSample[attributeId];
     };
-  }
-  if (operator === 'customFn') {
-    if (typeof (value) !== 'function') {
-      throw new Error(`When using custom function as operator, value must be function, got '${value}'!`);
-    }
-    // value is custom function, which is provided with sample and attributeId
-    // should return split tag
-    return (currentSample:TreeGardenDataSample) => value(currentSample, attributeId);
   }
   if (supportedMathOperators.has(operator)) {
     return (currentSample:TreeGardenDataSample) => {
@@ -70,7 +65,7 @@ export const getSplitCriteriaFn = (attributeId:string, operator:SplitOperator, v
     };
   }
 
-  throw new Error(`Used unknown operator, supported operators are: ${supportedOperators}, got '${operator}'!`);
+  throw new Error(`Used unknown operator, supported operators are: ${Array.from(supportedMathOperators.values())}, got '${operator}'!`);
 };
 
 export const splitDataSet = (dataSet:TreeGardenDataSample[], splitCriteriaFn: SplitCriteriaFn, onlyBinarySplits:boolean) => {
@@ -147,7 +142,7 @@ export const getAllPossibleSplitCriteriaForContinuousValues = (attributeId:strin
 
     // values are not same and we are not on end of array
     if (valueIndex + 1 < valuesCopy.length && currentValue !== nextValue) {
-      result.push([attributeId, '>', (currentValue + nextValue) / 2]);
+      result.push([attributeId, '>', (currentValue + nextValue) / 2] as SplitCriteriaDefinition);
     }
   }
   return result;

@@ -1,14 +1,14 @@
 // top level exports - most useful functions
-export { SplitCriteriaFn, SplitCriteriaDefinition, SplitOperator } from './split';
 
-export { TreeGardenDataSample } from './dataSet/set';
-export { TreeGardenNode } from './treeNode';
 export {
   TreeGardenConfiguration,
   buildAlgorithmConfiguration,
   defaultConfiguration,
   defaultAttributeConfiguration
 } from './algorithmConfiguration';
+export { TreeGardenDataSample } from './dataSet/set';
+export { TreeGardenNode } from './treeNode';
+export { SplitCriteriaFn, SplitCriteriaDefinition, SplitOperator } from './split';
 export { growTree } from './growTree';
 export { growRandomForest } from './growRandomForest';
 export { getTreePrediction, getRandomForestPrediction } from './predict';

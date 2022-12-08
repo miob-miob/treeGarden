@@ -34,7 +34,18 @@ export const recursivePruning = (treeNode:TreeGardenNode) => {
   return errorOfChildNodes;
 };
 
-
+/**
+ * *Pessimistic pruning* is post pruning strategy employed by c4.5 algorithm. Based just on statistics of tree itself.
+ *
+ * **Pros:**
+ *
+ * - You do not need separate pruning data set - you do just need tree itself!
+ * - Computationally cheap compared to cost complexity pruning
+ *
+ * **Cons:**
+ *
+ * - Sometimes under-prune tree - resulting tree is unnecessary large
+ */
 export const getPrunedTreeByPessimisticPruning = (tree:TreeGardenNode) => {
   const treeCopy = getTreeCopy(tree);
   recursivePruning(treeCopy);

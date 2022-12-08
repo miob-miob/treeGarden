@@ -1,3 +1,9 @@
+/**
+ * This namespace holds various functions useful for basic statistics and analysis of trees and forests
+ * @module
+ */
+
+
 import {
   getArithmeticAverage, getMedian, getStandardDeviation, getVariance
 } from '../statistic/basicStatistic';

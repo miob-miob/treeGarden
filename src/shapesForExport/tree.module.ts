@@ -9,9 +9,9 @@ import {
 
 export {
   getTreeCopy,
-  getTreeStages,
   getAllLeafNodes,
-  getFlattenTree,
   getAllInnerNodes,
-  getTreeNodeById
+  getFlattenTree,
+  getTreeNodeById,
+  getTreeStages
 };
