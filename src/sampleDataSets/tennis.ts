@@ -1,4 +1,12 @@
 
+const first = {
+  _label: '1', outlook: 'Sunny', temp: 'Hot', humidity: 'High', wind: 'Weak', _class: 'No'
+};
+
+/**
+ * simple dataset - decide if you want to go to play tennis based on weather
+ */
+
 export const tennisSet = [
   {
     _label: '1', outlook: 'Sunny', temp: 'Hot', humidity: 'High', wind: 'Weak', _class: 'No'
@@ -41,4 +49,4 @@ export const tennisSet = [
   },
   {
     _label: '14', outlook: 'Rain', temp: 'Mild', humidity: 'High', wind: 'Strong', _class: 'No'
-  }];
+  }] as (typeof first)[];

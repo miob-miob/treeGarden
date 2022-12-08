@@ -1,3 +1,10 @@
+const first = {
+  _class: 0.9, color: 'black', width: 40, _label: '1'
+};
+
+/**
+ * Data set for regression trees unit tests
+ */
 export const simpleSetForRegression = [
   {
     _class: 0.9, color: 'black', width: 40, _label: '1'
@@ -15,5 +22,5 @@ export const simpleSetForRegression = [
     _class: 2, color: 'white', width: 31, _label: '5'
   }
 
-];
+] as (typeof first)[];
 

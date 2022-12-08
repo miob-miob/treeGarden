@@ -5,6 +5,11 @@
 //   biggerImpurityScoreBetterSplit: false
 // }
 
+import { TreeGardenNode } from '../treeNode';
+
+/**
+ * Tree trained on tennis data set
+ */
 export const tennisTree = {
   isLeaf: false,
   chosenSplitCriteria: ['outlook', '=='],
@@ -60,4 +65,4 @@ export const tennisTree = {
       }
     }
   }
-};
+} as TreeGardenNode;

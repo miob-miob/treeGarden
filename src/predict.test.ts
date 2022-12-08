@@ -8,14 +8,13 @@ import {
   getRandomForestPrediction,
   getReadyToPredictSamples
 } from './predict';
-import { buildAlgorithmConfiguration } from './algorithmConfiguration';
+import { buildAlgorithmConfiguration, defaultConfiguration } from './algorithmConfiguration';
 import { simpleSet, tennisSet } from './sampleDataSets';
-import { tennisTree } from './sampleTrainedTrees/tennisTree';
+import { tennisTree, simpleTree } from './sampleTrainedTrees';
 import { getTreeNodeById, TreeGardenNode } from './treeNode';
 import { getRightOnBlackSimpleTree } from './testUtils';
-import { defaultConfiguration } from './algorithmConfiguration/algorithmDefaultConfiguration';
+
 import { TreeGardenDataSample } from './dataSet/set';
-import { simpleTree } from './sampleTrainedTrees/simpleTree';
 import { getMostCommonTagOfSamplesInNode } from './dataSet/replaceMissingValues';
 
 
@@ -24,8 +23,8 @@ const samples = [
   { outlook: 'Rain', wind: 'Weak' }
 ];
 const leafNodes = [
-  tennisTree.childNodes.Sunny.childNodes.High,
-  tennisTree.childNodes.Rain.childNodes.Weak
+  tennisTree.childNodes?.Sunny.childNodes?.High,
+  tennisTree.childNodes?.Rain.childNodes?.Weak
 ];
 const config = buildAlgorithmConfiguration(tennisSet);
 
@@ -147,5 +146,4 @@ test('getReadyToPredictSamples', () => {
   expect(readyToClassifySamples[0].color).toBeDefined();
   expect(readyToClassifySamples[1].color).toBeDefined();
   expect(consoleWarnSpy).toBeCalledTimes(1);
-
 });

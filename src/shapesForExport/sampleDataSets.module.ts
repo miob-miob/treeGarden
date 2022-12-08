@@ -1,8 +1,10 @@
 // todo if we go hardly after bundle size - this would not be ideal
+// There is some hacking around types in all data sets because of typedoc
 
-/** generating MD this takes to much time - lets hide it for now
+/**
+ * This namespace contains all data sets bundled with tree-garden.
+ *
  * @module
- * @hidden
  */
 import {
   simpleSet,
@@ -14,10 +16,10 @@ import {
 } from '../sampleDataSets';
 
 export {
-  simpleSet,
-  titanicSet,
-  simpleSetForRegression,
-  housePrices,
   irisSet,
-  tennisSet
+  titanicSet,
+  housePrices,
+  tennisSet,
+  simpleSetForRegression,
+  simpleSet
 };

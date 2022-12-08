@@ -159,7 +159,7 @@ test('getAllLeafNodes', () => {
 });
 
 test('getTreeNodeById', () => {
-  const someNode = tennisTree.childNodes.Rain.childNodes.Weak;
+  const someNode = tennisTree.childNodes!.Rain.childNodes!.Weak;
   const someNodeId = someNode.id;
   expect(getTreeNodeById(tennisTree, someNodeId)).toBe(someNode);
 });

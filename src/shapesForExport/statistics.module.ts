@@ -18,19 +18,26 @@ import { getOutOfTheBagError } from '../statistic/randomForestStats';
 import { getMostCommonValue, getMostCommonValues } from '../statistic/getMostCommonValue';
 
 export {
+  // basic statistic
   getMedian,
   getArithmeticAverage,
   getMostCommonValue,
   getMostCommonValues,
   getStandardDeviation,
   getVariance,
-  getMissClassificationRateRaw,
-  getRAbsErrorRaw,
-  getNumberOfSamplesInNode,
-  getRAbsError,
+
+  // accuracy of trees
   getMissClassificationRate,
+  getMissClassificationRateRaw,
+  getRAbsError,
+  getRAbsErrorRaw,
+
+  // tree statistics
+  getNumberOfSamplesInNode,
   getNumberOfTreeNodes,
   getTreeDepth,
+
+  // random forests statistics
   getOutOfTheBagError
 
 };

@@ -1,3 +1,8 @@
+
+const first = {"POSTED_BY": "Owner", "UNDER_CONSTRUCTION": "0", "RERA": "0", "BHK_NO.": "2", "BHK_OR_RK": "BHK", "SQUARE_FT": "1300.236407", "READY_TO_MOVE": "1", "RESALE": "1", "ADDRESS": "Ksfc Layout,Bangalore", "LONGITUDE": "12.96991", "LATITUDE": "77.59796", "_class": 55.0};
+/**
+ * House prices taken from Mumbai - for regression trees
+ */
 export const housePrices = [
 {"POSTED_BY": "Owner", "UNDER_CONSTRUCTION": "0", "RERA": "0", "BHK_NO.": "2", "BHK_OR_RK": "BHK", "SQUARE_FT": "1300.236407", "READY_TO_MOVE": "1", "RESALE": "1", "ADDRESS": "Ksfc Layout,Bangalore", "LONGITUDE": "12.96991", "LATITUDE": "77.59796", "_class": 55.0},
 {"POSTED_BY": "Dealer", "UNDER_CONSTRUCTION": "0", "RERA": "0", "BHK_NO.": "2", "BHK_OR_RK": "BHK", "SQUARE_FT": "1275.0", "READY_TO_MOVE": "1", "RESALE": "1", "ADDRESS": "Vishweshwara Nagar,Mysore", "LONGITUDE": "12.274538", "LATITUDE": "76.644605", "_class": 51.0},
@@ -332,4 +337,4 @@ export const housePrices = [
 {"POSTED_BY": "Dealer", "UNDER_CONSTRUCTION": "0", "RERA": "1", "BHK_NO.": "3", "BHK_OR_RK": "BHK", "SQUARE_FT": "1902.843071", "READY_TO_MOVE": "1", "RESALE": "1", "ADDRESS": "Binny Pete,Bangalore", "LONGITUDE": "12.96991", "LATITUDE": "77.59796", "_class": 170.0},
 {"POSTED_BY": "Owner", "UNDER_CONSTRUCTION": "0", "RERA": "0", "BHK_NO.": "1", "BHK_OR_RK": "BHK", "SQUARE_FT": "850.4606662", "READY_TO_MOVE": "1", "RESALE": "1", "ADDRESS": "Bicholi Mardana,Indore", "LONGITUDE": "22.1764", "LATITUDE": "75.8193", "_class": 12.0},
 {"POSTED_BY": "Dealer", "UNDER_CONSTRUCTION": "1", "RERA": "1", "BHK_NO.": "2", "BHK_OR_RK": "BHK", "SQUARE_FT": "1051.223242", "READY_TO_MOVE": "0", "RESALE": "1", "ADDRESS": "Thane West,Lalitpur", "LONGITUDE": "19.18", "LATITUDE": "72.96333", "_class": 110.0},
-]
+] as (typeof first)[];

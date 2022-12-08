@@ -1,6 +1,9 @@
 /* eslint-disable max-len */
 import { TreeGardenNode } from '../treeNode';
 
+/**
+ * Another tree trained on titanic data set.
+ */
 export const titanicTreeTwo = {
   isLeaf: false,
   chosenSplitCriteria: ['sex', '=='],

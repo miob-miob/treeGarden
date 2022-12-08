@@ -1,8 +1,8 @@
 // todo if we go hardly after bundle size - this would not be ideal
-
-/** generating MD this takes to much time - lets hide it for now
+// There is some hacking around types in all pre trained trees because of typedoc
+/**
+ * This namespaces contains pre trained trees, that you can use for classification.
  * @module
- * @hidden
  */
 import {
   simpleRegressionTree,

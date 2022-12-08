@@ -20,20 +20,20 @@ test('getMissClassificationRateOfTree', () => {
   const tennisTreeCopy = getTreeCopy(tennisTree);
   expect(getMissClassificationRateOfTree(tennisTreeCopy, tennisSetLength, config)).toBeCloseTo(0);
 
-  mutateNonLeafNodeIntoLeafOne(tennisTreeCopy.childNodes.Rain);
+  mutateNonLeafNodeIntoLeafOne(tennisTreeCopy.childNodes!.Rain);
   const treeMissProbability = (1 - 3 / 5) * (5 / 14);
   expect(getMissClassificationRateOfTree(tennisTreeCopy, tennisSetLength, config)).toBeCloseTo(treeMissProbability);
 });
 
 
 test('getMissClassificationRateOfNode', () => {
-  const nodeToGetErrorRate = tennisTree.childNodes.Sunny;
+  const nodeToGetErrorRate = tennisTree.childNodes!.Sunny;
   expect(getMissClassificationRateOfNode(nodeToGetErrorRate, tennisSetLength, config)).toBeCloseTo((1 - 3 / 5) * (5 / tennisSetLength));
 });
 
 
 test('getAlphaForNode', () => {
-  const nodeToTest = tennisTree.childNodes.Sunny;
+  const nodeToTest = tennisTree.childNodes!.Sunny;
   const expectedAlpha = (1 - 3 / 5) * (5 / tennisSetLength) - (0);
   expect(getAlphaForNode(nodeToTest, tennisSet.length, config)).toBeCloseTo(expectedAlpha);
 });

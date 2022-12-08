@@ -14,8 +14,8 @@ import { getArithmeticAverage } from './basicStatistic';
  * tree-garden implements modified [coefficient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination#Definitions),
  * it uses absolute values instead of squared values.
  * @remarks
- * **Do not be scared by negative values** - as number `0` means - model predicts as good as average value of your data set. It is
- * called comparison to base model. If model predicts worse, than average value, it will be **negative**. Ideal model will have `1`.
+ * **Do not be scared by negative values** - as number `0` means - model predicts as good as average value of your data set -
+ * comparison to base model. If model predicts worse, than average value, it will be **negative**. Ideal model will have `1`.
  */
 export const getRAbsErrorRaw = (realValues:number[], predictedValues:number[]) => {
   if (realValues.length !== predictedValues.length) {
@@ -35,7 +35,7 @@ export const getRAbsErrorRaw = (realValues:number[], predictedValues:number[]) =
 };
 
 /**
- * Wrapper for {@link getRAbsErrorRaw}
+ * Wrapper for {@link statistics.getRAbsErrorRaw}
  */
 export const getRAbsError = (
   treeRootNode:TreeGardenNode,
@@ -67,7 +67,7 @@ export const getMissClassificationRateRaw = (realClasses:ClassOfSample[], predic
 };
 
 /**
- * Wrapper for {@link getMissClassificationRateRaw}
+ * Wrapper for {@link statistics.getMissClassificationRateRaw}
  */
 export const getMissClassificationRate = (
   treeRootNode:TreeGardenNode,
@@ -88,7 +88,7 @@ export const getMissClassificationRate = (
 /**
  * Calculate accuracy for tree (classification and regression) on given data set.
  *
- * See {@link getMissClassificationRateRaw} and {@link getRAbsErrorRaw} for more information
+ * See {@link statistics.getMissClassificationRateRaw} and {@link statistics.getRAbsErrorRaw} for more information
  */
 export const getTreeAccuracy = (
   treeRootNode:TreeGardenNode,

@@ -1,3 +1,8 @@
+
+const first =	{"pclass": 3.0, "name": "Braund, Mr. Owen Harris", "sex": "male", "age": 22.0, "sibsp": 1.0, "parch": 0.0, "ticket": "A/5 21171", "fare": 7.25, "embarked": "S", "_class": "No", "_label": "1"};
+/**
+ * Would you survive on titanic ?  Try to build your model to find out!
+ */
 export const titanicSet = [
 	{"pclass": 3.0, "name": "Braund, Mr. Owen Harris", "sex": "male", "age": 22.0, "sibsp": 1.0, "parch": 0.0, "ticket": "A/5 21171", "fare": 7.25, "embarked": "S", "_class": "No", "_label": "1"},
 	{"pclass": 1.0, "name": "Cumings, Mrs. John Bradley (Florence Briggs Thayer)", "sex": "female", "age": 38.0, "sibsp": 1.0, "parch": 0.0, "ticket": "PC 17599", "fare": 71.2833, "cabin": "C85", "embarked": "C", "_class": "Yes", "_label": "2"},
@@ -1308,4 +1313,4 @@ export const titanicSet = [
 	{"pclass": 3.0, "name": "Saether, Mr. Simon Sivertsen", "sex": "male", "age": 38.5, "sibsp": 0.0, "parch": 0.0, "ticket": "SOTON/O.Q. 3101262", "fare": 7.25, "embarked": "S", "_class": "No", "_label": "1307"},
 	{"pclass": 3.0, "name": "Ware, Mr. Frederick", "sex": "male", "sibsp": 0.0, "parch": 0.0, "ticket": "359309", "fare": 8.05, "embarked": "S", "_class": "No", "_label": "1308"},
 	{"pclass": 3.0, "name": "Peter, Master. Michael J", "sex": "male", "sibsp": 1.0, "parch": 1.0, "ticket": "2668", "fare": 22.3583, "embarked": "C", "_class": "No", "_label": "1309"}
-];
+] as (typeof first)[];

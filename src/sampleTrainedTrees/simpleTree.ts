@@ -5,7 +5,11 @@
 //   biggerImpurityScoreBetterSplit: false
 // }
 
+import { TreeGardenNode } from '../treeNode';
 
+/**
+ * Simple tree
+ */
 export const simpleTree = {
   isLeaf: false,
   chosenSplitCriteria: ['color', '=='],
@@ -24,5 +28,5 @@ export const simpleTree = {
       isLeaf: true, chosenSplitCriteria: ['size', '>', 3], impurityScore: 0, bestSplits: [{ split: ['size', '>', 3], score: 0 }], dataPartitionsCounts: { true: { right: 1 }, false: { right: 2 } }, classCounts: { right: 3 }, depth: 1, parentId: '67dd4c4f-3689-4e24-bfa8-f31ef9998a3e', alreadyUsedSplits: [['color', '=='], ['size', '>', 3]], id: '3984146e-6a8c-489b-9856-e8886d8e9709'
     }
   }
-};
+} as TreeGardenNode;
 

@@ -1,6 +1,13 @@
 /* eslint-disable max-len */
 
 // 38 nodes with accuracy 0.8571428571428571
+
+
+import { TreeGardenNode } from '../treeNode';
+
+/**
+ * Tree trained on titanic data set
+ */
 export const titanicTree = {
   isLeaf: false,
   chosenSplitCriteria: ['sex', '=='],
@@ -311,4 +318,4 @@ export const titanicTree = {
       }
     }
   }
-};
+} as unknown as TreeGardenNode;

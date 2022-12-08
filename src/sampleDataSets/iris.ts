@@ -1,3 +1,9 @@
+
+const first =	{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2, "_class": "Setosa"};
+
+/**
+ *  Famous data set for classification tasks ;)
+ */
 export const irisSet = [
 	{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2, "_class": "Setosa"},
 	{"sepal_length": 4.9, "sepal_width": 3.0, "petal_length": 1.4, "petal_width": 0.2, "_class": "Setosa"},
@@ -149,4 +155,4 @@ export const irisSet = [
 	{"sepal_length": 6.5, "sepal_width": 3.0, "petal_length": 5.2, "petal_width": 2.0, "_class": "Virginica"},
 	{"sepal_length": 6.2, "sepal_width": 3.4, "petal_length": 5.4, "petal_width": 2.3, "_class": "Virginica"},
 	{"sepal_length": 5.9, "sepal_width": 3.0, "petal_length": 5.1, "petal_width": 1.8, "_class": "Virginica"}
-];
+] as(typeof first)[];

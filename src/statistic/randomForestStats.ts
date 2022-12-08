@@ -7,6 +7,10 @@ import { getMissClassificationRateRaw, getRAbsErrorRaw } from './treeStats';
 import { getResultFromMultipleTrees } from '../predict';
 
 type OutOfTheBagSet = ReturnType<typeof getBootstrappedDataSetAndOutOfTheBagRest>[1];
+/**
+ * Function for calculation of [out of the bag error](https://en.wikipedia.org/wiki/Out-of-bag_error) for random forest.
+ * It is calculated by default, during training of random forest. [See random forest example](../../examples/randomForest.md)
+ */
 export const getOutOfTheBagError = (
   treesAndOutOfTheBagSets:[TreeGardenNode, OutOfTheBagSet][],
   fullDataSet:TreeGardenDataSample[],

@@ -48,7 +48,7 @@ test('getRAbsError', () => {
 
 test('getNumberOfTreeNodes', () => {
   expect(getNumberOfTreeNodes(simpleTree)).toBe(3);
-  expect(getNumberOfTreeNodes(tennisTree.childNodes.Rain)).toBe(3);
+  expect(getNumberOfTreeNodes(tennisTree.childNodes!.Rain)).toBe(3);
 });
 
 test('getNumberOfSamplesInNode', () => {

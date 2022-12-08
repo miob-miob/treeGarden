@@ -1,4 +1,10 @@
 /* eslint-disable max-len */
+
+import { TreeGardenNode } from '../treeNode';
+
+/**
+ * Small regression tree trained on simple regression data set
+ */
 export const simpleRegressionTree = {
   isLeaf: false,
   chosenSplitCriteria: ['width', '>', 40.5],
@@ -18,4 +24,4 @@ export const simpleRegressionTree = {
       isLeaf: true, chosenSplitCriteria: ['color', '=='], impurityScore: 0, bestSplits: [{ split: ['color', '=='], score: 0 }], dataPartitionsCounts: { black: { no_classes_in_regression_tree: 1 } }, classCounts: { no_classes_in_regression_tree: 1 }, regressionTreeAverageOutcome: 1.4, depth: 1, alreadyUsedSplits: [['width', '>', 40.5], ['color', '==']], id: 'd67a5275-81fe-49ba-9e24-3eeb14132b13', parentId: 'aa7be949-0f38-4fac-8445-db1bb5157dc9'
     }
   }
-};
+} as TreeGardenNode;
