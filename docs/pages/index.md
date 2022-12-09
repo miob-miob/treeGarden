@@ -7,7 +7,8 @@ they are still relevant option for machine learning applications. Considerable a
 learned models are human-readable and can thus be inspected and changed by expert with domain knowledge.
 
 
-Although in python world there are great implementation of decision trees and random forest [^2], **tree-garden** 
+Although in python world there are great implementation of decision trees and random forest 
+(see [scikit](https://scikit-learn.org/stable/modules/tree.html)), **tree-garden** 
 can be a great way, how to become familiar with decision trees if your background is more js/ts oriented.
 
 ## Main features
@@ -18,6 +19,11 @@ can be a great way, how to become familiar with decision trees if your backgroun
 
 !!! tip "Visualization tools exists!"
     See [tiny library of react components](https://github.com/miob-miob/treeGardenVisualization), that used for exploring your trees.
+
+!!! tip "Runs in browser as well as in node.js"
+    You can use your models in web applications and let user to use his own computational resources.
+
+
 
 !!! tip "Extendable and customizable"
     If you do not like included options, it is easy to provide your implementation for crucial parts of algorithm. 
@@ -68,7 +74,6 @@ continue with philosophy.
 
 
 [^1]: [ID3 algorithm](https://hunch.net/~coms-4771/quinlan.pdf)
-[^2]: [Scikit learn decision trees](https://scikit-learn.org/stable/modules/tree.html)
 
 [comment]: <> (TODO: API docs comments in code)
 

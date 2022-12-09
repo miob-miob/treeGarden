@@ -29,7 +29,6 @@ export const getLeafNodeOfSample = <T extends boolean>(
        function in configuration!`);
     }
     const tagOfSample = (sampleValueForGivenAttribute === missingValue)
-      // @ts-expect-error
       ? getTagOfSampleWithMissingValue!(sample, attributeId, currentNode, algorithmConfiguration) : getSplitCriteriaFn(...currentNode.chosenSplitCriteria!)(sample);
 
     if (!currentNode.childNodes![tagOfSample]) {

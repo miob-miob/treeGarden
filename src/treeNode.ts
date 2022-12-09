@@ -17,20 +17,72 @@ import { getArithmeticAverage, getStandardDeviation } from './statistic/basicSta
  */
 export const SINGLE_CLASS_FOR_REGRESSION_TREE = 'no_classes_in_regression_tree';
 
+/**
+ * TreeGardenNode is object representing one node of tree, under **childNodes**, you can see tags of split and child nodes.
+ */
 export type TreeGardenNode = {
+  /**
+   * Every node have unique identifier.
+   */
   id:string,
+
+  /**
+   * Unique identifier of parent node.
+   */
   parentId?:string,
+
+  /**
+   * Object of split tags and child nodes.
+   */
   childNodes?:{ [key:string]:TreeGardenNode },
+  /**
+   * Is node leaf or not?
+   */
   isLeaf:boolean,
+
+  /**
+   *  Depth of node in tree - it starts from zero - root node have depth = `0`.
+   */
   depth:number,
+
+  /**
+   * Split definitions used from root up to this node.
+   */
   alreadyUsedSplits:SplitCriteriaDefinition[],
-  chosenSplitCriteria:SplitCriteriaDefinition, // best scoring split criteria
-  impurityScore?:number, // score of best split
+  /**
+   * Best scoring split criteria.
+   */
+  chosenSplitCriteria:SplitCriteriaDefinition,
+  /**
+   * Score of chosen best split criteria.
+   */
+  impurityScore?:number,
+  /**
+   * Array of best scoring splits and respective scores - amount of kept split can be set in configuration.
+   */
   bestSplits:ReturnType<typeof getBestScoringSplits>,
-  dataPartitions?:ReturnType<typeof splitDataSet>, // split outcome - {tag:[sample,sample,sample]}
-  dataPartitionsCounts:ReturnType<typeof dataPartitionsToDataPartitionCounts>, // {tag:{classOne:3, classTwo:3}, anotherTag:{classOne:1, classTwo:6}}
-  classCounts:ReturnType<typeof dataPartitionsToClassCounts>, // {classOne:8, classTwo:7}
+  /**
+   * Basically split function product - tags and samples - it is thrown away if no longer needed
+   * to change this behaviour, see `keepFullLearningData` in configuration.
+   * It should look, like that: `{'tag':[sample,anotherSample],'anotherTag':[sample,anotherSample,nextSample]}`
+   */
+  dataPartitions?:ReturnType<typeof splitDataSet>,
+  /**
+   * Counts of samples behind each tag, divided by classes, it should look like: `{tag:{classOne:3, classTwo:3}, anotherTag:{classOne:1, classTwo:6}}`
+   */
+  dataPartitionsCounts:ReturnType<typeof dataPartitionsToDataPartitionCounts>,
+  /**
+   * count of samples by class, should look like: `{classOne:8, classTwo:7}`
+   */
+  classCounts:ReturnType<typeof dataPartitionsToClassCounts>,
+
+  /**
+   * Average outcome of samples of regression tree in this node.
+   */
   regressionTreeAverageOutcome?:number
+  /**
+   * Standard deviation calculated from values of samples of regression tree in this node.
+   */
   regressionTreeStandardDeviation?:number
 };
 
@@ -108,7 +160,9 @@ export const dataSetToTreeNode = (dataSet:TreeGardenDataSample[], configuration:
   return newNode;
 };
 
-// returns all nodes of tree in array
+/**
+ * Get array of all nodes in tree.
+ */
 export const getFlattenTree = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
   if (treeRoot.isLeaf) {
     return [treeRoot];
@@ -116,13 +170,21 @@ export const getFlattenTree = (treeRoot:TreeGardenNode):TreeGardenNode[] => {
   return [treeRoot, ...(Object.values(treeRoot.childNodes!).flatMap(getFlattenTree))];
 };
 
+/**
+ * Get array of all non leaves nodes.
+ */
 export const getAllInnerNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)
   .filter((node) => !node.isLeaf);
 
+/**
+ * Get array of all leaves nodes
+ */
 export const getAllLeafNodes = (treeRoot:TreeGardenNode) => getFlattenTree(treeRoot)
   .filter((node) => node.isLeaf);
 
-// todo  innerNode=> leaf node
+/**
+ * Returns node object of tree by given 'id', start search in provided root.
+ */
 export const getTreeNodeById = (treeRoot:TreeGardenNode, id:string) => {
   const desiredNode = getFlattenTree(treeRoot).find(({ id: currentNodeId }) => currentNodeId === id);
   if (!desiredNode) {
@@ -130,9 +192,15 @@ export const getTreeNodeById = (treeRoot:TreeGardenNode, id:string) => {
   }
   return desiredNode;
 };
+
+/**
+ * Creates deep copy of tree.
+ */
 export const getTreeCopy = <T extends TreeGardenNode>(treeRoot:T):T => JSON.parse(JSON.stringify(treeRoot));
 
-// for pruning purposes
+/**
+ * Mutates inner node into leaf one. Used by reduced error pruning.
+ */
 export const mutateNonLeafNodeIntoLeafOne = (nonLeafNode:TreeGardenNode) => {
   // eslint-disable-next-line no-param-reassign
   nonLeafNode.isLeaf = true;
@@ -154,6 +222,11 @@ const childEntriesComparator = (entryOne:[string, TreeGardenNode], entryTwo:[str
 
 // this is used for visualization
 // stages and grouped children
+
+/**
+ * Utility used for generating of representation of tree for [tree-garden-visualization](https://github.com/miob-miob/treeGardenVisualization)
+ *
+ */
 export const getTreeStages = (tree:TreeGardenNode) => {
   const result = [[[tree]]];
   while (true) {

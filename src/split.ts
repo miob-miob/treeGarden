@@ -12,10 +12,26 @@ const supportedMathOperators = new Set([
   '<'
 ] as const);
 
-
+/**
+ * Split operator is of supported mathematical operators - check current code for supported choices.
+ */
 export type SplitOperator = typeof supportedMathOperators extends Set<infer K>?K:never;
+/**
+ * See return value of {@link split.getSplitCriteriaFn}
+ */
 export type SplitCriteriaFn = ReturnType<typeof getSplitCriteriaFn>;
-export type SplitCriteriaDefinition = any[];
+
+/**
+ * This represents split criteria in serializable way:
+ *
+ * Array of `[attributeId, operator, value?]`
+ *
+ * See {@link split| split module}
+ * @example
+ * ['color', '==', 'black']
+ * ['age','>',10]
+ */
+export type SplitCriteriaDefinition = [string, SplitOperator, any?];
 
 /**
  * Factory function that returns function that accepts sample and decides what is its tag for splitting
@@ -219,7 +235,6 @@ export const getAllPossibleSplitCriteriaForDataSet = (
 
 export const getBestScoringSplits = (dataSet:TreeGardenDataSample[], possibleSplits:SplitCriteriaDefinition[], algorithmConfig:TreeGardenConfiguration) => {
   const splitsWithScore = possibleSplits.map((splitDefinition) => {
-    // @ts-expect-error
     const splitter = getSplitCriteriaFn(...splitDefinition);
     const childDataSets = splitDataSet(dataSet, splitter, algorithmConfig.onlyBinarySplits);
 

@@ -2,6 +2,9 @@
 
 import { TreeGardenConfiguration } from '../algorithmConfiguration';
 
+/**
+ * For more information, see [tree-garden data sample](../importantBasics.md#data-set).
+ */
 export type TreeGardenDataSample = {
   _class?:string|number,
   _label?:string|number,
