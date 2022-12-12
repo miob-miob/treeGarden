@@ -21,6 +21,9 @@ import { getSubsetOfAttributesForTreeOfRandomForest } from './randomForestConfig
 // todo implement expansivnes of splits derived from given attribute
 // todo example (CT scan is muh more expensive than regular X-ray, so it would be nice to have decision tree, that uses X-ray splits over C)
 
+/**
+ * Default configuration. See code for more information.
+ * */
 export const defaultConfiguration: TreeGardenConfiguration = {
   treeType: 'classification',
   attributes: {},

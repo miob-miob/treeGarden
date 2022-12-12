@@ -1,4 +1,9 @@
-// top level exports - most useful functions
+/**
+ * Here you can browse all top level functions, types, variables and namespaces of **tree-garden**.
+ *
+ * @module
+ */
+
 
 export {
   TreeGardenConfiguration,

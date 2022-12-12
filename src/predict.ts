@@ -118,7 +118,10 @@ export type SingleSamplePredictionResult = ReturnType<TreeGardenConfiguration['g
 export type MultipleSamplesPredictionResult = [TreeGardenDataSample, SingleSamplePredictionResult][];
 type PredictionReturnValue<T> = T extends TreeGardenDataSample[]?MultipleSamplesPredictionResult:SingleSamplePredictionResult;
 
-
+/**
+ * Get outcome of your trained decision tree on unknown samples. See **examples** to see it in action.
+ * @param referenceDataSetForReplacing Provide data set to replace missing values in your unknown samples you want to classify.
+ */
 export const getTreePrediction = <T extends TreeGardenDataSample | TreeGardenDataSample[] >(
   samplesToPredict:T,
   decisionTreeRoot:TreeGardenNode,
@@ -136,7 +139,10 @@ export const getTreePrediction = <T extends TreeGardenDataSample | TreeGardenDat
   return predictions[0][1] as PredictionReturnValue<T>;
 };
 
-
+/**
+ * Get outcome of your trained random  forest on unknown samples. See [random forest example](../../examples/randomForest) to see it in action.
+ * @param referenceDataSetForReplacing Provide data set to replace missing values in your unknown samples you want to classify.
+ */
 export const getRandomForestPrediction = <T extends TreeGardenDataSample|TreeGardenDataSample[]> (
   samplesToPredict:T,
   trees:TreeGardenNode[],

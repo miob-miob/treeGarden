@@ -6,8 +6,9 @@ import { SplitCriteriaDefinition } from '../split';
 import { TreeGardenConfiguration } from './buildAlgorithmConfiguration';
 
 
-// todo solve circular dependencies on attribute configuration as well (by hand + default values)
-// configuration for particular attribute
+/**
+ * Default configuration for attribute.
+ */
 export const defaultAttributeConfiguration = {
   // 'automatic'|'continuous'|'discrete'
   dataType: 'automatic' as 'automatic'|'continuous'|'discrete',

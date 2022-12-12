@@ -4,6 +4,10 @@ import { consistentDataSetGuard, continuousAttributesGuard, TreeGardenDataSample
 import { rawGrowTree } from './rawGrowTree';
 
 
+/**
+ * Grow (train) your decision tree on your configuration and data set.
+ * See examples in [getting started](../../gettingStarted)
+ */
 export const growTree = (algorithmConfiguration:TreeGardenConfiguration, dataSet:TreeGardenDataSample[]) => {
   if (!algorithmConfiguration.buildTime) {
     throw new Error('You cannot use just partial configuration in "growTree" function, build it with "buildAlgorithmConfiguration"');

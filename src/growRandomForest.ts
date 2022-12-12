@@ -10,7 +10,10 @@ import { enrichDataSetWithUniqueIds } from './dataSet/enrichDataSetWithUniqueIds
 import { getOutOfTheBagError } from './statistic/randomForestStats';
 import { TreeGardenNode } from './treeNode';
 
-
+/**
+ * Grow (train) your random forest on your configuration and data set.
+ * See [random forest example](../../examples/randomForest).
+ */
 export const growRandomForest = (
   algorithmConfiguration:TreeGardenConfiguration,
   dataSet : TreeGardenDataSample[]

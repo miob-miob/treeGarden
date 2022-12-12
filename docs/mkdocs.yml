@@ -18,7 +18,7 @@ nav:
   # api pages are added to navigation by docs/hooks/hack_typedoc_into_docs.py hook
   - api_docs:
     - index: api/modules.md
-  - Playground: playground.md # hide later
+#  - Playground: playground.md # hide later
 
 
 # repo

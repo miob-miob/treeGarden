@@ -201,7 +201,16 @@ export type TreeGardenConfiguration = {
 export type PartialAlgorithmConfiguration =
   Partial<Omit<TreeGardenConfiguration, 'attributes'> & { attributes?: { [key:string]:Partial<typeof defaultAttributeConfiguration> } }>;
 
-// todo docs!!!
+/**
+ * This function will help you to create configuration for your decision tree or forest. If you have at least part of data set with
+ * all classes present, you can create configuration automatically (see examples - every training/evaluating needs configuration),
+ * if you have just one sample [check example](../examples/configurationFromSingleDataSample.md).
+ *
+ *
+ * See [defaultConfiguration](./#defaultconfiguration) to see default values.
+ * @param dataSet Array of tree-garden samples, be sure you have all classes included
+ * @param configuration override default configuration with your own.
+ */
 export const buildAlgorithmConfiguration = (dataSet:TreeGardenDataSample[], configuration: PartialAlgorithmConfiguration = {}) => {
   if (configuration.buildTime) {
     throw new Error(`This configuration was already build! ${JSON.stringify(configuration)}`);
