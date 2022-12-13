@@ -9,7 +9,8 @@ learned models are human-readable and can thus be inspected and changed by exper
 
 Although in python world there are great implementation of decision trees and random forest 
 (see [scikit](https://scikit-learn.org/stable/modules/tree.html)), **tree-garden** 
-can be a great way, how to become familiar with decision trees if your background is more js/ts oriented.
+can be a great way, how to become familiar with decision trees and machine learning in general, even if you are not
+data scientist...
 
 ## Main features
 
