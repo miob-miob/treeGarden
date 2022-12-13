@@ -28,6 +28,7 @@ edit_uri: ""
 
 # tweaks
 docs_dir: pages
+site_dir: html
 
 extra_css:
   - resources/css/custom.css
@@ -63,7 +64,6 @@ watch:
   - overrides
 
 hooks:
-  - ./hooks/start.py
   - ./hooks/ts_code_snippet.py
   - ./hooks/hack_typedoc_into_docs.py
 

@@ -3,7 +3,7 @@
 /dist
 
 # build folder of mkdocs
-/docs/site/
+/docs/html/
 
 #generarated by typedoc
 /docs/pages/api/
