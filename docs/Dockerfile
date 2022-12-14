@@ -1,7 +1,7 @@
 # create API markdown files according to src with help of typedoc
 FROM node:16-alpine3.16 as apiDocsBuilder
 
-WORKDIR workdir
+WORKDIR /workdir
 COPY src ./src
 COPY typedoc.js tsconfig.json package.json package-lock.json ./
 RUN npm i && npm run generateApiDoc
