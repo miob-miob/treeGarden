@@ -1,4 +1,4 @@
-name: Publish
+name: 'Publish code, docs, deploy docs'
 
 on:
   workflow_dispatch:
@@ -28,7 +28,8 @@ jobs:
     container:
       image: node:16-buster
       options: --user root
-
+    outputs:
+      new_version: ${{ steps.version_output.outputs.new_version}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -41,6 +42,11 @@ jobs:
 
       - name: New version to env variable
         run: echo "NEW_VERSION=v$(node scripts/logPackageVersion.js)" >> $GITHUB_ENV
+
+      # new version without 'v' to job output
+      - name: New version as job output
+        id: version_output
+        run: echo "new_version=$(node scripts/logPackageVersion.js)" >> $GITHUB_OUTPUT
 
       - name: Transpile typescript (build)
         run: npm run build
@@ -57,6 +63,30 @@ jobs:
         with:
           body: ${{ github.event.inputs.changeLog }}
           tag_name: ${{ env.NEW_VERSION }}
+
+  #https://github.com/marketplace/actions/build-and-push-docker-images
+  docs_docker_image:
+    needs:
+      - publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo new version
+        run: echo "New version = ${{needs.publish.outputs.new_version}}"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: 'miob01'
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and push docs container
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: ./docs/Dockerfile
+          tags: miob01/tree-garden-docs:${{needs.publish.outputs.new_version}},miob01/tree-garden-docs:latest
+
 
 
 

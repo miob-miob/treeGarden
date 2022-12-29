@@ -14,16 +14,19 @@ data scientist...
 
 ## Main features
 
-!!! tip "Feature complete and flexible"
-    Supports **classification** trees, **regression** trees and  **random forests**.  
-    Implements multiple learning and pruning algorithms.
-
-!!! tip "Visualization tools exists!"
-    See [tiny library of react components](https://github.com/miob-miob/treeGardenVisualization), that used for exploring your trees.
 
 !!! tip "Runs in browser as well as in node.js"
     You can use your models in web applications and let user to use his own computational resources.
 
+
+
+!!! tip "Visualization tools exists!"
+    See [tiny library of react components](https://github.com/miob-miob/treeGardenVisualization), that used for exploring your trees.
+
+
+!!! tip "Feature complete"
+    Supports **classification** trees, **regression** trees and  **random forests**.  
+    Implements multiple learning and pruning algorithms.
 
 
 !!! tip "Extendable and customizable"
