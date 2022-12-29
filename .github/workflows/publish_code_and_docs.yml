@@ -114,9 +114,6 @@ jobs:
           KUBE_CONF_BASE: ${{ secrets.KUBE_CONF_BASE }}
         run: echo $KUBE_CONF_BASE | base64 -d > kube.conf
 
-      - name: Evhooooo
-        run: cat kube.conf | grep cluster
-
       - name: Deploy to DOKS
         run: export KUBECONFIG=kube.conf && helm upgrade --set image_version=${{needs.publish.outputs.new_version}} --install -n tree-garden tree-garden-dox ./helm_charts/tree-garden-docs/
 
