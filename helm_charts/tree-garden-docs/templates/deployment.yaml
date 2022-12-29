@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  {{.Release.Name}}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{.Release.Name}}
+
+spec:
+  replicas:  {{ .Values.replicas}}
+  selector:
+    matchLabels:
+      app: {{.Release.Name}}
+  template:
+    metadata:
+      name: {{.Release.Name}}
+      labels:
+        app: {{.Release.Name}}
+    spec:
+      containers:
+        - name: {{.Release.Name}}
+          image: "miob01/tree-garden-docs:{{.Values.image_version}}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{.Values.container_port}}
+              name: poort
+          env:
+            - name: NGINX_CUSTOM_PORT
+              value: "{{.Values.container_port}}"

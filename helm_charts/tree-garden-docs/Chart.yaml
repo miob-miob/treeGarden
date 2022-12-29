@@ -1,0 +1,9 @@
+apiVersion: v2
+name: tree-garden-docs
+description: Version of tree garden docs - for running with helm until CICD in tree-garden repo is done.
+type: application
+# chart version
+version: 0.1.1
+
+# app it provides - provided by image_version value
+appVersion: 0.0.0

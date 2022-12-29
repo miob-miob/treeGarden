@@ -69,6 +69,7 @@ jobs:
 
   #https://github.com/marketplace/actions/build-and-push-docker-images
   docs_docker_image:
+    if:  ${{ contains(fromJson('["major", "minor", "patch"]'), github.event.inputs.versionType ) }}
     needs:
       - publish
     runs-on: ubuntu-latest
@@ -89,6 +90,30 @@ jobs:
           push: true
           file: ./docs/Dockerfile
           tags: miob01/tree-garden-docs:${{needs.publish.outputs.new_version}},miob01/tree-garden-docs:latest
+
+  deploy_docs:
+    if:  ${{ contains(fromJson('["major", "minor", "patch"]'), github.event.inputs.versionType ) }}
+    needs:
+      - docs_docker_image
+      - publish
+    runs-on: ubuntu-latest
+    container:
+      image: alpine/helm:3.10.2
+      options: --user root
+
+
+    steps:
+      - name: Echo new version
+        run: echo "New version = ${{needs.publish.outputs.new_version}}"
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Prepare kubeconf
+        run: echo {{secrets.KUBE_CONF_BASE64}} | base64 -d > kube.conf
+
+      - name: Deploy to DOKS
+        run: KUBECONFIG=./kube.conf && helm upgrade --set image_version=${{needs.publish.outputs.new_version}} --install -n tree-garden tree-garden-dox ./helm_charts/tree-garden-docs/
 
 
 
