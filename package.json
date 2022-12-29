@@ -1,6 +1,6 @@
 {
   "name": "tree-garden",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Decision trees library",
   "files": [
     "/dist"
@@ -12,7 +12,7 @@
     "build": "rimraf ./dist && tsc --noEmit false",
     "mkdocs": "npm run _clearMkDocsContainer && docker run -it --rm --name mk_docs_container -v $(pwd)/docs:/docs -p 9009:9009  squidfunk/mkdocs-material serve",
     "generateApiDoc": "typedoc --plugin typedoc-plugin-markdown",
-    "buildDocsImageForCurrentVersion":"docker build -f docs/Dockerfile -t miob01/tree-garden-docs:$(node scripts/logPackageVersion.js)  -t miob01/tree-garden-docs:latest .",
+    "buildDocsImageForCurrentVersion": "docker build -f docs/Dockerfile -t miob01/tree-garden-docs:$(node scripts/logPackageVersion.js)  -t miob01/tree-garden-docs:latest .",
     "lint": "eslint --ext .js,.jsx,.es6,.ts,.tsx ./src/",
     "checkTypes": "tsc",
     "preversion": "npm run checkTypes && npm run test",
