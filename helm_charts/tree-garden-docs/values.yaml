@@ -4,3 +4,4 @@ container_port: 9009
 service_port: 80
 hostname: tree-garden.miob.org
 image_version: 0.7.1
+oldReplicasetKept: 3

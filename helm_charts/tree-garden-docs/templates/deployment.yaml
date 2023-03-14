@@ -7,10 +7,13 @@ metadata:
     app: {{.Release.Name}}
 
 spec:
+
   replicas:  {{ .Values.replicas}}
+  revisionHistoryLimit: {{ .Values.oldReplicasetKept}}
   selector:
     matchLabels:
       app: {{.Release.Name}}
+
   template:
     metadata:
       name: {{.Release.Name}}
