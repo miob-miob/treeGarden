@@ -15,13 +15,14 @@ data scientist...
 ## Main features
 
 
+!!! tip "Visualization tool exists!"
+    **[Explore decision tree ](https://tree-garden.miob.org/titanic-playground/)** trained on **titanic** data set! 
+    Check [tini tree-garden react components package](https://github.com/miob-miob/treeGardenVisualization) for more info.
+
+
 !!! tip "Runs in browser as well as in node.js"
     You can use your models in web applications and let user to use his own computational resources.
 
-
-
-!!! tip "Visualization tools exists!"
-    See [tiny library of react components](https://github.com/miob-miob/treeGardenVisualization), that used for exploring your trees.
 
 
 !!! tip "Feature complete"
